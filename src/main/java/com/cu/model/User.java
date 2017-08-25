@@ -7,10 +7,13 @@ package com.cu.model;
  * @create 2017/8/21.
  */
 public class User {
-    private int id;
-    private String name;
-    private String account;
-    private String password;
+
+    private int id; //user id
+    private String name; // 用户名
+
+    private String account; //账户名 用于登录
+
+    private String password; //密码
 
     public int getId() {
         return id;
