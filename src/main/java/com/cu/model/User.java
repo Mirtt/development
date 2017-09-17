@@ -9,10 +9,7 @@ package com.cu.model;
 public class User {
 
     private int id; //user id
-    private String name; // 用户名
-
-    private String account; //账户名 用于登录
-
+    private String user_name; // 用户名
     private String password; //密码
 
     public int getId() {
@@ -23,20 +20,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getPassword() {

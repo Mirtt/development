@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 public interface UserDao {
     /**
      * 通过账户名，密码 查询用户用于登录
-     * @param account 账户名
+     * @param user_name 账户名
      * @param password 密码
      * @return
      */
-    User queryUser(@Param("account") String account,@Param("password") String password);
+    User queryUser(@Param("user_name") String user_name,@Param("password") String password);
 }

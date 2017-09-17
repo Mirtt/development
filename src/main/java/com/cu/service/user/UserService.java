@@ -10,9 +10,9 @@ import com.cu.model.User;
 public interface UserService {
     /**
      * 通过账户，密码获取用户
-     * @param account
+     * @param user_name
      * @param password
      * @return
      */
-    User getUser(String account, String password);
+    User getUser(String user_name, String password);
 }

@@ -11,6 +11,6 @@
         FROM
           user
         WHERE
-          account = #{account} AND password = #{password}
+          user_name = #{user_name} AND password = #{password}
     </select>
 </mapper>

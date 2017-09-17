@@ -2,14 +2,11 @@ package com.cu.controller;
 
 import com.cu.model.User;
 import com.cu.service.user.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.annotation.Resource;
 
 /**
  * 登录控制
@@ -20,18 +17,27 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping("")
 public class LoginController {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Resource
+    @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/logout")
+    public String logout(){
+        return "index";
+    }
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(User user, Model model){
-        user=userService.getUser(user.getAccount(),user.getPassword());
+        model.addAttribute("user_name",user.getUser_name());
+        user=userService.getUser(user.getUser_name(),user.getPassword());
         if (user!=null){
-            model.addAttribute(user);
-            return "success";
+            model.addAttribute("user",user);
+            return "redirect:/search";
         }
-        return "fail";
+        String msg = "用户名或密码错误";
+        model.addAttribute("msg",msg);
+        return "index";
     }
+
+
+
 }
