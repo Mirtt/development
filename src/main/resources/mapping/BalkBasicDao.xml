@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cu.dao.BalkBasicDao">
+    <resultMap id="BalkBasic" type="com.cu.model.BalkBasic">
+    <result column="balk_no" property="balk_no"/>
+    <result column="balk_content" property="balk_content"/>
+    <collection property="sheetProcList" ofType="com.cu.model.SheetProc">
+        <result column="write_dept_name" property="write_dept_name"/>
+        <result column="operation_type" property="operation_type"/>
+        <result column="write_user_name" property="write_user_name"/>
+        <result column="write_time" property="write_time"/>
+        <result column="intro" property="intro"/>
+    </collection>
+    </resultMap>
+    <select id="queryByBalkNo" resultMap="BalkBasic">
+        SELECT * FROM balk_basic AS b ,sheet_proc AS s
+        WHERE b.BALK_NO = #{balk_no} AND s.BALK_NO = #{balk_no}
+    </select>
+</mapper>
