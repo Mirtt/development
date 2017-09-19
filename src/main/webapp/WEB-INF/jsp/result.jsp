@@ -11,7 +11,7 @@
     <title>结果</title>
 </head>
 <body>
-<%@include file="common/header.jsp"%>
+<%@include file="common/header.jsp" %>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -26,19 +26,16 @@
                 <tbody>
                 <tr>
                     <td>
-                        xxxxxx1.xls
+                        ${balkBasic.balk_content}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        xxxxxx2.xls
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        xxxxxx3.xls
-                    </td>
-                </tr>
+                <c:forEach items="${balkBasic.sheetProcList}" var="sheetProc">
+                    <tr>
+                        <td>
+                                ${sheetProc.intro}
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>

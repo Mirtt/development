@@ -11,5 +11,9 @@ import java.util.List;
  * @create 2017/9/17.
  */
 public interface DictService {
+    /**
+     * 查询出所有申告内容和处理过程的关键字
+     * @return
+     */
     List<DictContentProc> getKey();
 }
