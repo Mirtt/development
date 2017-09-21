@@ -6,6 +6,8 @@ import com.cu.service.balk.BalkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 ;
 
 /**
@@ -23,5 +25,11 @@ public class BalkServiceImpl implements BalkService{
     public BalkBasic getContentProc(String balk_no) {
         BalkBasic balkBasic = balkBasicDao.queryByBalkNo(balk_no);
         return balkBasic;
+    }
+
+    @Override
+    public List<BalkBasic> getByKey(String[] content_key) {
+        List<BalkBasic> balkList=balkBasicDao.queryByKey(content_key);
+        return balkList;
     }
 }

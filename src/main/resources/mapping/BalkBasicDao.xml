@@ -19,10 +19,12 @@
         WHERE b.BALK_NO = #{balk_no} AND s.BALK_NO = #{balk_no}
     </select>
 
-    <select id="queryByKey" resultType="BalkBasic">
-        SELECT * FROM BALK_BASIC AS b WHERE b.BALK_CONTENT LIKE
-        <foreach collection="content_key" item="item" index="index" open="(" separator="," close=")">
-            OR  #{item}
-        </foreach>
+    <select id="queryByKey" resultMap="BalkBasic">
+        SELECT b.BALK_NO AS balk_no,b.BALK_CONTENT AS balk_content FROM balk_basic AS b WHERE b.BALK_CONTENT LIKE
+        <trim prefixOverrides="AND|OR">
+            <foreach collection="content_key" item="item" index="index" open="" close="" separator="">
+                OR '%'#{item}'%'
+            </foreach>
+        </trim>
     </select>
 </mapper>

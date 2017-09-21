@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("")
 public class ResultController {
     @Autowired
-    BalkService balkService;
+    private BalkService balkService;
 
     @RequestMapping(value = "/result")
     public String result(Model model){

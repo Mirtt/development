@@ -1,5 +1,6 @@
 package com.cu.controller;
 
+import com.cu.model.BalkBasic;
 import com.cu.model.DictContentProc;
 import com.cu.service.balk.BalkService;
 import com.cu.service.dict.DictService;
@@ -43,8 +44,11 @@ public class SearchController {
         String[] cKeyList = new String[ids.length];
         for (int i = 0; i < dictList.size(); i++) {
             cKeyList[i] = dictList.get(i).getContent_key();
-            System.out.println(cKeyList[i]);
+            //System.out.println(cKeyList[i]);
         }
+        List<BalkBasic> balkList= balkService.getByKey(cKeyList);
+        System.out.println(balkList.size());
+
         return null;
     }
 }
