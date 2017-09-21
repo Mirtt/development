@@ -1,6 +1,7 @@
 package com.cu.dao;
 
 import com.cu.model.DictContentProc;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,4 +18,9 @@ public interface DictContentProcDao {
      * @return
      */
     List<DictContentProc> queryAll();
+
+    /**
+     * 根据一批id查询出关键字列表
+     */
+    List<DictContentProc> queryById(@Param("idArray")int[] id);
 }

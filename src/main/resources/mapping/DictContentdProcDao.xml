@@ -12,4 +12,12 @@
     <select id="queryAll" resultMap="DictContentProcMap">
         SELECT * FROM dict_content_proc
     </select>
+
+    <select id="queryById" resultMap="DictContentProcMap">
+        SELECT * FROM  dict_content_proc AS d
+        WHERE  d.id IN
+        <foreach collection="idArray" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

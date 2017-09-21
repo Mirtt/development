@@ -24,4 +24,10 @@ public class DictServiceImpl implements DictService {
         List<DictContentProc> dictList=dictContentProcDao.queryAll();
         return dictList;
     }
+
+    @Override
+    public List<DictContentProc> getKeyById(int[] idArray) {
+        List<DictContentProc> dictList=dictContentProcDao.queryById(idArray);
+        return dictList;
+    }
 }

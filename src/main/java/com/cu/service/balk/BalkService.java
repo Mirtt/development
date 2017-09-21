@@ -2,6 +2,8 @@ package com.cu.service.balk;
 
 import com.cu.model.BalkBasic;
 
+import java.util.List;
+
 /**
  * Created by  Zyq
  * 2017/9/19
@@ -14,4 +16,11 @@ public interface BalkService {
      * @return
      */
     BalkBasic getContentProc(String balk_no);
+
+    /**
+     * 根据关键字在申告内容中查询含有关键字的受理单
+     * @param content_key
+     * @return
+     */
+    List<BalkBasic> getByKey(String[] content_key);
 }

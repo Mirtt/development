@@ -18,39 +18,41 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-hover table-bordered">
-                <thead>
-                <tr>
-                    <th>
-                        #&nbsp<input type="checkbox" onclick="checkAll()">
-                    </th>
-                    <th>
-                        申告内容
-                    </th>
-                    <th>
-                        处理过程
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${dictList}" var="dict">
+            <form action="/getResult" method="post">
+                <table class="table table-hover table-bordered">
+                    <thead>
                     <tr>
-                        <td>
-                                ${dict.id}&nbsp<input type="checkbox" name="search">
-                        </td>
-                        <td>
-                                ${dict.content_key}
-                        </td>
-                        <td>
-                                ${dict.proc_key}
-                        </td>
+                        <th>
+                            #&nbsp<input type="checkbox" onclick="checkAll()">
+                        </th>
+                        <th>
+                            申告内容
+                        </th>
+                        <th>
+                            处理过程
+                        </th>
                     </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-primary" onclick="location.href=''">
-                导出结果
-            </button>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${dictList}" var="dict">
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="key_id" value="${dict.id}">
+                            </td>
+                            <td>
+                                    ${dict.content_key}
+                            </td>
+                            <td>
+                                    ${dict.proc_key}
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-primary">
+                    导出结果
+                </button>
+            </form>
         </div>
     </div>
 </div>
