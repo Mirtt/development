@@ -41,12 +41,18 @@ public class SearchController {
             idArray[i] = Integer.parseInt(ids[i]);
         }
         List<DictContentProc> dictList = dictService.getKeyById(idArray);
-        String[] cKeyList = new String[ids.length];
+        String[] cKeyList = new String[ids.length]; //申告内容关键字数组
+        String[] pKeyList = new String[ids.length]; //处理过程关键字数组
         for (int i = 0; i < dictList.size(); i++) {
             cKeyList[i] = dictList.get(i).getContent_key();
+            pKeyList[i] = dictList.get(i).getProc_key();
+            cKeyList[i] = cKeyList[i].replaceAll("&", "%' AND  b.BALK_CONTENT like '%");
+            cKeyList[i] = cKeyList[i].replaceAll("\\|", "%' or  b.BALK_CONTENT like '%");
+            pKeyList[i] = pKeyList[i].replaceAll("&", "%' AND  s.INTRO like '%");
+            pKeyList[i] = pKeyList[i].replaceAll("\\|", "%' or  s.INTRO like '%");
             //System.out.println(cKeyList[i]);
         }
-        List<BalkBasic> balkList= balkService.getByKey(cKeyList);
+        List<BalkBasic> balkList = balkService.getByKey(cKeyList);
         System.out.println(balkList.size());
 
         return null;

@@ -20,10 +20,14 @@
     </select>
 
     <select id="queryByKey" resultMap="BalkBasic">
-        SELECT b.BALK_NO AS balk_no,b.BALK_CONTENT AS balk_content FROM balk_basic AS b WHERE b.BALK_CONTENT LIKE
-        <trim prefixOverrides="AND|OR">
-            <foreach collection="content_key" item="item" index="index" open="" close="" separator="">
-                OR '%'#{item}'%'
+        SELECT * FROM balk_basic AS b ,sheet_proc AS s
+        WHERE b.BALK_NO = s.BALK_NO
+        AND
+        <trim prefix="(b.BALK_CONTENT LIKE"
+              prefixOverrides="OR b.BALK_CONTENT LIKE"
+              suffix=")">
+            <foreach collection="content_key" item="item" index="index">
+                OR b.BALK_CONTENT LIKE '%${item}%'
             </foreach>
         </trim>
     </select>
