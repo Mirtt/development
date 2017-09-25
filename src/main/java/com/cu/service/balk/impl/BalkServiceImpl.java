@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 ;
 
@@ -28,8 +29,8 @@ public class BalkServiceImpl implements BalkService{
     }
 
     @Override
-    public List<BalkBasic> getByKey(String[] content_key) {
-        List<BalkBasic> balkList=balkBasicDao.queryByKey(content_key);
+    public List<BalkBasic> getByKey(Map<String,String> keyMap) {
+        List<BalkBasic> balkList=balkBasicDao.queryByKey(keyMap);
         return balkList;
     }
 }

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 分析页控制
@@ -43,16 +45,18 @@ public class SearchController {
         List<DictContentProc> dictList = dictService.getKeyById(idArray);
         String[] cKeyList = new String[ids.length]; //申告内容关键字数组
         String[] pKeyList = new String[ids.length]; //处理过程关键字数组
+        Map<String, String> keyMap = new HashMap<>();
         for (int i = 0; i < dictList.size(); i++) {
             cKeyList[i] = dictList.get(i).getContent_key();
             pKeyList[i] = dictList.get(i).getProc_key();
-            cKeyList[i] = cKeyList[i].replaceAll("&", "%' AND  b.BALK_CONTENT like '%");
-            cKeyList[i] = cKeyList[i].replaceAll("\\|", "%' or  b.BALK_CONTENT like '%");
+            cKeyList[i] = cKeyList[i].replaceAll("&", "%' AN D  b.BALK_CONTENT like '%");
+            cKeyList[i] = cKeyList[i].replaceAll("\\|", "%' OR  b.BALK_CONTENT like '%");
             pKeyList[i] = pKeyList[i].replaceAll("&", "%' AND  s.INTRO like '%");
-            pKeyList[i] = pKeyList[i].replaceAll("\\|", "%' or  s.INTRO like '%");
+            pKeyList[i] = pKeyList[i].replaceAll("\\|", "%' OR  s.INTRO like '%");
+            keyMap.put(cKeyList[i],pKeyList[i]);
             //System.out.println(cKeyList[i]);
         }
-        List<BalkBasic> balkList = balkService.getByKey(cKeyList);
+        List<BalkBasic> balkList = balkService.getByKey(keyMap); //接受查询结果存到balklist
         System.out.println(balkList.size());
 
         return null;

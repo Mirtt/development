@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by  Zyq
@@ -24,8 +25,8 @@ public interface BalkBasicDao {
     /**
      * 根据申告内容关键字和处理过程关键字列表查询对应的受理单的单号
      *
-     * @param content_key 申告内容关键字
+     * @param keyMap 关键字字典
      * @return
      */
-    List<BalkBasic> queryByKey(@Param("content_key") String[] content_key);
+    List<BalkBasic> queryByKey(@Param("keyMap") Map<String,String> keyMap);
 }

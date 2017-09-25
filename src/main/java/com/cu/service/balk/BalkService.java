@@ -3,6 +3,7 @@ package com.cu.service.balk;
 import com.cu.model.BalkBasic;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by  Zyq
@@ -19,8 +20,8 @@ public interface BalkService {
 
     /**
      * 根据关键字在申告内容中查询含有关键字的受理单
-     * @param content_key
+     * @param keyMap
      * @return
      */
-    List<BalkBasic> getByKey(String[] content_key);
+    List<BalkBasic> getByKey(Map<String,String> keyMap);
 }
