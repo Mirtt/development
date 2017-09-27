@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  * 登录控制
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 @RequestMapping("")
+@SessionAttributes("user_id")
 public class LoginController {
 
     @Autowired
@@ -28,6 +30,7 @@ public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(User user, Model model){
         model.addAttribute("user_name",user.getUser_name());
+        model.addAttribute("user_id",user.getId());  //在session中存储user_id信息
         user=userService.getUser(user.getUser_name(),user.getPassword());
         if (user!=null){
             model.addAttribute("user",user);

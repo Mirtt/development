@@ -2,8 +2,10 @@ package com.cu.controller;
 
 import com.cu.model.BalkBasic;
 import com.cu.model.DictContentProc;
+import com.cu.model.Result;
 import com.cu.service.balk.BalkService;
 import com.cu.service.dict.DictService;
+import com.cu.service.result.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +31,8 @@ public class SearchController {
     private DictService dictService;
     @Autowired
     private BalkService balkService;
+    @Autowired
+    private ResultService resultService;
 
     @RequestMapping(value = "/search")
     public String search(Model model) {
@@ -38,26 +43,20 @@ public class SearchController {
 
     @RequestMapping(value = "/getResult", method = RequestMethod.POST)
     public String getResult(@RequestParam("key_id") String[] ids) {
+        SimpleDateFormat df= new SimpleDateFormat("yyyyMMddHHmmss");
+        String search_time= df.format(new Date());
         int[] idArray = new int[ids.length];
         for (int i = 0; i < idArray.length; i++) {
             idArray[i] = Integer.parseInt(ids[i]);
         }
         List<DictContentProc> dictList = dictService.getKeyById(idArray);
-        String[] cKeyList = new String[ids.length]; //申告内容关键字数组
-        String[] pKeyList = new String[ids.length]; //处理过程关键字数组
-        Map<String, String> keyMap = new HashMap<>();
-        for (int i = 0; i < dictList.size(); i++) {
-            cKeyList[i] = dictList.get(i).getContent_key();
-            pKeyList[i] = dictList.get(i).getProc_key();
-            cKeyList[i] = cKeyList[i].replaceAll("&", "%' AN D  b.BALK_CONTENT like '%");
-            cKeyList[i] = cKeyList[i].replaceAll("\\|", "%' OR  b.BALK_CONTENT like '%");
-            pKeyList[i] = pKeyList[i].replaceAll("&", "%' AND  s.INTRO like '%");
-            pKeyList[i] = pKeyList[i].replaceAll("\\|", "%' OR  s.INTRO like '%");
-            keyMap.put(cKeyList[i],pKeyList[i]);
-            //System.out.println(cKeyList[i]);
-        }
-        List<BalkBasic> balkList = balkService.getByKey(keyMap); //接受查询结果存到balklist
-        System.out.println(balkList.size());
+        //申告内容关键字和处理过程关键字  处理后存入MAP中
+        Map<String, String> keyMap = dictService.toMap(dictList);
+        //接受关键字map 查询到的结果存入balkList
+        List<BalkBasic> balkList = balkService.getByKey(keyMap);
+        //将balkList结果提取字段存入result实例中
+        List<Result> resultList=resultService.setResult(balkList,search_time);
+        System.out.println(resultList.size());
 
         return null;
     }

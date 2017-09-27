@@ -1,7 +1,5 @@
 package com.cu.model;
 
-import java.sql.Timestamp;
-
 /**
  * 结果表实体类
  *
@@ -10,7 +8,7 @@ import java.sql.Timestamp;
  */
 public class Result {
     private int user_id; //用户id
-    private Timestamp search_time; //结果导出时间
+    private String search_time; //结果导出时间
     private String type; //受理单工单类型
     private String balk_no; //受理单号
     private String balk_content; //申告内容
@@ -30,11 +28,11 @@ public class Result {
         this.user_id = user_id;
     }
 
-    public Timestamp getSearch_time() {
+    public String getSearch_time() {
         return search_time;
     }
 
-    public void setSearch_time(Timestamp search_time) {
+    public void setSearch_time(String search_time) {
         this.search_time = search_time;
     }
 

@@ -1,13 +1,21 @@
 package com.cu.dao;
 
-import org.springframework.stereotype.Component;
+import com.cu.model.Result;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
+ * 操作结果表的接口
  * Created by  Zyq
  * 2017/9/18
  * 结果表
  */
-@Component
+@Repository
 public interface ResultDao {
-    //List<String> queryBalkNo(@Param("content_key") String content_key);
+    /**
+     * 给结果表中插入结果数据
+     * @param resultList
+     */
+    void insertResult(List<Result> resultList);
 }

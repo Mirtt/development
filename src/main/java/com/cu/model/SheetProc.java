@@ -8,7 +8,7 @@ package com.cu.model;
  */
 public class SheetProc {
     private String write_dept_name; //填写部门
-    private String operation_type; //操作类型
+    private String type_id; //操作类型
     private String write_user_name; //填写人
     private String write_time; //填写时间
     private String intro; //处理过程内容
@@ -21,12 +21,12 @@ public class SheetProc {
         this.write_dept_name = write_dept_name;
     }
 
-    public String getOperation_type() {
-        return operation_type;
+    public String getType_id() {
+        return type_id;
     }
 
-    public void setOperation_type(String operation_type) {
-        this.operation_type = operation_type;
+    public void setType_id(String type_id) {
+        this.type_id = type_id;
     }
 
     public String getWrite_user_name() {

@@ -2,17 +2,16 @@ package com.cu.dao;
 
 import com.cu.model.BalkBasic;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by  Zyq
  * 2017/9/18
- * 受理单数据库操作
+ * 受理单数据库操作的接口
  */
-@Component
+@Repository
 public interface BalkBasicDao {
     /**
      * 根据受理单号查询出该受理单下的申告内容和处理过程内容
@@ -25,8 +24,9 @@ public interface BalkBasicDao {
     /**
      * 根据申告内容关键字和处理过程关键字列表查询对应的受理单的单号
      *
-     * @param keyMap 关键字字典
+     * @param content_key 申告内容关键字
+     * @param proc_key 处理过程关键字
      * @return
      */
-    List<BalkBasic> queryByKey(@Param("keyMap") Map<String,String> keyMap);
+    List<BalkBasic> queryByKey(@Param("content_key") String content_key,@Param("proc_key")String proc_key);
 }

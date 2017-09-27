@@ -3,6 +3,7 @@ package com.cu.service.dict;
 import com.cu.model.DictContentProc;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 字典业务逻辑接口
@@ -25,4 +26,11 @@ public interface DictService {
      * @return
      */
     List<DictContentProc> getKeyById(int[] idArray);
+
+    /**
+     * 将查询出的结果列表转换成map格式
+     * @param dictList
+     * @return
+     */
+    Map<String,String> toMap(List<DictContentProc> dictList);
 }

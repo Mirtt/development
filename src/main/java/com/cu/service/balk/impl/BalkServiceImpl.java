@@ -6,6 +6,7 @@ import com.cu.service.balk.BalkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,16 @@ public class BalkServiceImpl implements BalkService{
 
     @Override
     public List<BalkBasic> getByKey(Map<String,String> keyMap) {
-        List<BalkBasic> balkList=balkBasicDao.queryByKey(keyMap);
+        List<BalkBasic> balkList= new ArrayList<>();
+        //为查询结果添加查询的关键字
+        for(Map.Entry<String,String> key : keyMap.entrySet()){
+            List<BalkBasic> balk=balkBasicDao.queryByKey(key.getKey(),key.getValue());
+            for (int i=0;i<balk.size();i++){
+                balk.get(i).setContent_key(key.getKey().replaceAll("%.+%",""));
+                balk.get(i).setProc_key(key.getValue().replaceAll("%.+%",""));
+            }
+            balkList.addAll(balk);
+        }
         return balkList;
     }
 }

@@ -8,7 +8,7 @@
         <result column="balk_content" property="balk_content"/>
         <collection property="sheetProcList" ofType="com.cu.model.SheetProc">
             <result column="write_dept_name" property="write_dept_name"/>
-            <result column="operation_type" property="operation_type"/>
+            <result column="type_id" property="type_id"/>
             <result column="write_user_name" property="write_user_name"/>
             <result column="write_time" property="write_time"/>
             <result column="intro" property="intro"/>
@@ -21,12 +21,10 @@
 
     <select id="queryByKey" resultMap="BalkBasic">
         SELECT * FROM BALK_BASIC AS b ,SHEET_PROC AS s
-        WHERE b.BALK_NO = s.BALK_NO
+        WHERE b.BALK_NO = s.BALK_NO AND s.WRITE_DEPT_NAME="网管中心.交换中心"
         AND(
         <trim prefixOverrides="OR">
-            <foreach collection="keyMap" index="cKey" item="pKey">
-                OR ((b.BALK_CONTENT LIKE '%${cKey}%') AND (s.INTRO LIKE '%${pKey}%'))
-            </foreach>
+                OR ((b.BALK_CONTENT LIKE '%${content_key}%') AND (s.INTRO LIKE '%${proc_key}%'))
         </trim>
         )
     </select>
