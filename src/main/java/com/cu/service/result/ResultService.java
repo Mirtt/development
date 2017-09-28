@@ -18,4 +18,10 @@ public interface ResultService {
      * @return
      */
     List<Result> setResult(List<BalkBasic> balkList,String search_time);
+
+    /**
+     * 查询出的结果数据导入结果表
+     * @param resultList
+     */
+    void insertResult(List<Result>resultList);
 }

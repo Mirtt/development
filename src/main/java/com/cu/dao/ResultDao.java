@@ -1,6 +1,7 @@
 package com.cu.dao;
 
 import com.cu.model.Result;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,5 +18,5 @@ public interface ResultDao {
      * 给结果表中插入结果数据
      * @param resultList
      */
-    void insertResult(List<Result> resultList);
+    void insertResult(@Param("resultList") List<Result> resultList);
 }

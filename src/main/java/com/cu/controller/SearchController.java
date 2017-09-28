@@ -42,7 +42,7 @@ public class SearchController {
     }
 
     @RequestMapping(value = "/getResult", method = RequestMethod.POST)
-    public String getResult(@RequestParam("key_id") String[] ids) {
+    public String getResult(@RequestParam("key_id") String[] ids,Model model) {
         SimpleDateFormat df= new SimpleDateFormat("yyyyMMddHHmmss");
         String search_time= df.format(new Date());
         int[] idArray = new int[ids.length];
@@ -57,7 +57,10 @@ public class SearchController {
         //将balkList结果提取字段存入result实例中
         List<Result> resultList=resultService.setResult(balkList,search_time);
         System.out.println(resultList.size());
+        resultService.insertResult(resultList);
 
-        return null;
+        model.addAttribute("search_time",search_time);
+
+        return "result";
     }
 }
