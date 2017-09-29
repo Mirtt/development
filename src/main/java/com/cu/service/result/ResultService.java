@@ -24,4 +24,10 @@ public interface ResultService {
      * @param resultList
      */
     void insertResult(List<Result>resultList);
+
+    /**
+     * 下载结果表
+     * @param resultList
+     */
+    void downloadResultExcel(List<Result>resultList);
 }

@@ -53,4 +53,9 @@ public class ResultServiceImpl implements ResultService {
     public void insertResult(List<Result> resultList) {
         resultDao.insertResult(resultList);
     }
+
+    @Override
+    public void downloadResultExcel(List<Result> resultList) {
+
+    }
 }

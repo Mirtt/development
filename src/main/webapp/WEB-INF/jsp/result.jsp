@@ -24,15 +24,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>
-                        ${balkBasic.balk_content}
-                    </td>
-                </tr>
-                <c:forEach items="${balkBasic.sheetProcList}" var="sheetProc">
+                <c:forEach items="${searchList}" var="item">
                     <tr>
                         <td>
-                                ${sheetProc.intro}
+                                ${item}
                         </td>
                     </tr>
                 </c:forEach>
