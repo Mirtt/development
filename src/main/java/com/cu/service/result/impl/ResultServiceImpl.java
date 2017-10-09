@@ -62,14 +62,19 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
+    public List<Result> queryBySearchTime(String search_time) {
+        return resultDao.queryBySearchTime(search_time);
+    }
+
+    @Override
     public HSSFWorkbook writeResultExcel(List<Result> resultList) {
         String[] header = {"序号", "类型", "受理单号", "申告内容", "填写部门", "操作类型", "填写人", "填写时间", "填写内容", "申告内容关键字", "处理过程关键字"};
         //创建workbook （excel）
         HSSFWorkbook wb = new HSSFWorkbook();
         //首先创建字体样式
         HSSFFont font1 = wb.createFont();//创建header字体样式
-        font1.setFontName("宋体");//使用宋体
-        font1.setFontHeightInPoints((short) 16);//字体大小
+        font1.setFontName("微软雅黑");//使用宋体
+        font1.setFontHeightInPoints((short) 12);//字体大小
         font1.setBold(true);//加粗
         HSSFFont font2 = wb.createFont();//创建数据行字体样式
         font2.setFontName("宋体");

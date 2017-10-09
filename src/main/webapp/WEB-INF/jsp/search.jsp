@@ -23,7 +23,7 @@
                     <thead>
                     <tr>
                         <th>
-                            #&nbsp<input type="checkbox" onclick="checkAll()">
+                            <input type="checkbox" onclick="checkAll()">
                         </th>
                         <th>
                             申告内容
