@@ -5,6 +5,8 @@ import com.cu.model.BalkBasic;
 import com.cu.model.Result;
 import com.cu.model.SheetProc;
 import com.cu.service.result.ResultService;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +57,86 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public void downloadResultExcel(List<Result> resultList) {
+    public List<String> searchTimeList() {
+        return resultDao.searchTimeList();
+    }
 
+    @Override
+    public HSSFWorkbook writeResultExcel(List<Result> resultList) {
+        String[] header = {"序号", "类型", "受理单号", "申告内容", "填写部门", "操作类型", "填写人", "填写时间", "填写内容", "申告内容关键字", "处理过程关键字"};
+        //创建workbook （excel）
+        HSSFWorkbook wb = new HSSFWorkbook();
+        //首先创建字体样式
+        HSSFFont font1 = wb.createFont();//创建header字体样式
+        font1.setFontName("宋体");//使用宋体
+        font1.setFontHeightInPoints((short) 16);//字体大小
+        font1.setBold(true);//加粗
+        HSSFFont font2 = wb.createFont();//创建数据行字体样式
+        font2.setFontName("宋体");
+        font2.setFontHeightInPoints((short) 12);
+
+        //设置header单元格样式
+        HSSFCellStyle style1 = wb.createCellStyle();
+        style1.setFont(font1);//将字体注入
+        //style1.setWrapText(true);// 自动换行
+        style1.setAlignment(HorizontalAlignment.CENTER);//居中
+        style1.setVerticalAlignment(VerticalAlignment.CENTER);// 水平居中
+        style1.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.index);// 设置单元格的背景颜色（亮黄色）
+        style1.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style1.setBorderTop(BorderStyle.THIN);// 边框的大小
+        style1.setBorderBottom(BorderStyle.THIN);
+        style1.setBorderLeft(BorderStyle.THIN);
+        style1.setBorderRight(BorderStyle.THIN);
+        //设置数据单元格样式
+        HSSFCellStyle style2 = wb.createCellStyle();
+        style2.setFont(font2);
+        //style2.setWrapText(true);//自动换行
+        style2.setAlignment(HorizontalAlignment.RIGHT);//居右
+        style2.setVerticalAlignment(VerticalAlignment.CENTER);//水平居中
+        style2.setFillForegroundColor(IndexedColors.WHITE.index);//背景色（白色）
+        style2.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style2.setBorderTop(BorderStyle.THIN);// 边框的大小
+        style2.setBorderBottom(BorderStyle.THIN);
+        style2.setBorderLeft(BorderStyle.THIN);
+        style2.setBorderRight(BorderStyle.THIN);
+
+        //创建excel的sheet
+        HSSFSheet sheet = wb.createSheet();
+        //设置列的默认宽度
+        sheet.setDefaultColumnWidth(15);
+        //设置header内容
+        HSSFRow row = sheet.createRow(0);
+        for (int i =0;i<header.length;i++){
+            HSSFCell cell = row.createCell(i);
+            cell.setCellStyle(style1);
+            HSSFRichTextString text = new HSSFRichTextString(header[i]);
+            cell.setCellValue(text);
+        }
+
+        //遍历resultList存入excel
+        int rownum = 1;//数据行从第二行开始
+        for (Result result:resultList){
+            row = sheet.createRow(rownum);
+            List<String> rs=new ArrayList<>();
+            rs.add(String.valueOf(rownum));//序号
+            rs.add(result.getType());//类型
+            rs.add(result.getBalk_no());//受理单号
+            rs.add(result.getBalk_content());//申告内容
+            rs.add(result.getWrite_dept_name());//填写部门
+            rs.add(result.getOperation_type());//操作类型
+            rs.add(result.getWrite_user_name());//填写人
+            rs.add(result.getWrite_time());//填写时间
+            rs.add(result.getIntro());//填写内容（处理过程）
+            rs.add(result.getContent_key());//申告内容关键字
+            rs.add(result.getProc_key());//处理过程关键字
+            for(int i=0;i<rs.size();i++){
+                HSSFCell cell = row.createCell(i);
+                cell.setCellStyle(style2);
+                HSSFRichTextString richTextString=new HSSFRichTextString(rs.get(i));
+                cell.setCellValue(richTextString);
+            }
+            rownum++;
+        }
+        return wb;
     }
 }

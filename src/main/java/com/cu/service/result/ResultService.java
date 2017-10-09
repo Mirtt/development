@@ -2,6 +2,7 @@ package com.cu.service.result;
 
 import com.cu.model.BalkBasic;
 import com.cu.model.Result;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.util.List;
 
@@ -26,8 +27,21 @@ public interface ResultService {
     void insertResult(List<Result>resultList);
 
     /**
+     * 查询出结果表中所有批号
+     * @return
+     */
+    List<String> searchTimeList();
+
+    /**
+     * 根据批号查询对应的结果集合
+     * @param search_time
+     * @return
+     */
+    List<Result> queryBySearchTime(String search_time);
+
+    /**
      * 下载结果表
      * @param resultList
      */
-    void downloadResultExcel(List<Result>resultList);
+    HSSFWorkbook writeResultExcel(List<Result>resultList);
 }

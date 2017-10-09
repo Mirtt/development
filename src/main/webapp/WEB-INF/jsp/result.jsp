@@ -26,8 +26,8 @@
                 <tbody>
                 <c:forEach items="${searchList}" var="item">
                     <tr>
-                        <td>
-                                ${item}
+                        <td onclick="location.href='/download?search_time=${item}'">
+                            ${item}
                         </td>
                     </tr>
                 </c:forEach>

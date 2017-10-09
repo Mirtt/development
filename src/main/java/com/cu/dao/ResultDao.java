@@ -19,4 +19,17 @@ public interface ResultDao {
      * @param resultList
      */
     void insertResult(@Param("resultList") List<Result> resultList);
+
+    /**
+     * 显示所有查询时间 用做批号显示
+     * @return
+     */
+    List<String> searchTimeList();
+
+    /**
+     * 根据批号查询对应的结果集合
+     * @param search_time
+     * @return
+     */
+    List<Result> queryBySearchTime(@Param("search_time") String search_time);
 }

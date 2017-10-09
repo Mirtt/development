@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +33,6 @@ public class SearchController {
     private BalkService balkService;
     @Autowired
     private ResultService resultService;
-    //存储查询时间的list 用作批号显示
-    private static List<String> searchList = new ArrayList<>();
 
     @RequestMapping(value = "/search")
     public String search(Model model) {
@@ -45,11 +42,10 @@ public class SearchController {
     }
 
     @RequestMapping(value = "/getResult", method = RequestMethod.POST)
-    public String getResult(@RequestParam("key_id") String[] ids,Model model) {
-        if(ids.length != 0){
-            SimpleDateFormat df= new SimpleDateFormat("yyyyMMddHHmmss");
-            String search_time= df.format(new Date()); //设置查询时间
-            searchList.add(search_time);//查询时间存入批号列表
+    public String getResult(@RequestParam(value = "key_id", required = false) String[] ids, Model model) {
+        if (ids != null && ids.length != 0) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+            String search_time = df.format(new Date()); //设置查询时间
             int[] idArray = new int[ids.length];
             for (int i = 0; i < idArray.length; i++) {
                 idArray[i] = Integer.parseInt(ids[i]);
@@ -60,13 +56,15 @@ public class SearchController {
             //接受关键字map 查询到的结果存入balkList
             List<BalkBasic> balkList = balkService.getByKey(keyMap);
             //将balkList结果提取字段存入result实例中
-            List<Result> resultList=resultService.setResult(balkList,search_time);
+            List<Result> resultList = resultService.setResult(balkList, search_time);
             System.out.println(resultList.size());
             //查询结果存入结果表中
-            resultService.insertResult(resultList);
+            if (resultList.size() != 0){
+                resultService.insertResult(resultList);
+            }
         }
 
-        model.addAttribute("searchList",searchList);
+        model.addAttribute("searchList", resultService.searchTimeList());
 
         return "result";
     }

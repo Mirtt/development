@@ -26,4 +26,12 @@
             #{item.write_time},#{item.intro},#{item.content_key},#{item.proc_key})
         </foreach>
     </insert>
+
+    <select id="searchTimeList" resultType="String">
+        SELECT DISTINCT search_time FROM result ORDER BY search_time DESC
+    </select>
+
+    <select id="queryBySearchTime" resultMap="Result">
+        SELECT * FROM result WHERE search_time=#{search_time}
+    </select>
 </mapper>
