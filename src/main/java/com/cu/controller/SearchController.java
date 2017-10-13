@@ -62,10 +62,12 @@ public class SearchController {
             if (resultList.size() != 0){
                 resultService.insertResult(resultList);
             }
+            model.addAttribute("searchList", resultService.searchTimeList());
+            return "result";
         }
 
-        model.addAttribute("searchList", resultService.searchTimeList());
+        model.addAttribute("msg", "请选择查询关键字");
 
-        return "result";
+        return "redirect:/search";
     }
 }

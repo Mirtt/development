@@ -96,7 +96,7 @@ public class ResultServiceImpl implements ResultService {
         HSSFCellStyle style2 = wb.createCellStyle();
         style2.setFont(font2);
         //style2.setWrapText(true);//自动换行
-        style2.setAlignment(HorizontalAlignment.RIGHT);//居右
+        style2.setAlignment(HorizontalAlignment.LEFT);//居左
         style2.setVerticalAlignment(VerticalAlignment.CENTER);//水平居中
         style2.setFillForegroundColor(IndexedColors.WHITE.index);//背景色（白色）
         style2.setFillPattern(FillPatternType.SOLID_FOREGROUND);

@@ -23,7 +23,7 @@
                     <thead>
                     <tr>
                         <th>
-                            <input type="checkbox" onclick="checkAll()">
+                            <input type="checkbox" id="checkAll">
                         </th>
                         <th>
                             申告内容
@@ -60,20 +60,28 @@
 <script src="/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     //checkbox 全选/取消全选
-    var isCheckAll = false;
-    function checkAll() {
-        if (isCheckAll) {
-            $("input[type='checkbox']").each(function () {
-                this.checked = false;
-            });
-            isCheckAll = false;
-        } else {
-            $("input[type='checkbox']").each(function () {
-                this.checked = true;
-            });
-            isCheckAll = true;
+    $("#checkAll").click(function () {
+        $("[name=key_id]:checkbox").prop('checked',this.checked);
+    })
+    //取消全选时同时取消全选框的checked状态
+    $("[name=key_id]:checkbox").click(function () {
+        var flag = true;
+        $("[name=key_id]:checkbox").each(function () {
+            if (!this.checked){
+                flag = false;
+            }
+        });
+        $("#checkAll").prop("checked", flag);
+    })
+    //前台判断不要传空值
+    $("button[type=submit]").click(function () {
+        if ($("[name=key_id]:checkbox:checked").length < 1){
+            alert("请选择关键字");
+            return false;
+        }else {
+            this.submit();
         }
-    }
+    })
 </script>
 </body>
 </html>
