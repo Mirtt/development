@@ -53,6 +53,9 @@
                     导出结果
                 </button>
             </form>
+            <c:if test="${msg != null}">
+                <p id="msg" style="display: none">${msg}</p>
+            </c:if>
         </div>
     </div>
 </div>
@@ -62,7 +65,7 @@
     //checkbox 全选/取消全选
     $("#checkAll").click(function () {
         $("[name=key_id]:checkbox").prop('checked',this.checked);
-    })
+    });
     //取消全选时同时取消全选框的checked状态
     $("[name=key_id]:checkbox").click(function () {
         var flag = true;
@@ -72,7 +75,7 @@
             }
         });
         $("#checkAll").prop("checked", flag);
-    })
+    });
     //前台判断不要传空值
     $("button[type=submit]").click(function () {
         if ($("[name=key_id]:checkbox:checked").length < 1){
@@ -81,7 +84,14 @@
         }else {
             this.submit();
         }
-    })
+    });
+    //打出后台的msg错误信息
+    $().ready(function () {
+        var msg=$("p#msg").text();
+        if (msg != null && msg != ""){
+            alert(msg);
+        }
+    });
 </script>
 </body>
 </html>

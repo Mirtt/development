@@ -61,6 +61,9 @@ public class SearchController {
             //查询结果存入结果表中
             if (resultList.size() != 0){
                 resultService.insertResult(resultList);
+            }else{
+                model.addAttribute("msg","所查询的关键字无对应工单");
+                return "forward:/search";
             }
             model.addAttribute("searchList", resultService.searchTimeList());
             return "result";
@@ -68,6 +71,6 @@ public class SearchController {
 
         model.addAttribute("msg", "请选择查询关键字");
 
-        return "redirect:/search";
+        return "forward:/search";
     }
 }
