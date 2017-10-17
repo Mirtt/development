@@ -23,6 +23,10 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    public String index(){
+        return "index";
+    }
     @RequestMapping(value = "/logout")
     public String logout(){
         return "index";

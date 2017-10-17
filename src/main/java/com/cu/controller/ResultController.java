@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -40,29 +43,33 @@ public class ResultController {
         System.out.println(search_time);
         List<Result> resultList = resultService.queryBySearchTime(search_time);
         HSSFWorkbook wb = resultService.writeResultExcel(resultList);
+        ByteArrayOutputStream os=new ByteArrayOutputStream();
         //todo 再看看下载是怎么实现的
+        //try {
+        //    OutputStream fos = new FileOutputStream(search_time+".xls");
+        //    wb.write(fos);
+        //    fos.flush();
+        //    fos.close();
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+        //}
+        //String path=search_time+".xls";
         try {
-            OutputStream fos = new FileOutputStream(search_time+".xls");
-            wb.write(fos);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String path=search_time+".xls";
-        try {
-            File file = new File(path);
-            String fileName = file.getName();
-            InputStream fis = new BufferedInputStream(new FileInputStream(path));
-            byte[] buffer = new byte[fis.available()];
-            fis.read(buffer);
-            fis.close();
+            //File file = new File(path);
+            //String fileName = file.getName();
+            //InputStream fis = new BufferedInputStream(new FileInputStream(path));
+            //byte[] buffer = new byte[fis.available()];
+            //fis.read(buffer);
+            //fis.close();
+            wb.write(os);
+            byte[] buffer = os.toByteArray();
+            String fileName=search_time;
             // 清空response
             response.reset();
             // 设置response的Header
             response.addHeader("Content-Disposition", "attachment;filename="
                     + new String(fileName.getBytes()));
-            response.addHeader("Content-Length", "" + file.length());
+            //response.addHeader("Content-Length", "" + file.length());
             OutputStream toClient = new BufferedOutputStream(
                     response.getOutputStream());
             response.setContentType("application/vnd.ms-excel;charset=utf-8");
@@ -72,7 +79,6 @@ public class ResultController {
         }catch (IOException e){
             e.printStackTrace();
         }
-
         return null;
     }
 }
