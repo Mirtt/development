@@ -6,9 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    String ctx = request.getContextPath();
-%>
+
 <html>
 <head>
     <title>成功</title>
@@ -18,44 +16,50 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <form action="/getResult" method="post">
-                <table class="table table-hover table-bordered">
-                    <thead>
-                    <tr>
-                        <th>
-                            <input type="checkbox" id="checkAll">
-                        </th>
-                        <th>
-                            申告内容
-                        </th>
-                        <th>
-                            处理过程
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${dictList}" var="dict">
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="key_id" value="${dict.id}">
-                            </td>
-                            <td>
-                                    ${dict.content_key}
-                            </td>
-                            <td>
-                                    ${dict.proc_key}
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <button type="submit" class="btn btn-primary">
-                    导出结果
-                </button>
-            </form>
-            <c:if test="${msg != null}">
-                <p id="msg" style="display: none">${msg}</p>
-            </c:if>
+            <div class="row">
+                <div class="col-md-0"></div>
+                <div class="col-md-12">
+                    <form action="<%=ctx%>/getResult" method="post">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="checkAll">
+                                </th>
+                                <th>
+                                    故障现象
+                                </th>
+                                <th>
+                                    申告内容关键字
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${pList}" var="p">
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="key_id" value="${p.problem_id}">
+                                    </td>
+                                    <td>
+                                            ${p.problem}
+                                    </td>
+                                    <td>
+                                            ${p.contentKeyList}
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                        <button type="submit" class="btn btn-primary">
+                            导出结果
+                        </button>
+                    </form>
+                    <c:if test="${msg != null}">
+                        <p id="msg" style="display: none">${msg}</p>
+                    </c:if>
+                </div>
+                <div class="col-md-0"></div>
+            </div>
         </div>
     </div>
 </div>

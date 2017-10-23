@@ -1,8 +1,8 @@
 package com.cu.controller;
 
 import com.cu.model.Result;
-import com.cu.service.balk.BalkService;
-import com.cu.service.result.ResultService;
+import com.cu.service.BalkService;
+import com.cu.service.ResultService;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,7 +63,7 @@ public class ResultController {
             //fis.close();
             wb.write(os);
             byte[] buffer = os.toByteArray();
-            String fileName=search_time;
+            String fileName=search_time+".xls";
             // 清空response
             response.reset();
             // 设置response的Header

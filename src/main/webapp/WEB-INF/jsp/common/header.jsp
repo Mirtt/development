@@ -8,6 +8,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    String ctx = request.getContextPath();
+%>
 <html>
 <head>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -20,7 +23,7 @@
                 <div class="col-md-12"
                      style="background: url(/images/background.jpg);height: 150px;margin-bottom: 10px">
                     <button type="button" class="btn btn-default btn-link"
-                            onclick="location.href= '/logout'"
+                            onclick="location.href= '<%=ctx%>/logout'"
                             style="float:right;">
                         退出
                     </button>
@@ -40,10 +43,10 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a href="/search">分析</a>
+                            <a href="<%=ctx%>/search">分析</a>
                         </li>
                         <li>
-                            <a href="/result">结果</a>
+                            <a href="<%=ctx%>/result">结果</a>
                         </li>
                     </ul>
                 </div>

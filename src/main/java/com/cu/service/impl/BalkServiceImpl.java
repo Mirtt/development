@@ -1,8 +1,8 @@
-package com.cu.service.balk.impl;
+package com.cu.service.impl;
 
 import com.cu.dao.BalkBasicDao;
 import com.cu.model.BalkBasic;
-import com.cu.service.balk.BalkService;
+import com.cu.service.BalkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -276,6 +276,29 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `content_key` (
+  `content_key_id` int(11) NOT NULL COMMENT '申告内容关键字id',
+  `content_key` varchar(100) NOT NULL COMMENT '申告内容关键字',
+  `content_priority` int(11) NOT NULL COMMENT '申告内容关键字优先级',
+  `problem_id` int(11) NOT NULL COMMENT '故障现象id',
+  PRIMARY KEY (`content_key_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='申告内容关键字';
+
+CREATE TABLE `process_key` (
+  `process_key_id` int(11) NOT NULL COMMENT '处理过程关键字id',
+  `process_key` varchar(100) NOT NULL COMMENT '处理过程关键字',
+  `reason` varchar(45) NOT NULL COMMENT '故障原因',
+  `process_priority` int(11) NOT NULL COMMENT '处理过程优先级',
+  `content_key_id` int(11) NOT NULL COMMENT '对应的申告内容关键字id',
+  PRIMARY KEY (`process_key_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='处理过程关键字';
+
+CREATE TABLE `problem` (
+  `problem_id` int(11) NOT NULL COMMENT '故障现象id',
+  `problem` varchar(45) NOT NULL COMMENT '故障现象',
+  PRIMARY KEY (`problem_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='故障现象';
+
 CREATE TABLE `result` (
   `user_id` int(11) NOT NULL COMMENT '关联user表id 标识为哪位用户操作的',
   `search_time` varchar(45) NOT NULL COMMENT '创建导出的时间与导出表关联',
@@ -283,10 +306,11 @@ CREATE TABLE `result` (
   `balk_no` varchar(45) DEFAULT NULL COMMENT '受理单号 从balk_basic中获得',
   `balk_content` varchar(200) DEFAULT NULL COMMENT '申告内容 balk_basic中获得',
   `write_dept_name` varchar(45) DEFAULT NULL COMMENT '填写部门名称，从sheet_proc表中获得',
-  `operation_type` varchar(45) DEFAULT NULL COMMENT '操作类型，类型ID派发 签收 退单 驳回 回复完成 填写处理过程 从sheet_proc表中typeid获得',
-  `write_user_name` varchar(45) DEFAULT NULL COMMENT '填写人名称，从sheet_proc表获得',
-  `write_time` varchar(45) DEFAULT NULL COMMENT '填写时间，sheet_proc表获得',
   `intro` varchar(200) DEFAULT NULL COMMENT '处理过程， sheet_proc表中获得',
   `content_key` varchar(200) NOT NULL COMMENT '申告内容关键字',
-  `proc_key` varchar(200) NOT NULL COMMENT '处理过程关键字'
+  `proc_key` varchar(200) NOT NULL COMMENT '处理过程关键字',
+  `problem` varchar(100) DEFAULT NULL COMMENT '故障现象',
+  `reason` varchar(100) DEFAULT NULL COMMENT '故障原因'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='搜索结果表';
+
+

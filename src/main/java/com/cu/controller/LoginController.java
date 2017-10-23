@@ -1,7 +1,7 @@
 package com.cu.controller;
 
 import com.cu.model.User;
-import com.cu.service.user.UserService;
+import com.cu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

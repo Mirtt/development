@@ -1,4 +1,4 @@
-package com.cu.service.dict;
+package com.cu.service;
 
 import com.cu.model.DictContentProc;
 

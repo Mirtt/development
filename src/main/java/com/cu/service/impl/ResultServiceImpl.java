@@ -1,10 +1,10 @@
-package com.cu.service.result.impl;
+package com.cu.service.impl;
 
 import com.cu.dao.ResultDao;
 import com.cu.model.BalkBasic;
 import com.cu.model.Result;
 import com.cu.model.SheetProc;
-import com.cu.service.result.ResultService;
+import com.cu.service.ResultService;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;

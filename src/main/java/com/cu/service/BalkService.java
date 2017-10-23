@@ -1,4 +1,4 @@
-package com.cu.service.balk;
+package com.cu.service;
 
 import com.cu.model.BalkBasic;
 

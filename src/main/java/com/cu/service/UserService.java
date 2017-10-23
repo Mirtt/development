@@ -1,4 +1,4 @@
-package com.cu.service.user;
+package com.cu.service;
 
 import com.cu.model.User;
 

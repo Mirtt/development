@@ -1,8 +1,8 @@
-package com.cu.service.dict.impl;
+package com.cu.service.impl;
 
 import com.cu.dao.DictContentProcDao;
 import com.cu.model.DictContentProc;
-import com.cu.service.dict.DictService;
+import com.cu.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

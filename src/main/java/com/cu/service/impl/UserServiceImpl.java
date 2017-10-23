@@ -1,8 +1,8 @@
-package com.cu.service.user.impl;
+package com.cu.service.impl;
 
 import com.cu.dao.UserDao;
 import com.cu.model.User;
-import com.cu.service.user.UserService;
+import com.cu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

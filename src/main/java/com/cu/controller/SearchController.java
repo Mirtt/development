@@ -2,10 +2,12 @@ package com.cu.controller;
 
 import com.cu.model.BalkBasic;
 import com.cu.model.DictContentProc;
+import com.cu.model.Problem;
 import com.cu.model.Result;
-import com.cu.service.balk.BalkService;
-import com.cu.service.dict.DictService;
-import com.cu.service.result.ResultService;
+import com.cu.service.BalkService;
+import com.cu.service.DictService;
+import com.cu.service.ProblemService;
+import com.cu.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,14 +32,18 @@ public class SearchController {
     @Autowired
     private DictService dictService;
     @Autowired
+    private ProblemService problemService;
+    @Autowired
     private BalkService balkService;
     @Autowired
     private ResultService resultService;
 
     @RequestMapping(value = "/search")
     public String search(Model model) {
-        List<DictContentProc> dictList = dictService.getKey();
-        model.addAttribute("dictList", dictList);
+        //List<DictContentProc> dictList = dictService.getKey();
+        List<Problem> problemList = problemService.queryAll();
+        //model.addAttribute("dictList", dictList);
+        model.addAttribute("pList",problemList);
         return "search";
     }
 

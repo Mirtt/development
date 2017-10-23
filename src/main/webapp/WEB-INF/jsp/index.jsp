@@ -36,7 +36,7 @@
                             <c:if test="${msg != null}">
                                 <p style="color: #c12e2a;text-align: center">${msg}</p>
                             </c:if>
-                            <form class="form-horizontal" role="form" action="/login" method="post"
+                            <form class="form-horizontal" role="form" action="<%=ctx%>/login" method="post"
                                   style="margin-top: 10%">
                                 <div class="form-group">
 
