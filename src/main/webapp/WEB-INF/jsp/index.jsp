@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>xxxx系统</title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<%=ctx%>/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -86,7 +86,7 @@
         </div>
     </div>
 </div>
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+<script src="<%=ctx%>/js/jquery-3.2.1.min.js"></script>
+<script src="<%=ctx%>/js/bootstrap.min.js"></script>
 </body>
 </html>

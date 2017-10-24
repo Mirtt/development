@@ -10,12 +10,11 @@
         <result column="balk_no" property="balk_no"/>
         <result column="balk_content" property="balk_content"/>
         <result column="write_dept_name" property="write_dept_name"/>
-        <result column="operation_type" property="operation_type"/>
-        <result column="write_user_name" property="write_user_name"/>
-        <result column="write_time" property="write_time"/>
         <result column="intro" property="intro"/>
         <result column="content_key" property="content_key"/>
         <result column="proc_key" property="proc_key"/>
+        <result column="problem" property="problem"/>
+        <result column="reason" property="reason"/>
     </resultMap>
 
     <insert id="insertResult">
@@ -33,5 +32,13 @@
 
     <select id="queryBySearchTime" resultMap="Result">
         SELECT * FROM result WHERE search_time=#{search_time}
+    </select>
+
+    <select id="queryByProblem" resultMap="Result">
+        SELECT * FROM result
+        WHERE  result.problem IN
+        <foreach collection="problems" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 </mapper>

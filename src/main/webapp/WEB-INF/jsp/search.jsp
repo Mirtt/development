@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-md-0"></div>
                 <div class="col-md-12">
-                    <form action="<%=ctx%>/getResult" method="post">
+                    <form action="<%=ctx%>/excel" method="post">
                         <table class="table table-hover table-bordered">
                             <thead>
                             <tr>
@@ -63,8 +63,8 @@
         </div>
     </div>
 </div>
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+<script src="<%=ctx%>/js/jquery-3.2.1.min.js"></script>
+<script src="<%=ctx%>/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     //checkbox 全选/取消全选
     $("#checkAll").click(function () {

@@ -11,7 +11,7 @@ import java.util.List;
 public class ContentKey {
     private int content_key_id; //申告内容关键字id
     private String content_key; //申告内容关键字
-    private int priority; //优先级
+    private int content_priority; //优先级
     private int problem_id; //故障现象和申告内容关键字关联id
     private List<ProcessKey> processKeyList; //申告内容关键字与处理过程关键字一对多关系
 
@@ -31,12 +31,20 @@ public class ContentKey {
         this.content_key = content_key;
     }
 
-    public int getPriority() {
-        return priority;
+    public int getContent_priority() {
+        return content_priority;
     }
 
-    public void setPriority(int priority) {
-        this.priority = priority;
+    public void setContent_priority(int content_priority) {
+        this.content_priority = content_priority;
+    }
+
+    public List<ProcessKey> getProcessKeyList() {
+        return processKeyList;
+    }
+
+    public void setProcessKeyList(List<ProcessKey> processKeyList) {
+        this.processKeyList = processKeyList;
     }
 
     public int getProblem_id() {

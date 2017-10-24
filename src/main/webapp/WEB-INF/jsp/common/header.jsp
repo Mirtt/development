@@ -13,7 +13,7 @@
 %>
 <html>
 <head>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<%=ctx%>/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">
@@ -54,8 +54,8 @@
         </div>
     </div>
 </div>
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+<script src="<%=ctx%>/js/jquery-3.2.1.min.js"></script>
+<script src="<%=ctx%>/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     //动态添加active
     $(function () {

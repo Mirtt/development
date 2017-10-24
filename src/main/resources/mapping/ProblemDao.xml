@@ -4,9 +4,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cu.dao.ProblemDao">
     <resultMap id="Problem" type="com.cu.model.Problem">
-        <result column="problem_id" property="problem_id"></result>
+        <result column="problem_id" property="problem_id"/>
+        <result column="problem" property="problem"/>
+        <collection property="contentKeyList" ofType="com.cu.model.ContentKey">
+            <result column="content_key_id" property="content_key_id"/>
+            <result column="content_key" property="content_key"/>
+            <result column="content_priority" property="content_priority"/>
+            <result column="problem_id" property="problem_id"/>
+            <collection property="processKeyList" ofType="com.cu.model.ProcessKey">
+                <result column="process_key_id" property="process_key_id"/>
+                <result column="process_key" property="process_key"/>
+                <result column="reason" property="reason"/>
+                <result column="process_priority" property="process_priority"/>
+                <result column="content_key_id" property="content_key_id"/>
+            </collection>
+        </collection>
     </resultMap>
     <select id="queryAll" resultType="com.cu.model.Problem">
         SELECT * FROM problem
+    </select>
+    <select id="queryById" resultType="com.cu.model.Problem">
+        SELECT * FROM problem
+        WHERE  problem.problem_id IN
+        <foreach collection="pids" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 </mapper>

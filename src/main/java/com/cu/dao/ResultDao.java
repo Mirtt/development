@@ -32,4 +32,11 @@ public interface ResultDao {
      * @return
      */
     List<Result> queryBySearchTime(@Param("search_time") String search_time);
+
+    /**
+     * 根据故障现象查询对应的结果集
+     * @param problems
+     * @return
+     */
+    List<Result> queryByProblem(@Param("problems")String[] problems);
 }

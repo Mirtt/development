@@ -16,4 +16,11 @@ public interface ProblemService {
      * @return
      */
     List<Problem> queryAll();
+
+    /**
+     * 根据故障现象id获取对应故障现象
+     * @param pids
+     * @return
+     */
+    List<Problem> queryById(int[] pids);
 }

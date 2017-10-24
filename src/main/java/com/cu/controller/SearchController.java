@@ -8,6 +8,7 @@ import com.cu.service.BalkService;
 import com.cu.service.DictService;
 import com.cu.service.ProblemService;
 import com.cu.service.ResultService;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -75,6 +81,55 @@ public class SearchController {
             return "result";
         }
 
+        model.addAttribute("msg", "请选择查询关键字");
+
+        return "forward:/search";
+    }
+
+    @RequestMapping(value = "/excel",method = RequestMethod.POST)
+    public String downloadExcel(@RequestParam(value = "key_id", required = false) String[] ids,Model model,HttpServletResponse response){
+        if (ids != null && ids.length != 0){
+            int[] idArray = new int[ids.length];
+            for (int i = 0; i < idArray.length; i++) {
+                idArray[i] = Integer.parseInt(ids[i]);
+            }
+            //获取故障现象
+            List<Problem>  problemList=problemService.queryById(idArray);
+            //故障现象的名称存入list
+            String[] problems=new String[16];
+            for (int i=0;i<problemList.size();i++){
+                problems[i]=problemList.get(i).getProblem();
+            }
+            //根据故障现象名称查询结果表中对应的结果
+            List<Result> resultList=resultService.queryByProblem(problems);
+            if (resultList == null ||resultList.size() == 0){
+                model.addAttribute("msg","所查询的故障现象无对应工单");
+                return "forward:/search";
+            }
+            //todo 将结果导出成excel
+            HSSFWorkbook wb = resultService.writeResultExcel(resultList);
+            ByteArrayOutputStream os=new ByteArrayOutputStream();
+            //todo 再看看下载是怎么实现的
+            try {
+                wb.write(os);
+                byte[] buffer = os.toByteArray();
+                String fileName="result.xls";
+                // 清空response
+                response.reset();
+                // 设置response的Header
+                response.addHeader("Content-Disposition", "attachment;filename="
+                        + new String(fileName.getBytes()));
+                //response.addHeader("Content-Length", "" + file.length());
+                OutputStream toClient = new BufferedOutputStream(
+                        response.getOutputStream());
+                response.setContentType("application/vnd.ms-excel;charset=utf-8");
+                toClient.write(buffer);
+                toClient.flush();
+                toClient.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
         model.addAttribute("msg", "请选择查询关键字");
 
         return "forward:/search";

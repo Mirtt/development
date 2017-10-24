@@ -40,6 +40,13 @@ public interface ResultService {
     List<Result> queryBySearchTime(String search_time);
 
     /**
+     * 根据故障现象获取结果
+     * @param problems
+     * @return
+     */
+    List<Result>queryByProblem(String[] problems);
+
+    /**
      * 下载结果表
      * @param resultList
      */

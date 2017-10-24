@@ -10,7 +10,6 @@ import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,9 +42,6 @@ public class ResultServiceImpl implements ResultService {
                 result.setProc_key(balkBasic.getProc_key()); //处理过程关键字
                 result.setWrite_dept_name("网管中心.交换中心"); //填写部门
                 result.setIntro(sheetProcList.get(j).getIntro());
-                result.setOperation_type(sheetProcList.get(j).getType_id()); //操作类型
-                result.setWrite_user_name(sheetProcList.get(j).getWrite_user_name());//填写人
-                result.setWrite_time(sheetProcList.get(j).getWrite_time());//填写时间
                 resultList.add(result);
             }
         }
@@ -68,8 +64,13 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
+    public List<Result> queryByProblem(String[] problems) {
+        return resultDao.queryByProblem(problems);
+    }
+
+    @Override
     public HSSFWorkbook writeResultExcel(List<Result> resultList) {
-        String[] header = {"序号", "类型", "受理单号", "申告内容", "填写部门", "操作类型", "填写人", "填写时间", "填写内容", "申告内容关键字", "处理过程关键字"};
+        String[] header = {"序号", "类型", "受理单号", "申告内容", "填写部门", "填写内容", "申告内容关键字", "处理过程关键字","故障现象","故障原因"};
         //创建workbook （excel）
         HSSFWorkbook wb = new HSSFWorkbook();
         //首先创建字体样式
@@ -109,40 +110,7 @@ public class ResultServiceImpl implements ResultService {
         //创建excel的sheet
         HSSFSheet sheet = wb.createSheet();
         //设置列的默认宽度
-        //sheet.setDefaultColumnWidth(15);
-        for (int i = 0; i < 5; i++) {
-            //设置列宽（动态设置）
-            //计算列宽的方法（拉格朗日插值）
-            BigDecimal w =new BigDecimal(0.0);
-            BigDecimal[] a = {BigDecimal.valueOf(-0.0002919), BigDecimal.valueOf(0.016), BigDecimal.valueOf(-0.3761903),
-                    BigDecimal.valueOf(4.95658416), BigDecimal.valueOf(-40.125), BigDecimal.valueOf(205.49), BigDecimal.valueOf(-658.901),
-                    BigDecimal.valueOf(1256.365), BigDecimal.valueOf(-1265.211), BigDecimal.valueOf(503.886), BigDecimal.valueOf(4.29)};
-            BigDecimal[] x=new BigDecimal[10];
-            for (int j=0;j<10;j++){
-                x[j]=new BigDecimal(Math.pow(i,10-j));
-                x[j]=a[j].multiply(x[j]);
-            }
-            for (int k=0;k<x.length;k++){
-                w=w.add(x[k]);
-            }
-            w=w.add(a[10]);
-            sheet.setColumnWidth(i, w.intValue() * 256 + 184);
-        }
-        for (int i = 5;i<11;i++){
-            BigDecimal w =new BigDecimal(0.0);
-            BigDecimal[] a = {BigDecimal.valueOf(1.366), BigDecimal.valueOf(-50.034), BigDecimal.valueOf(720.965),
-                    BigDecimal.valueOf(-5107.990), BigDecimal.valueOf(17799.943), BigDecimal.valueOf(-24405.39)};
-            BigDecimal[] x=new BigDecimal[5];
-            for (int j=0;j<5;j++){
-                x[j]=new BigDecimal(Math.pow(i,5-j));
-                x[j]=a[j].multiply(x[j]);
-            }
-            for (int k=0;k<x.length;k++){
-                w=w.add(x[k]);
-            }
-            w=w.add(a[5]);
-            sheet.setColumnWidth(i, w.intValue() * 256 + 184);
-        }
+        sheet.setDefaultColumnWidth(15);
         //设置header内容
         HSSFRow row = sheet.createRow(0);
         for (int i = 0; i < header.length; i++) {
@@ -162,12 +130,11 @@ public class ResultServiceImpl implements ResultService {
             rs.add(result.getBalk_no());//受理单号
             rs.add(result.getBalk_content());//申告内容
             rs.add(result.getWrite_dept_name());//填写部门
-            rs.add(result.getOperation_type());//操作类型
-            rs.add(result.getWrite_user_name());//填写人
-            rs.add(result.getWrite_time());//填写时间
             rs.add(result.getIntro());//填写内容（处理过程）
             rs.add(result.getContent_key());//申告内容关键字
             rs.add(result.getProc_key());//处理过程关键字
+            rs.add(result.getProblem());//故障现象
+            rs.add(result.getReason());//故障原因
             for (int i = 0; i < rs.size(); i++) {
                 HSSFCell cell = row.createCell(i);
                 cell.setCellStyle(style2);
