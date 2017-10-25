@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cu.dao.ContentKeyDao">
+    <resultMap id="ContentKey" type="com.cu.model.ContentKey">
+        <result column="content_key_id" property="content_key_id"/>
+        <result column="content_key" property="content_key"/>
+        <result column="content_priority" property="content_priority"/>
+        <result column="problem_id" property="problem_id"/>
+        <collection property="processKeyList" ofType="com.cu.model.ProcessKey">
+            <result column="process_key_id" property="process_key_id"/>
+            <result column="process_key" property="process_key"/>
+            <result column="reason" property="reason"/>
+            <result column="process_priority" property="process_priority"/>
+            <result column="content_key_id" property="content_key_id"/>
+        </collection>
+    </resultMap>
+    <select id="queryAllOrderByPriority" resultMap="ContentKey">
+        SELECT * FROM content_key ORDER BY content_priority
+    </select>
+</mapper>
