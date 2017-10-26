@@ -25,8 +25,33 @@ public class ResultServiceImpl implements ResultService {
     private ResultDao resultDao;
 
     @Override
+    public List<Result> setResult(List<BalkBasic> balkList) {
+        List<Result> resultList = new ArrayList<>(16);
+
+        for (int i=0;i<balkList.size();i++){
+            BalkBasic balkBasic=balkList.get(i);
+            Result result = new Result();
+            StringBuffer introTemp=new StringBuffer();//用于整合一个受理单下所有工单的处理过程
+            result.setUser_id(0);//todo: 缺少动态获取userid的session方法，待添加
+            result.setType("受理单");//todo 还未知受理单类型如何查询，待添加
+            result.setBalk_no(balkBasic.getBalk_no()); //受理单号
+            result.setBalk_content(balkBasic.getBalk_content()); //申告内容
+            result.setWrite_dept_name("网管中心.交换中心"); //填写部门
+            for (int j=0;j<balkBasic.getSheetProcList().size();j++){
+                SheetProc sheetProc=balkBasic.getSheetProcList().get(j);
+                introTemp.append(sheetProc.getIntro());
+                introTemp.append("   ");
+            }
+            String intro=introTemp.toString();
+            result.setIntro(intro);
+            resultList.add(result);
+        }
+        return resultList;
+    }
+
+    @Override
     public List<Result> setResult(List<BalkBasic> balkList, String search_time) {
-        List<Result> resultList = new ArrayList<>();
+        List<Result> resultList = new ArrayList<>(16);
         for (int i = 0; i < balkList.size(); i++) {
             BalkBasic balkBasic = balkList.get(i);
             List<SheetProc> sheetProcList = balkBasic.getSheetProcList();

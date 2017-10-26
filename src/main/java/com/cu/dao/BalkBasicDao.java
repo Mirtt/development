@@ -29,4 +29,12 @@ public interface BalkBasicDao {
      * @return
      */
     List<BalkBasic> queryByKey(@Param("content_key") String content_key,@Param("proc_key")String proc_key);
+
+    /**
+     * 根据时间查询月度的所有受理单
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<BalkBasic> queryByTime(@Param("startTime") String startTime ,@Param("endTime") String endTime);
 }

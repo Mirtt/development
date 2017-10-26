@@ -18,11 +18,9 @@
     </resultMap>
 
     <insert id="insertResult">
-        INSERT INTO result (user_id, search_time, type, balk_no, balk_content, write_dept_name, operation_type, write_user_name, write_time, intro, content_key, proc_key) VALUES
+        INSERT INTO result (user_id , type, balk_no, balk_content, write_dept_name, intro) VALUES
         <foreach collection="resultList" item="item" separator=",">
-            (#{item.user_id},#{item.search_time},#{item.type},#{item.balk_no},#{item.balk_content},
-            #{item.write_dept_name},#{item.operation_type},#{item.write_user_name},
-            #{item.write_time},#{item.intro},#{item.content_key},#{item.proc_key})
+            (#{item.user_id}, #{item.type}, #{item.balk_no}, #{item.balk_content}, #{item.write_dept_name}, #{item.intro})
         </foreach>
     </insert>
 
@@ -36,7 +34,7 @@
 
     <select id="queryByProblem" resultMap="Result">
         SELECT * FROM result
-        WHERE  result.problem IN
+        WHERE result.problem IN
         <foreach collection="problems" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
