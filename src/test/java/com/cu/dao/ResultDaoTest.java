@@ -29,4 +29,15 @@ public class ResultDaoTest extends BaseTest {
         resultDao.insertResult(resultList);
     }
 
+    @Test
+    public void queryByContentKey() throws Exception {
+        List<Result> resultList=resultDao.queryByContentKey("影响");
+        System.out.println(resultList.size());
+    }
+
+    @Test
+    public void updateContentKeyAndProblem() throws Exception {
+        String[] s={"201701339202"};
+        resultDao.updateContentKeyAndProblem("testc","testp",s);
+    }
 }

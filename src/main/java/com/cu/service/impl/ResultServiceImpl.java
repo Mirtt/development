@@ -1,9 +1,9 @@
 package com.cu.service.impl;
 
+import com.cu.dao.ContentKeyDao;
+import com.cu.dao.ProblemDao;
 import com.cu.dao.ResultDao;
-import com.cu.model.BalkBasic;
-import com.cu.model.Result;
-import com.cu.model.SheetProc;
+import com.cu.model.*;
 import com.cu.service.ResultService;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
@@ -23,26 +23,30 @@ import java.util.List;
 public class ResultServiceImpl implements ResultService {
     @Autowired
     private ResultDao resultDao;
+    @Autowired
+    private ContentKeyDao contentKeyDao;
+    @Autowired
+    private ProblemDao problemDao;
 
     @Override
     public List<Result> setResult(List<BalkBasic> balkList) {
         List<Result> resultList = new ArrayList<>(16);
 
-        for (int i=0;i<balkList.size();i++){
-            BalkBasic balkBasic=balkList.get(i);
+        for (int i = 0; i < balkList.size(); i++) {
+            BalkBasic balkBasic = balkList.get(i);
             Result result = new Result();
-            StringBuffer introTemp=new StringBuffer();//用于整合一个受理单下所有工单的处理过程
+            StringBuffer introTemp = new StringBuffer();//用于整合一个受理单下所有工单的处理过程
             result.setUser_id(0);//todo: 缺少动态获取userid的session方法，待添加
             result.setType("受理单");//todo 还未知受理单类型如何查询，待添加
             result.setBalk_no(balkBasic.getBalk_no()); //受理单号
             result.setBalk_content(balkBasic.getBalk_content()); //申告内容
             result.setWrite_dept_name("网管中心.交换中心"); //填写部门
-            for (int j=0;j<balkBasic.getSheetProcList().size();j++){
-                SheetProc sheetProc=balkBasic.getSheetProcList().get(j);
+            for (int j = 0; j < balkBasic.getSheetProcList().size(); j++) {
+                SheetProc sheetProc = balkBasic.getSheetProcList().get(j);
                 introTemp.append(sheetProc.getIntro());
                 introTemp.append("   ");
             }
-            String intro=introTemp.toString();
+            String intro = introTemp.toString();
             result.setIntro(intro);
             resultList.add(result);
         }
@@ -94,8 +98,13 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
+    public List<Result> queryByContentKey(String content_key) {
+        return resultDao.queryByContentKey(content_key);
+    }
+
+    @Override
     public HSSFWorkbook writeResultExcel(List<Result> resultList) {
-        String[] header = {"序号", "类型", "受理单号", "申告内容", "填写部门", "填写内容", "申告内容关键字", "处理过程关键字","故障现象","故障原因"};
+        String[] header = {"序号", "类型", "受理单号", "申告内容", "填写部门", "填写内容", "申告内容关键字", "处理过程关键字", "故障现象", "故障原因"};
         //创建workbook （excel）
         HSSFWorkbook wb = new HSSFWorkbook();
         //首先创建字体样式
@@ -169,5 +178,42 @@ public class ResultServiceImpl implements ResultService {
             rownum++;
         }
         return wb;
+    }
+
+    @Override
+    public void tagResult() {
+        //1.给resultList打申告内容关键字和故障现象的标签
+        List<ContentKey> contentKeyList = contentKeyDao.queryAllOrderByPriority();
+        for (int i = 0; i < contentKeyList.size(); i++) { //为result从高到低的优先级打标签
+            String contentKey = contentKeyList.get(i).getContent_key();
+            String temp=contentKey.replaceAll("&", "%' )AND( balk_content LIKE '%");
+            temp=temp.replaceAll("或", "%' OR  balk_content LIKE '%");
+            int problemId = contentKeyList.get(i).getProblem_id();
+            List<Result> resultList = resultDao.queryByContentKey(temp); //查找含有contentkey的受理单
+            Problem problem = problemDao.queryById(problemId); //根据contentKey对应的problemid 查找对应的故障现象
+            String[] balkNoList = new String[16];
+            int k=0;//balkNoList 计数
+            if (resultList == null || resultList.size() == 0) {
+                continue;
+            }
+            for (Result result : resultList) {
+                //为contentkey和problem字段为空的行打上标签
+                if ((result.getContent_key() == null || result.getContent_key().equals("")) && (result.getProblem() == null || result.getProblem().equals(""))) {
+                    //result.setContent_key(contentKey);
+                    balkNoList[k]=result.getBalk_no();
+                    k++;
+                } else {
+                    continue;
+                }
+                //if (result.getProblem() == null || result.getProblem().equals("")) {
+                //    result.setProblem(problem.getProblem());
+                //} else {
+                //    continue;
+                //}
+            }
+            if (balkNoList!=null && balkNoList.length!=0){
+                resultDao.updateContentKeyAndProblem(contentKey,problem.getProblem(),balkNoList);
+            }
+        }
     }
 }

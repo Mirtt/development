@@ -15,26 +15,31 @@ import java.util.List;
 public interface ResultService {
     /**
      * 通过查询到的balkList将有用字段存入Result中
+     *
      * @param balkList
      * @return
      */
-    List<Result> setResult(List<BalkBasic> balkList,String search_time);
+    List<Result> setResult(List<BalkBasic> balkList, String search_time);
+
     List<Result> setResult(List<BalkBasic> balkList);
 
     /**
      * 查询出的结果数据导入结果表
+     *
      * @param resultList
      */
-    void insertResult(List<Result>resultList);
+    void insertResult(List<Result> resultList);
 
     /**
      * 查询出结果表中所有批号
+     *
      * @return
      */
     List<String> searchTimeList();
 
     /**
      * 根据批号查询对应的结果集合
+     *
      * @param search_time
      * @return
      */
@@ -42,14 +47,30 @@ public interface ResultService {
 
     /**
      * 根据故障现象获取结果
+     *
      * @param problems
      * @return
      */
-    List<Result>queryByProblem(String[] problems);
+    List<Result> queryByProblem(String[] problems);
+
+    /**
+     * 查询结果表中申告内容含有关键字的行
+     *
+     * @param content_key
+     * @return
+     */
+    List<Result> queryByContentKey(String content_key);
 
     /**
      * 下载结果表
+     *
      * @param resultList
      */
-    HSSFWorkbook writeResultExcel(List<Result>resultList);
+    HSSFWorkbook writeResultExcel(List<Result> resultList);
+
+    /**
+     * 给result表打标签
+     * @param
+     */
+    void tagResult();
 }

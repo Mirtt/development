@@ -20,14 +20,21 @@
             </collection>
         </collection>
     </resultMap>
+
     <select id="queryAll" resultType="com.cu.model.Problem">
         SELECT * FROM problem
     </select>
-    <select id="queryById" resultType="com.cu.model.Problem">
+
+    <select id="queryByIdList" resultType="com.cu.model.Problem">
         SELECT * FROM problem
         WHERE  problem.problem_id IN
         <foreach collection="pids" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
+    </select>
+
+    <select id="queryById" resultMap="Problem">
+        SELECT * FROM problem
+        WHERE  problem_id = #{problem_id}
     </select>
 </mapper>

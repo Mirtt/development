@@ -21,6 +21,13 @@ public interface ResultDao {
     void insertResult(@Param("resultList") List<Result> resultList);
 
     /**
+     * 将结果对应的申告内容关键字和申告内容关键字对应的故障现象存入result中
+     * @param content_key
+     */
+    //todo
+    void updateContentKeyAndProblem(@Param("content_key")String content_key,@Param("problem")String problem,@Param("balk_no_list")String[] balkNoList);
+
+    /**
      * 显示所有查询时间 用做批号显示
      * @return
      */
@@ -39,4 +46,11 @@ public interface ResultDao {
      * @return
      */
     List<Result> queryByProblem(@Param("problems")String[] problems);
+
+    /**
+     * 查询含有申告内容关键字的结果
+     * @param content_key
+     * @return
+     */
+    List<Result> queryByContentKey(@Param("content_key")String content_key);
 }

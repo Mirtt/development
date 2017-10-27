@@ -39,4 +39,19 @@
             #{item}
         </foreach>
     </select>
+
+    <select id="queryByContentKey" resultMap="Result">
+        SELECT * FROM  result
+        WHERE (balk_content LIKE '%${content_key}%')
+    </select>
+
+    <update id="updateContentKeyAndProblem">
+        UPDATE result
+        SET
+        content_key=#{content_key}, problem=#{problem}
+        WHERE balk_no IN
+        <foreach collection="balk_no_list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 </mapper>

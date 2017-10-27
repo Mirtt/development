@@ -25,7 +25,7 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
-    public List<Problem> queryById(int[] pids) {
-        return problemDao.queryById(pids);
+    public List<Problem> queryByIdList(int[] pids) {
+        return problemDao.queryByIdList(pids);
     }
 }

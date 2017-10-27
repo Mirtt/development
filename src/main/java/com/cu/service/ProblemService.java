@@ -22,5 +22,5 @@ public interface ProblemService {
      * @param pids
      * @return
      */
-    List<Problem> queryById(int[] pids);
+    List<Problem> queryByIdList(int[] pids);
 }

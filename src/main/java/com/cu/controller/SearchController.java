@@ -94,7 +94,7 @@ public class SearchController {
                 idArray[i] = Integer.parseInt(ids[i]);
             }
             //获取故障现象
-            List<Problem>  problemList=problemService.queryById(idArray);
+            List<Problem>  problemList=problemService.queryByIdList(idArray);
             //故障现象的名称存入list
             String[] problems=new String[16];
             for (int i=0;i<problemList.size();i++){

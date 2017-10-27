@@ -21,9 +21,16 @@ public interface ProblemDao {
     List<Problem> queryAll();
 
     /**
-     * 根据故障现象id查询对应的故障现象
+     * 根据故障现象id列表查询对应的故障现象
      * @param pids
      * @return
      */
-    List<Problem> queryById(@Param("pids")int[] pids);
+    List<Problem> queryByIdList(@Param("pids")int[] pids);
+
+    /**
+     * 根据故障现象id查询故障现象
+     * @param problem_id
+     * @return
+     */
+    Problem queryById(@Param("problem_id")int problem_id);
 }
