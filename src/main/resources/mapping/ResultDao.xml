@@ -54,4 +54,24 @@
             #{item}
         </foreach>
     </update>
+
+    <update id="updateProcessKeyAndReason">
+        UPDATE result
+        SET
+        proc_key=#{proc_key}, reason=#{reason}
+        WHERE balk_no IN
+        <foreach collection="balk_no_list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="queryByProcessKey" resultMap="Result">
+        SELECT * FROM result
+        WHERE
+        (intro LIKE '%${proc_key}%')
+        AND balk_no IN
+        <foreach collection="balk_no_list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

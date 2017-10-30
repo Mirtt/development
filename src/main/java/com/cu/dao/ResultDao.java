@@ -25,7 +25,15 @@ public interface ResultDao {
      * @param content_key
      */
     //todo
-    void updateContentKeyAndProblem(@Param("content_key")String content_key,@Param("problem")String problem,@Param("balk_no_list")String[] balkNoList);
+    void updateContentKeyAndProblem(@Param("content_key")String content_key,@Param("problem")String problem,@Param("balk_no_list")List<String> balk_no_list);
+
+    /**
+     * 将结果对应的处理过程关键字和对应的故障原因存入result中
+     * @param proc_key
+     * @param reason
+     * @param balk_no_list
+     */
+    void updateProcessKeyAndReason(@Param("proc_key")String proc_key,@Param("reason")String reason,@Param("balk_no_list")List<String> balk_no_list);
 
     /**
      * 显示所有查询时间 用做批号显示
@@ -53,4 +61,12 @@ public interface ResultDao {
      * @return
      */
     List<Result> queryByContentKey(@Param("content_key")String content_key);
+
+    /**
+     * 根据受理单号列表和处理过程关键字搜索对应的行
+     * @param balk_no_list
+     * @param proc_key
+     * @return
+     */
+    List<Result> queryByProcessKey(@Param("balk_no_list")List<String> balk_no_list, @Param("proc_key")String proc_key);
 }

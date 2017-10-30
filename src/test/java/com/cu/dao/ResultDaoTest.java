@@ -7,6 +7,7 @@ import com.cu.service.ResultService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +38,8 @@ public class ResultDaoTest extends BaseTest {
 
     @Test
     public void updateContentKeyAndProblem() throws Exception {
-        String[] s={"201701339202"};
+        List<String> s=new ArrayList<>();
+        s.add("201701339202");
         resultDao.updateContentKeyAndProblem("testc","testp",s);
     }
 }
