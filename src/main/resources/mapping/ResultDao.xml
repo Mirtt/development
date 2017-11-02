@@ -33,11 +33,17 @@
     </select>
 
     <select id="queryByProblem" resultMap="Result">
-        SELECT * FROM result
-        WHERE result.problem IN
+        SELECT r.user_id,r.type,r.balk_no,r.balk_content,r.write_dept_name,r.intro,
+        ifnull(r.content_key,'其他') AS  content_key,
+        ifnull(r.proc_key,'其他') AS  proc_key,
+        ifnull(r.problem,'其他') AS  problem,
+        ifnull(r.reason,'其他') AS reason
+        FROM result AS  r
+        WHERE r.problem IN
         <foreach collection="problems" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
+        ORDER BY r.problem
     </select>
 
     <select id="queryByContentKey" resultMap="Result">

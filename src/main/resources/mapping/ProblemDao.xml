@@ -21,11 +21,11 @@
         </collection>
     </resultMap>
 
-    <select id="queryAll" resultType="com.cu.model.Problem">
+    <select id="queryAll" resultMap="Problem">
         SELECT * FROM problem
     </select>
 
-    <select id="queryByIdList" resultType="com.cu.model.Problem">
+    <select id="queryByIdList" resultMap="Problem">
         SELECT * FROM problem
         WHERE  problem.problem_id IN
         <foreach collection="pids" item="item" index="index" open="(" separator="," close=")">

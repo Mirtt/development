@@ -8,6 +8,7 @@ import com.cu.service.BalkService;
 import com.cu.service.DictService;
 import com.cu.service.ProblemService;
 import com.cu.service.ResultService;
+import com.cu.util.poi.Excel;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -96,7 +94,7 @@ public class SearchController {
             //获取故障现象
             List<Problem>  problemList=problemService.queryByIdList(idArray);
             //故障现象的名称存入list
-            String[] problems=new String[16];
+            String[] problems=new String[problemList.size()];
             for (int i=0;i<problemList.size();i++){
                 problems[i]=problemList.get(i).getProblem();
             }
@@ -107,26 +105,13 @@ public class SearchController {
                 return "forward:/search";
             }
             //todo 将结果导出成excel
-            HSSFWorkbook wb = resultService.writeResultExcel(resultList);
-            ByteArrayOutputStream os=new ByteArrayOutputStream();
-            //todo 再看看下载是怎么实现的
+            String[] header={"序号","类型","受理单号","申告内容","填写部门","处理过程","申告内容关键字","处理过程关键字","故障现象","故障原因"}; //表头
+            int[] colWidth={15};
+            Excel excel=new Excel("result.xls",header,colWidth);
+            HSSFWorkbook wb = excel.writeToExcel(resultList);
             try {
-                wb.write(os);
-                byte[] buffer = os.toByteArray();
-                String fileName="result.xls";
-                // 清空response
-                response.reset();
-                // 设置response的Header
-                response.addHeader("Content-Disposition", "attachment;filename="
-                        + new String(fileName.getBytes()));
-                //response.addHeader("Content-Length", "" + file.length());
-                OutputStream toClient = new BufferedOutputStream(
-                        response.getOutputStream());
-                response.setContentType("application/vnd.ms-excel;charset=utf-8");
-                toClient.write(buffer);
-                toClient.flush();
-                toClient.close();
-            }catch (IOException e){
+                excel.downloadExcel(wb,response);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

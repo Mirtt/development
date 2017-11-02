@@ -32,9 +32,8 @@ public interface BalkBasicDao {
 
     /**
      * 根据时间查询月度的所有受理单
-     * @param startTime
-     * @param endTime
+     * @param month
      * @return
      */
-    List<BalkBasic> queryByTime(@Param("startTime") String startTime ,@Param("endTime") String endTime);
+    List<BalkBasic> queryByTime(@Param("month") int month);
 }

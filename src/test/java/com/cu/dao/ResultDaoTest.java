@@ -25,7 +25,7 @@ public class ResultDaoTest extends BaseTest {
     private ResultService resultService;
     @Test
     public void insertResult() throws Exception {
-        List<BalkBasic> balkBasicList=balkBasicDao.queryByTime("2017-06-17 00:00:00","2017-06-26 00:00:00");
+        List<BalkBasic> balkBasicList=balkBasicDao.queryByTime(6);
         List<Result> resultList=resultService.setResult(balkBasicList);
         resultDao.insertResult(resultList);
     }
@@ -41,5 +41,12 @@ public class ResultDaoTest extends BaseTest {
         List<String> s=new ArrayList<>();
         s.add("201701339202");
         resultDao.updateContentKeyAndProblem("testc","testp",s);
+    }
+
+    @Test
+    public void queryByProblem() throws Exception {
+        String[] problems={"故障现象A","故障现象B","故障现象C"};
+        List<Result> resultList=resultDao.queryByProblem(problems);
+        System.out.println("success");
     }
 }
