@@ -38,7 +38,7 @@ public class Excel {
     //}
 
     public Excel(String fileName, String[] headerName, int[] colWidth) {
-        this.fileName = fileName;
+        this.fileName = fileName+".xls";
         this.headerName = headerName;
         this.colNum = headerName.length;
         this.colWidth = colWidth;

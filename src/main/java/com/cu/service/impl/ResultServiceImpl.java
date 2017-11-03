@@ -66,7 +66,6 @@ public class ResultServiceImpl implements ResultService {
                 Result result = new Result();
                 //将查询结果存入实例中
                 result.setUser_id(0);//todo: 缺少动态获取userid的session方法，待添加
-                result.setSearch_time(search_time);//查询时间
                 result.setType("受理单");//todo 还未知受理单类型如何查询，待添加
                 result.setBalk_no(balkBasic.getBalk_no()); //受理单号
                 result.setBalk_content(balkBasic.getBalk_content()); //申告内容

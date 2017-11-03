@@ -8,7 +8,6 @@ package com.cu.model;
  */
 public class Result {
     private int user_id; //用户id
-    private String search_time; //结果导出时间
     private String type; //受理单工单类型
     private String balk_no; //受理单号
     private String balk_content; //申告内容
@@ -25,14 +24,6 @@ public class Result {
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
-    }
-
-    public String getSearch_time() {
-        return search_time;
-    }
-
-    public void setSearch_time(String search_time) {
-        this.search_time = search_time;
     }
 
     public String getType() {

@@ -9,6 +9,8 @@ import com.cu.service.DictService;
 import com.cu.service.ProblemService;
 import com.cu.service.ResultService;
 import com.cu.util.poi.Excel;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,11 +45,12 @@ public class SearchController {
     private ResultService resultService;
 
     @RequestMapping(value = "/search")
-    public String search(Model model) {
-        //List<DictContentProc> dictList = dictService.getKey();
+    public String search(@RequestParam(required = true,defaultValue = "1")Integer pageNum, Model model) {
+        PageHelper.startPage(pageNum,1);
         List<Problem> problemList = problemService.queryAll();
-        //model.addAttribute("dictList", dictList);
+        PageInfo<Problem> p = new PageInfo<>(problemList);
         model.addAttribute("pList",problemList);
+        model.addAttribute("page",p);
         return "search";
     }
 
@@ -107,7 +110,7 @@ public class SearchController {
             //todo 将结果导出成excel
             String[] header={"序号","类型","受理单号","申告内容","填写部门","处理过程","申告内容关键字","处理过程关键字","故障现象","故障原因"}; //表头
             int[] colWidth={15};
-            Excel excel=new Excel("result.xls",header,colWidth);
+            Excel excel=new Excel("result",header,colWidth);
             HSSFWorkbook wb = excel.writeToExcel(resultList);
             try {
                 excel.downloadExcel(wb,response);
