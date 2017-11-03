@@ -121,6 +121,7 @@
     //动态添加active
     $().ready(function () {
         $.ajax({
+            type: "GET",
             url: "<%=ctx%>/search",
             success:function (data) {
                 alert(data);
