@@ -15,7 +15,7 @@
         </collection>
     </resultMap>
     <select id="queryByBalkNo" resultMap="BalkBasic">
-        SELECT * FROM balk_basic AS b ,sheet_proc AS s
+        SELECT * FROM BALK_BASIC AS b ,SHEET_PROC AS s
         WHERE b.BALK_NO = #{balk_no} AND s.BALK_NO = #{balk_no}
     </select>
 

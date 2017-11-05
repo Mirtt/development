@@ -18,6 +18,12 @@ public interface ProblemService {
     List<Problem> queryAll();
 
     /**
+     * 获取故障现象总数
+     * @return
+     */
+    int countAll();
+
+    /**
      * 根据故障现象id获取对应故障现象
      * @param pids
      * @return

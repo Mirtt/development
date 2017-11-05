@@ -21,6 +21,12 @@ public interface ProblemDao {
     List<Problem> queryAll();
 
     /**
+     * 获取所有故障现象总数
+     * @return
+     */
+    int countAll();
+
+    /**
      * 根据故障现象id列表查询对应的故障现象
      * @param pids
      * @return

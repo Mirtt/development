@@ -25,6 +25,11 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
+    public int countAll() {
+        return problemDao.countAll();
+    }
+
+    @Override
     public List<Problem> queryByIdList(int[] pids) {
         return problemDao.queryByIdList(pids);
     }

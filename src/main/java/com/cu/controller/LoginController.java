@@ -38,7 +38,7 @@ public class LoginController {
         user=userService.getUser(user.getUser_name(),user.getPassword());
         if (user!=null){
             model.addAttribute("user",user);
-            return "search";
+            return "redirect:/search";
         }
         String msg = "用户名或密码错误";
         model.addAttribute("msg",msg);

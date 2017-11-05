@@ -14,6 +14,7 @@
 <html>
 <head>
     <link href="<%=ctx%>/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<%=ctx%>/css/bootstrap-table.css" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">

@@ -8,6 +8,7 @@ import com.cu.service.BalkService;
 import com.cu.service.DictService;
 import com.cu.service.ProblemService;
 import com.cu.service.ResultService;
+import com.cu.util.json.DataJson;
 import com.cu.util.poi.Excel;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -54,6 +56,20 @@ public class SearchController {
         return "search";
     }
 
+    @RequestMapping(value = "/testJson",method = RequestMethod.GET)
+    @ResponseBody
+    public DataJson getJsonList(@RequestParam(required = true,defaultValue = "1")Integer pageNum,
+            @RequestParam(required = true,defaultValue = "10")Integer pageSize, Model model){
+        PageHelper.startPage(pageNum,pageSize);
+        List<Problem> problemList = problemService.queryAll();
+        PageInfo<Problem> p = new PageInfo<>(problemList);
+        DataJson dataJson=new DataJson();
+        int total=problemService.countAll();
+        dataJson.setTotal(total);//todo 获取所有problem的数目
+        dataJson.setRows(problemList);
+        return dataJson;
+    }
+
     @RequestMapping(value = "/getResult", method = RequestMethod.POST)
     public String getResult(@RequestParam(value = "key_id", required = false) String[] ids, Model model) {
         if (ids != null && ids.length != 0) {
@@ -87,7 +103,7 @@ public class SearchController {
         return "forward:/search";
     }
 
-    @RequestMapping(value = "/excel",method = RequestMethod.POST)
+    @RequestMapping(value = "/report",method = RequestMethod.POST)
     public String downloadExcel(@RequestParam(value = "key_id", required = false) String[] ids,Model model,HttpServletResponse response){
         if (ids != null && ids.length != 0){
             int[] idArray = new int[ids.length];

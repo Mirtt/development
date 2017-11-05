@@ -251,7 +251,7 @@ CREATE TABLE `SHEET_PROC` (
   `TASK_NO` varchar(20) DEFAULT NULL,
   `WRITE_DEPT_ID` int(11) DEFAULT NULL,
   `WRITE_DEPT_NAME` varchar(60) DEFAULT NULL,
-  `WRITE_TIME` varchar(60) DEFAULT NULL,
+  `WRITE_TIME` DATETIME DEFAULT NULL,
   `WRITE_USER_ID` int(11) DEFAULT '-1',
   `WRITE_USER_NAME` varchar(60) DEFAULT NULL,
   `OPERATION_DEPT_ID` int(11) DEFAULT NULL,
@@ -301,14 +301,14 @@ CREATE TABLE `problem` (
 
 CREATE TABLE `result` (
   `user_id` int(11) NOT NULL COMMENT '关联user表id 标识为哪位用户操作的',
-  `search_time` varchar(45) NOT NULL COMMENT '创建导出的时间与导出表关联',
+  `search_time` varchar(45) COMMENT '创建导出的时间与导出表关联',
   `type` varchar(45) DEFAULT NULL COMMENT '工单类型 暂时不知道从哪获取',
   `balk_no` varchar(45) DEFAULT NULL COMMENT '受理单号 从balk_basic中获得',
-  `balk_content` varchar(200) DEFAULT NULL COMMENT '申告内容 balk_basic中获得',
+  `balk_content` varchar(2000) DEFAULT NULL COMMENT '申告内容 balk_basic中获得',
   `write_dept_name` varchar(45) DEFAULT NULL COMMENT '填写部门名称，从sheet_proc表中获得',
-  `intro` varchar(200) DEFAULT NULL COMMENT '处理过程， sheet_proc表中获得',
-  `content_key` varchar(200) NOT NULL COMMENT '申告内容关键字',
-  `proc_key` varchar(200) NOT NULL COMMENT '处理过程关键字',
+  `intro` varchar(2000) DEFAULT NULL COMMENT '处理过程， sheet_proc表中获得',
+  `content_key` varchar(200) DEFAULT NULL COMMENT '申告内容关键字',
+  `proc_key` varchar(200) DEFAULT NULL COMMENT '处理过程关键字',
   `problem` varchar(100) DEFAULT NULL COMMENT '故障现象',
   `reason` varchar(100) DEFAULT NULL COMMENT '故障原因'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='搜索结果表';

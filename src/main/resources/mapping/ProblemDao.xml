@@ -25,6 +25,10 @@
         SELECT * FROM problem
     </select>
 
+    <select id="countAll" resultType="Integer">
+        SELECT count(*) FROM problem
+    </select>
+
     <select id="queryByIdList" resultMap="Problem">
         SELECT * FROM problem
         WHERE  problem.problem_id IN
