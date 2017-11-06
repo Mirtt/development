@@ -49,6 +49,9 @@
                         <li>
                             <a href="<%=ctx%>/result">结果</a>
                         </li>
+                        <li>
+                            <a href="<%=ctx%>/stat">统计</a>
+                        </li>
                     </ul>
                 </div>
             </nav>

@@ -19,13 +19,21 @@
             <div class="row">
                 <div class="col-md-0"></div>
                 <div class="col-md-12">
+                    <div id="toolbar" class="btn-group">
+                        <button id="btn_add" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                        </button>
+                        <button id="btn_delete" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                        </button>
+                    </div>
                     <form action="<%=ctx%>/report" method="post">
                         <button type="submit" class="btn btn-primary" style="margin-bottom: 10px">
                             导出结果
                         </button>
                         <table id="problem" class="table table-hover table-bordered"></table>
                     </form>
-                    <a href="<%=ctx%>/testJson">测试后台</a>
+                    <a href="<%=ctx%>/testChart">测试后台</a>
                     <c:if test="${msg != null}">
                         <p id="msg" style="display: none">${msg}</p>
                     </c:if>
@@ -75,7 +83,7 @@
     });
 
     function initTable() {
-        var url="/testJson";
+        var url="<%=ctx%>/testJson";
         $("#problem").bootstrapTable({
             url:url,
             method:"get",
@@ -90,7 +98,7 @@
             pageNumber: 1,//初始化加载第一页，默认第一页
             pageSize: 10,//每页的记录行数（*）
             pageList: [10, 25, 50, 100],//可供选择的每页的行数（*）
-            height: $(window).height(),
+            height: 500,
             width:$(window).width(),
             showColumns: false,//是否自定义显示列
             showRefresh: true,//是否显示刷新按钮
@@ -103,29 +111,24 @@
             showToggle: true,//是否显示详细视图和列表视图的切换按钮
             cardView: false,//是否显示详细视图
             detailView: false,//是否显示父子表
-//            exportDataType:"all",
-//            showExport:true,
-//            exportTypes:['excel'],
-//            buttonAlign:"left",
-//            Icons:"glyphicon-export",
-//            exportOptions:{
-//                fileName:"test",
-//                worksheetName:"sheet1",
-//            },
             columns:[
                 {
                   checkbox:true
                 },
                 {
                     field:"problem_id",
-                    title:"problem_id",
+                    title:"故障现象编号",
                     width:10,
                     align : 'center',
                     valign : 'middle'
                 },
                 {
                     field:"problem",
-                    title:"problem"
+                    title:"故障现象名称"
+                },
+                {
+                    field:"change",
+                    title:"操作"
                 }
             ]
         });
@@ -139,6 +142,12 @@
         }
         return param;
     }
+    var $remove=$("#btn_delete");
+    $remove.click(function () {
+        $.POST({
+
+        });
+    })
 </script>
 </body>
 </html>

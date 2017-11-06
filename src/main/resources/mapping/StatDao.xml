@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cu.dao.StatDao">
+    <resultMap id="Stat" type="com.cu.model.stat.Stat">
+    </resultMap>
+    
+    <select id="resultStat" resultType="com.cu.model.stat.Stat">
+        SELECT r.problem AS problem,count(r.problem) AS problemNum FROM result AS r
+        GROUP BY r.problem HAVING r.problem IS NOT NULL
+    </select>
+</mapper>
