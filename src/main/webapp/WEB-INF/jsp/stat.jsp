@@ -23,7 +23,6 @@
 <!-- 引入 ECharts 文件 -->
 <script src="<%=ctx%>/js/echarts.js"></script>
 <script type="text/javascript">
-
     // 指定图表的配置项和数据
     var initBar = {
         title: {
@@ -53,7 +52,7 @@
         },
         tooltip : {
             trigger: 'item',
-            formatter: "{a} <br/>{b} ({d}%)"
+            formatter: "{a}： <br/>{b}:{c}条 ({d}%)"
         },
         legend: {
             type: 'scroll',
@@ -83,11 +82,14 @@
     function loadBar(barChart) {
         $.getJSON('<%=ctx%>/testChart',function (json) {
             barChart.setOption({
+                legend:{
+                    data:json["problems"]
+                },
                 xAxis:{
                     data:json["problems"]
                 },
                 series:{
-                    data:json["problemNum"]
+                    data:json["problemMapArray"]
                 }
             });
         });
@@ -112,7 +114,27 @@
         pieChart.setOption(initPie);
         loadBar(barChart);
         loadPie(pieChart);
-    })
+        pieChart.on("click",drill);
+    });
+    function drill(param) {
+        //alert(param.data.name);
+        var drillPieChart = echarts.init(document.getElementById('chart-pie'));
+        drillPieChart.setOption(initPie);
+        drillPieChart.setOption({
+            title:param.data.name+"各个原因占比",
+            x:"center"
+        });
+        $.getJSON("<%=ctx%>/testDrill?problem"+param.data.name ,function (json) {
+            drillPieChart.setOption({
+                legend:{
+                    data:json["problems"]
+                },
+                series:{
+                    data:json["problemMapArray"]
+                }
+            });
+        })
+    }
 </script>
 </body>
 </html>

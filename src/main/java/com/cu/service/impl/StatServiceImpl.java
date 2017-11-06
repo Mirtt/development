@@ -22,15 +22,7 @@ public class StatServiceImpl implements StatService {
     //private int total;//存储所有故障分类数量总和
     @Override
     public List<Stat> resultStat() {
-        int total=0;
-        List<Stat> statList= statDao.resultStat();
-        for (Stat s:statList){
-            total+=s.getProblemNum();
-        }
-        for (Stat s:statList){
-            s.setProblemPercent((double) s.getProblemNum()/total);
-        }
-        return statList;
+        return statDao.resultStat();
     }
 
 }

@@ -9,7 +9,9 @@ package com.cu.model.stat;
 public class Stat {
     private String problem;//故障现象名称
     private int problemNum;//故障现象数量
-    private double problemPercent;//故障现象占比
+    private String reason;//故障原因名称
+    private int reasonNum;//故障原因数量
+    //todo 添加获取reason和数量的方法
 
     public String getProblem() {
         return problem;
@@ -25,13 +27,5 @@ public class Stat {
 
     public void setProblemNum(int problemNum) {
         this.problemNum = problemNum;
-    }
-
-    public double getProblemPercent() {
-        return problemPercent;
-    }
-
-    public void setProblemPercent(double problemPercent) {
-        this.problemPercent = problemPercent;
     }
 }
