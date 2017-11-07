@@ -115,6 +115,7 @@
                 }
             });
         });
+        pieChart.on("click", drill);
     }
     function drill(param) {
         var pieChart = echarts.init(document.getElementById('chart-pie'));
@@ -132,7 +133,7 @@
                     myTool: {
                         show: true,
                         title: '返回',
-                        icon: 'image://http://echarts.baidu.com/images/favicon.png',
+                        icon: 'image://<%=ctx%>/images/back.png',
                         onclick: function () {
                             pieChart.dispose();
                             backTop();
@@ -180,6 +181,7 @@
                 }
             });
         });
+        pieChart.off("click");
     }
     function backTop() {
         var pieChart = echarts.init(document.getElementById('chart-pie'));
@@ -229,7 +231,6 @@
         pieChart.setOption(initPie);
         loadBar(barChart);
         loadPie(pieChart);
-        pieChart.on("click", drill);
     });
 </script>
 </body>
