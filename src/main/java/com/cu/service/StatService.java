@@ -13,4 +13,6 @@ import java.util.List;
 public interface StatService {
 
     List<Stat> resultStat();
+
+    List<Stat> resultReason(String problem);
 }

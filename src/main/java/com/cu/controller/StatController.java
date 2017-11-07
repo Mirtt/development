@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +29,7 @@ public class StatController {
     public String stat(){
         return "stat";
     }
-    @RequestMapping(value = "/testChart",method = RequestMethod.GET)
+    @RequestMapping(value = "/chart",method = RequestMethod.GET)
     @ResponseBody
     public Map getChart(){
         Map Data = new HashMap<>(16);
@@ -36,7 +38,7 @@ public class StatController {
         String[] problems=new String[length];
         Integer[] problemNum=new Integer[length];
         Map[] problemMapArray=new HashMap[length];
-        for (int i =0;i<statList.size();i++){
+        for (int i =0;i<length;i++){
             problems[i]=statList.get(i).getProblem();
             problemNum[i]=statList.get(i).getProblemNum();
             //为饼图构造必要的json数据格式 [{name: percent:},{}]
@@ -51,10 +53,27 @@ public class StatController {
 
         return Data;
     }
-    @RequestMapping(value = "/testDrill",method = RequestMethod.GET)
+    @RequestMapping(value = "/drill",method = RequestMethod.GET)
     @ResponseBody
-    public Map drillChart(@RequestParam(value = "problem",required = true)String problem){
-        System.out.println(problem);
-        return new HashMap(1);
+    public Map drillChart(@RequestParam(value = "problem",required = true)String problem) throws UnsupportedEncodingException {
+            String problemTemp= URLDecoder.decode(problem,"utf-8");
+            Map Data = new HashMap<>(16);
+            List<Stat> statList=statService.resultReason(problemTemp);
+            int length=statList.size();
+            String[] reasons=new String[length];
+            Integer[] reasonNum=new Integer[length];
+            Map[] reasonMapArray=new Map[length];
+            for (int i=0;i<length;i++){
+                reasons[i]=statList.get(i).getReason();
+                reasonNum[i]=statList.get(i).getReasonNum();
+                Map reasonMap=new HashMap(1);
+                reasonMap.put("name",reasons[i]);
+                reasonMap.put("value",reasonNum[i]);
+                reasonMapArray[i]=reasonMap;
+            }
+            Data.put("reasons",reasons);
+            Data.put("reasonNum",reasonNum);
+            Data.put("reasonMapArray",reasonMapArray);
+            return Data;
     }
 }

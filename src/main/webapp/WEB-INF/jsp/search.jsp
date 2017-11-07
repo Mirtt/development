@@ -83,7 +83,7 @@
     });
 
     function initTable() {
-        var url="<%=ctx%>/testJson";
+        var url="<%=ctx%>/problem";
         $("#problem").bootstrapTable({
             url:url,
             method:"get",

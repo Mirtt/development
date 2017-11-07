@@ -10,4 +10,10 @@
         SELECT r.problem AS problem,count(r.problem) AS problemNum FROM result AS r
         GROUP BY r.problem HAVING r.problem IS NOT NULL
     </select>
+
+    <select id="resultReason" resultType="com.cu.model.stat.Stat">
+        SELECT r.reason AS reason,count(r.reason) AS reasonNum FROM result AS r
+        WHERE r.problem=#{problem}
+        GROUP BY r.reason HAVING r.reason IS  NOT  NULL
+    </select>
 </mapper>

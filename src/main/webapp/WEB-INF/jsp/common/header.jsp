@@ -22,7 +22,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12"
-                     style="background: url(/images/background.jpg);height: 150px;margin-bottom: 10px">
+                     style="background: url(<%=ctx%>/images/background.jpg);height: 150px;margin-bottom: 10px">
                     <button type="button" class="btn btn-default btn-link"
                             onclick="location.href= '<%=ctx%>/logout'"
                             style="float:right;">

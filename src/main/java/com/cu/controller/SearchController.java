@@ -51,7 +51,7 @@ public class SearchController {
         return "search";
     }
 
-    @RequestMapping(value = "/testJson",method = RequestMethod.GET)
+    @RequestMapping(value = "/problem",method = RequestMethod.GET)
     @ResponseBody
     public DataJson getJsonList(@RequestParam(required = true,defaultValue = "1")Integer pageNum,
             @RequestParam(required = true,defaultValue = "10")Integer pageSize, Model model){
@@ -87,7 +87,7 @@ public class SearchController {
             }
             //todo 将结果导出成excel
             String[] header={"序号","类型","受理单号","申告内容","填写部门","处理过程","申告内容关键字","处理过程关键字","故障现象","故障原因"}; //表头
-            int[] colWidth={15};
+            int[] colWidth={5,7,14,25,18,25,15,15,15,15};//列宽
             Excel excel=new Excel("result",header,colWidth);
             HSSFWorkbook wb = excel.writeToExcel(resultList);
             try {

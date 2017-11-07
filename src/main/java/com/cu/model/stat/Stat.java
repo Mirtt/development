@@ -28,4 +28,20 @@ public class Stat {
     public void setProblemNum(int problemNum) {
         this.problemNum = problemNum;
     }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public int getReasonNum() {
+        return reasonNum;
+    }
+
+    public void setReasonNum(int reasonNum) {
+        this.reasonNum = reasonNum;
+    }
 }

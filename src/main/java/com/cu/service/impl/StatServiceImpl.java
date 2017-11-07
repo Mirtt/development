@@ -25,4 +25,8 @@ public class StatServiceImpl implements StatService {
         return statDao.resultStat();
     }
 
+    @Override
+    public List<Stat> resultReason(String problem) {
+        return statDao.resultReason(problem);
+    }
 }
