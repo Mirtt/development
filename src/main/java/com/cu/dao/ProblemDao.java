@@ -39,4 +39,11 @@ public interface ProblemDao {
      * @return
      */
     Problem queryById(@Param("problem_id")int problem_id);
+
+    /**
+     * 模糊查询故障现象
+     * @param problem
+     * @return
+     */
+    List<Problem> queryLike(@Param("problem") String problem);
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,10 +52,10 @@ public class SearchController {
         return "search";
     }
 
-    @RequestMapping(value = "/problem",method = RequestMethod.GET)
+    @RequestMapping(value = "/initTable",method = RequestMethod.GET)
     @ResponseBody
-    public DataJson getJsonList(@RequestParam(required = true,defaultValue = "1")Integer pageNum,
-            @RequestParam(required = true,defaultValue = "10")Integer pageSize, Model model){
+    public DataJson initTable(@RequestParam(required = true,defaultValue = "1")Integer pageNum,
+            @RequestParam(required = true,defaultValue = "10")Integer pageSize){
         PageHelper.startPage(pageNum,pageSize);
         List<Problem> problemList = problemService.queryAll();
         PageInfo<Problem> p = new PageInfo<>(problemList);
@@ -62,6 +63,33 @@ public class SearchController {
         int total=problemService.countAll();
         dataJson.setTotal(total);//todo 获取所有problem的数目
         dataJson.setRows(problemList);
+        return dataJson;
+    }
+    @RequestMapping(value = "/searchTable",method = RequestMethod.GET)
+    @ResponseBody
+    public DataJson searchTable(@RequestParam(defaultValue = "1")Integer pageNum,@RequestParam(defaultValue = "10")Integer pageSize,
+                                @RequestParam(required = false,value = "problem_id")String problem_id,@RequestParam(required = false,value = "problem")String problem,Model model){
+        System.out.println(problem_id+"\n"+problem);
+        int total=0;
+        List<Problem> rows=new ArrayList<>(16);
+        DataJson dataJson=new DataJson();
+        if (problem_id != null && !problem_id.equals("")){
+            int pid=Integer.parseInt(problem_id);
+            Problem p=problemService.queryById(pid);
+            if (p!=null){
+                total+=1;
+                rows.add(p);
+            }
+        }
+        if (problem!=null && !problem.equals("")){
+            List<Problem> problemList=problemService.queryLike(problem);
+            if (problemList!=null){
+                total+=problemList.size();
+                rows.addAll(problemList);
+            }
+        }
+        dataJson.setTotal(total);
+        dataJson.setRows(rows);
         return dataJson;
     }
 
@@ -103,6 +131,6 @@ public class SearchController {
 
     @RequestMapping(value="/deleteProblem",method = RequestMethod.POST)
     public void deleteProblem(@RequestParam(value = "problem_id",required = true)int[] ids){
-
+        //todo delete method
     }
 }

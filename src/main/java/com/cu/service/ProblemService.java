@@ -29,4 +29,8 @@ public interface ProblemService {
      * @return
      */
     List<Problem> queryByIdList(int[] pids);
+
+    Problem queryById(int problem_id);
+
+    List<Problem> queryLike(String problem);
 }

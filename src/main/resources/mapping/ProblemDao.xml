@@ -41,4 +41,9 @@
         SELECT * FROM problem
         WHERE  problem_id = #{problem_id}
     </select>
+    
+    <select id="queryLike" resultMap="Problem">
+        SELECT * FROM  problem AS p
+        WHERE p.problem LIKE  '%${problem}%'
+    </select>
 </mapper>

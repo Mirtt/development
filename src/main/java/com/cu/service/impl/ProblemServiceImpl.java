@@ -33,4 +33,14 @@ public class ProblemServiceImpl implements ProblemService {
     public List<Problem> queryByIdList(int[] pids) {
         return problemDao.queryByIdList(pids);
     }
+
+    @Override
+    public Problem queryById(int problem_id) {
+        return problemDao.queryById(problem_id);
+    }
+
+    @Override
+    public List<Problem> queryLike(String problem) {
+        return problemDao.queryLike(problem);
+    }
 }
