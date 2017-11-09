@@ -43,4 +43,9 @@ public class ProblemServiceImpl implements ProblemService {
     public List<Problem> queryLike(String problem) {
         return problemDao.queryLike(problem);
     }
+
+    @Override
+    public List<Problem> queryContentKey() {
+        return problemDao.queryContentKey();
+    }
 }

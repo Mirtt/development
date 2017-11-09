@@ -33,4 +33,6 @@ public interface ProblemService {
     Problem queryById(int problem_id);
 
     List<Problem> queryLike(String problem);
+
+    List<Problem> queryContentKey();
 }

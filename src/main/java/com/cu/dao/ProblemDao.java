@@ -46,4 +46,10 @@ public interface ProblemDao {
      * @return
      */
     List<Problem> queryLike(@Param("problem") String problem);
+
+    /**
+     * 获取故障现象和申告内容关键字的对应关系
+     * @return
+     */
+    List<Problem> queryContentKey();
 }

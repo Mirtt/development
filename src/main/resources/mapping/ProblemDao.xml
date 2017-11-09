@@ -31,7 +31,7 @@
 
     <select id="queryByIdList" resultMap="Problem">
         SELECT * FROM problem
-        WHERE  problem.problem_id IN
+        WHERE problem.problem_id IN
         <foreach collection="pids" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
@@ -41,9 +41,18 @@
         SELECT * FROM problem
         WHERE  problem_id = #{problem_id}
     </select>
-    
+
     <select id="queryLike" resultMap="Problem">
         SELECT * FROM  problem AS p
         WHERE p.problem LIKE  '%${problem}%'
+    </select>
+
+    <select id="queryContentKey" resultMap="Problem">
+       SELECT ifnull(p.problem_id,"0") AS problem_id , ifnull(p.problem,"暂无") AS problem,
+       c.content_key_id AS content_key_id, c.content_key AS content_key, c.content_priority AS content_priority
+       FROM content_key AS c
+       LEFT OUTER JOIN problem AS p
+       ON p.problem_id=c.problem_id
+       ORDER BY p.problem_id,c.content_priority
     </select>
 </mapper>

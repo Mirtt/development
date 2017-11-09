@@ -47,7 +47,7 @@
                             <a href="<%=ctx%>/search">分析</a>
                         </li>
                         <li>
-                            <a href="<%=ctx%>/result">结果</a>
+                            <a href="<%=ctx%>/config">故障现象配置</a>
                         </li>
                         <li>
                             <a href="<%=ctx%>/stat">统计</a>

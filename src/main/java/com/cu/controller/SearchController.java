@@ -44,11 +44,11 @@ public class SearchController {
 
     @RequestMapping(value = "/search")
     public String search(@RequestParam(required = true,defaultValue = "1")Integer pageNum, Model model) {
-        PageHelper.startPage(pageNum,1);
-        List<Problem> problemList = problemService.queryAll();
-        PageInfo<Problem> p = new PageInfo<>(problemList);
-        model.addAttribute("pList",problemList);
-        model.addAttribute("page",p);
+        //PageHelper.startPage(pageNum,1);
+        //List<Problem> problemList = problemService.queryAll();
+        //PageInfo<Problem> p = new PageInfo<>(problemList);
+        //model.addAttribute("pList",problemList);
+        //model.addAttribute("page",p);
         return "search";
     }
 

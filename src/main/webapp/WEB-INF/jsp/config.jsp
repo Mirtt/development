@@ -1,15 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: Zyq
-  Date: 2017/9/14
-  Time: 13:44
+  Date: 2017/11/9
+  Time: 14:03
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <html>
 <head>
-    <title>故障现象</title>
+    <title>配置故障现象</title>
 </head>
 <body>
 <%@ include file="common/header.jsp" %>
@@ -45,14 +44,11 @@
                     </div>
                     <form action="<%=ctx%>/report" method="post">
                         <div id="toolbar" class="btn-group">
-                            <button id="btn_add" type="submit" class="btn btn-default">
-                                <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>&nbsp;&nbsp;导出结果
-                            </button>
                             <button id="btn_refresh" type="button" class="btn btn-default">
                                 <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>&nbsp;&nbsp;刷新
                             </button>
                         </div>
-                        <table id="problem" class="table table-hover table-bordered"></table>
+                        <table id="problem_config" class="table table-hover table-bordered"></table>
                     </form>
                     <a href="<%=ctx%>/searchTable?problem_id=&problem='2323' ">测试后台</a>
                     <c:if test="${msg != null}">
@@ -68,31 +64,13 @@
 <script src="<%=ctx%>/js/bootstrap.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-table.js"></script>
 <script type="text/javascript">
-    //前台判断不要传空值
-    $("button[type=submit]").click(function () {
-        if ($("[name=key_id]:checkbox:checked").length < 1) {
-            alert("请选择关键字");
-            return false;
-        } else {
-            this.submit();
-        }
-    });
-    //打出后台的msg错误信息
-    $(function () {
-        var msg = $("p#msg").text();
-        if (msg != null && msg != "") {
-            alert(msg);
-        }
-    });
-    //初始化table（使用bootstrap table插件）
     $(function () {
         initTable();
     });
-
     function initTable() {
-        var url = "<%=ctx%>/initTable";
-        $("#problem").bootstrapTable("destroy");
-        $("#problem").bootstrapTable({
+        var url = "<%=ctx%>/configTable";
+        $("#problem_config").bootstrapTable("destroy");
+        $("#problem_config").bootstrapTable({
             url: url,
             method: "get",
             dataType: "json",
@@ -125,7 +103,7 @@
                 },
                 {
                     field: "problem_id",
-                    title: "故障现象编号",
+                    title: "故障现象编号(0表示未配置)",
                     width: 10,
                     align: 'center',
                     valign: 'middle'
@@ -133,8 +111,27 @@
                 {
                     field: "problem",
                     title: "故障现象名称",
+                    halign:"center"
+                },
+                {
+                    field:"content_key",
+                    title:"申告内容关键字",
                     halign:"center",
-                    width:"80%"
+                },
+                {
+                    field:"content_priority",
+                    title:"申告内容优先级",
+                    align:"center",
+                    halign:"center",
+                },
+                {
+                    field:"operation",
+                    title:"操作",
+                    align:"center",
+                    halign:"center",
+                    formatter:function (index, row) {
+                        return '<input type="text" value=" '+row['problem']+' "/input>';
+                    }
                 }
             ]
         });
@@ -142,62 +139,6 @@
     $("#btn_refresh").click(function () {
         initTable();
     });
-
-    $("#btn_query").click(function () {
-       var pid=$("#search_problem_id").val();
-       var p=$("#search_problem").val();
-       searchTable(pid,p);
-    });
-    function searchTable(pid, p) {
-        var url = "<%=ctx%>/searchTable?problem_id="+pid+"&problem="+encodeURI(encodeURI(p));
-        $("#problem").bootstrapTable('destroy');
-        $("#problem").bootstrapTable({
-            url: url,
-            method: "get",
-            dataType: "json",
-            toolbar: "#toolbar",
-            cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-            striped: true,//是否显示行间隔色
-            queryParams: queryParams,//传递参数（*）查询方法名
-            sidePagination: "server",//分页类型 server后端分页 client客户端分页（*）
-//            responseHandler: responseHandler,如果后台直接传回｛total： ，rows：[]｝形式则不需要此方法
-            pagination: true,//是否显示分页（*）
-            pageNumber: 1,//初始化加载第一页，默认第一页
-            pageSize: 10,//每页的记录行数（*）
-            pageList: [10, 25, 50, 100],//可供选择的每页的行数（*）
-            height: 500,
-            width: $(window).width(),
-            showColumns: false,//是否自定义显示列
-            showRefresh: false,//是否显示刷新按钮
-            minimumCountColumns: 2,//最少允许的列数
-            //表前复选框
-            clickToSelect: true,//是否启用点击选中行
-            idField: "problem_id",//重要---可设置checkbox的值为指定字段
-            selectItemName: "key_id",    //设置checkbox name属性，可用于遍历获取选中值
-            uniqueId: "no",//每一行的唯一标识，一般为主键列
-            showToggle: true,//是否显示详细视图和列表视图的切换按钮
-            cardView: false,//是否显示详细视图
-            detailView: false,//是否显示父子表
-            columns: [
-                {
-                    checkbox: true
-                },
-                {
-                    field: "problem_id",
-                    title: "故障现象编号",
-                    width: 10,
-                    align: 'center',
-                    valign: 'middle'
-                },
-                {
-                    field: "problem",
-                    title: "故障现象名称",
-                    halign:"center",
-                    width:"80%"
-                }
-            ]
-        });
-    }
     function queryParams(params) {//查询参数传递
         var param = {
             pageNum: this.pageNumber,
@@ -207,43 +148,6 @@
         };
         return param;
     }
-    var $remove = $("#btn_delete");
-    $remove.click(function () {
-        $.POST({});
-    })
 </script>
-<%--暂时没用--%>
-<div class="modal fade actormodal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">update actor</h4>
-            </div>
-            <form action="updateactor" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="fname">first name</label>
-                        <input type="text" name="first_name" class="form-control" id="fname">
-                    </div>
-                    <div class="form-group">
-                        <label for="lname">last name</label>
-                        <input type="text" name="last_name" class="form-control" id="lname">
-                    </div>
-                    <div class="form-group ">
-                        <label for="lupdate">last update</label>
-                        <input type="text" name="last_update" class="form-control" id="lupdate">
-                        <input type="hidden" id="actorid" name="id"/>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 </body>
 </html>
