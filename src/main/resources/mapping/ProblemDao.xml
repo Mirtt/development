@@ -47,6 +47,12 @@
         WHERE p.problem LIKE  '%${problem}%'
     </select>
 
+    <select id="queryByIdAndProblem" resultMap="Problem">
+        SELECT * FROM problem AS p
+        WHERE p.problem_id=#{problem_id}
+        AND p.problem LIKE '%${problem}%'
+    </select>
+
     <select id="queryContentKey" resultMap="Problem">
        SELECT ifnull(p.problem_id,"0") AS problem_id , ifnull(p.problem,"暂无") AS problem,
        c.content_key_id AS content_key_id, c.content_key AS content_key, c.content_priority AS content_priority
@@ -55,4 +61,36 @@
        ON p.problem_id=c.problem_id
        ORDER BY p.problem_id,c.content_priority
     </select>
+
+    <select id="queryLikeProblemAndContentKey" resultMap="Problem">
+        SELECT ifnull(p.problem_id,"0") AS problem_id , ifnull(p.problem,"暂无") AS problem,
+       c.content_key_id AS content_key_id, c.content_key AS content_key, c.content_priority AS content_priority
+       FROM content_key AS c
+       LEFT OUTER JOIN problem AS p
+       ON p.problem_id=c.problem_id
+       WHERE p.problem LIKE '%${problem}%'
+       AND c.content_key LIKE '%${content_key}%'
+       ORDER BY p.problem_id,c.content_priority
+    </select>
+
+    <select id="queryLikeContentKey" resultMap="Problem">
+         SELECT ifnull(p.problem_id,"0") AS problem_id , ifnull(p.problem,"暂无") AS problem,
+       c.content_key_id AS content_key_id, c.content_key AS content_key, c.content_priority AS content_priority
+       FROM content_key AS c
+       LEFT OUTER JOIN problem AS p
+       ON p.problem_id=c.problem_id
+       WHERE c.content_key LIKE '%${content_key}%'
+       ORDER BY p.problem_id,c.content_priority
+    </select>
+
+    <select id="queryLikeProblem" resultMap="Problem">
+        SELECT ifnull(p.problem_id,"0") AS problem_id , ifnull(p.problem,"暂无") AS problem,
+       c.content_key_id AS content_key_id, c.content_key AS content_key, c.content_priority AS content_priority
+       FROM content_key AS c
+       LEFT OUTER JOIN problem AS p
+       ON p.problem_id=c.problem_id
+       WHERE p.problem LIKE '%${problem}%'
+       ORDER BY p.problem_id,c.content_priority
+    </select>
+
 </mapper>

@@ -48,8 +48,28 @@ public interface ProblemDao {
     List<Problem> queryLike(@Param("problem") String problem);
 
     /**
+     * 根据id和故障现象名称同时查询
+     * @param problem_id
+     * @param problem
+     * @return
+     */
+    List<Problem> queryByIdAndProblem(@Param("problem_id")int problem_id,@Param("problem") String problem);
+
+    /**
      * 获取故障现象和申告内容关键字的对应关系
      * @return
      */
     List<Problem> queryContentKey();
+
+    /**
+     * 根据故障现象和申告内容关键字模糊查询
+     * @param problem
+     * @param content_key
+     * @return
+     */
+    List<Problem> queryLikeProblemAndContentKey(@Param("problem") String problem,@Param("content_key")String content_key);
+
+    List<Problem> queryLikeContentKey(@Param("content_key")String content_key);
+
+    List<Problem> queryLikeProblem(@Param("problem")String problem);
 }

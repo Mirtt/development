@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,24 +69,33 @@ public class SearchController {
     }
     @RequestMapping(value = "/searchTable",method = RequestMethod.GET)
     @ResponseBody
-    public DataJson searchTable(@RequestParam(defaultValue = "1")Integer pageNum,@RequestParam(defaultValue = "10")Integer pageSize,
-                                @RequestParam(required = false,value = "problem_id")String problem_id,@RequestParam(required = false,value = "problem")String problem,Model model){
-        System.out.println(problem_id+"\n"+problem);
+    public DataJson searchTable(@RequestParam(required = false,value = "problem_id")String problem_id,@RequestParam(required = false,value = "problem")String pb ,Model model) throws UnsupportedEncodingException {
+        String problem= URLDecoder.decode(pb,"utf-8");
+
+        System.out.println(this.getClass().toString()+"\n"+problem_id+"\n"+problem);
         int total=0;
         List<Problem> rows=new ArrayList<>(16);
         DataJson dataJson=new DataJson();
-        if (problem_id != null && !problem_id.equals("")){
+        if (problem_id != null && !problem_id.equals("") && (problem == null||problem.equals(""))){
             int pid=Integer.parseInt(problem_id);
             Problem p=problemService.queryById(pid);
             if (p!=null){
-                total+=1;
+                total=1;
                 rows.add(p);
             }
         }
-        if (problem!=null && !problem.equals("")){
+        if (problem!=null && !problem.equals("") && (problem_id == null || problem_id.equals(""))){
             List<Problem> problemList=problemService.queryLike(problem);
             if (problemList!=null){
-                total+=problemList.size();
+                total=problemList.size();
+                rows.addAll(problemList);
+            }
+        }
+        if (problem_id != null && !problem_id.equals("") && problem!=null && !problem.equals("")){
+            int pid=Integer.parseInt(problem_id);
+            List<Problem> problemList=problemService.queryByIdAndProblem(pid,problem);
+            if (problemList !=null){
+                total=problemList.size();
                 rows.addAll(problemList);
             }
         }

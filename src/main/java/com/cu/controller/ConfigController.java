@@ -58,4 +58,61 @@ public class ConfigController {
         dataJson.setRows(rows);
         return dataJson;
     }
+
+    @RequestMapping(value = "/configSearchTable",method = RequestMethod.GET)
+    @ResponseBody
+    public DataJson configSearchTable(@RequestParam(required = false,value = "problem")String problem,
+                                      @RequestParam(required = false,value = "content_key")String content_key){
+        DataJson dataJson=new DataJson();
+        List<Stat> rows=new ArrayList<>(16);
+        int total=0;
+        if (problem !=null && !problem.equals("") && (content_key ==null || content_key.equals(""))){
+            List<Problem> problemList=problemService.queryLikeProblem(problem);
+            for (Problem p:problemList){
+                List<ContentKey> contentKeyList=p.getContentKeyList();
+                for (ContentKey c:contentKeyList){
+                    Stat stat=new Stat();
+                    stat.setProblem_id(p.getProblem_id());
+                    stat.setProblem(p.getProblem());
+                    stat.setContent_key(c.getContent_key());
+                    stat.setContent_priority(c.getContent_priority());
+                    rows.add(stat);
+                    total+=1;
+                }
+            }
+        }
+        if(content_key !=null && !content_key.equals("") &&(problem == null || problem.equals(""))){
+            List<Problem> problemList=problemService.queryLikeContentKey(content_key);
+            for (Problem p:problemList){
+                List<ContentKey> contentKeyList=p.getContentKeyList();
+                for (ContentKey c:contentKeyList){
+                    Stat stat=new Stat();
+                    stat.setProblem_id(p.getProblem_id());
+                    stat.setProblem(p.getProblem());
+                    stat.setContent_key(c.getContent_key());
+                    stat.setContent_priority(c.getContent_priority());
+                    rows.add(stat);
+                    total+=1;
+                }
+            }
+        }
+        if (problem !=null && !problem.equals("") &&content_key !=null && !content_key.equals("")){
+            List<Problem> problemList=problemService.queryLikeProblemAndContentKey(problem,content_key);
+            for (Problem p:problemList){
+                List<ContentKey> contentKeyList=p.getContentKeyList();
+                for (ContentKey c:contentKeyList){
+                    Stat stat=new Stat();
+                    stat.setProblem_id(p.getProblem_id());
+                    stat.setProblem(p.getProblem());
+                    stat.setContent_key(c.getContent_key());
+                    stat.setContent_priority(c.getContent_priority());
+                    rows.add(stat);
+                    total+=1;
+                }
+            }
+        }
+        dataJson.setTotal(total);
+        dataJson.setRows(rows);
+        return dataJson;
+    }
 }

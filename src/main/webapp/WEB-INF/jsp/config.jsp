@@ -22,23 +22,21 @@
                         <div class="panel-heading">查询条件</div>
                         <div class="panel-body">
                             <form id="formSearch" class="form-horizontal">
-                                <div class="form-group" style="margin-top:15px">
-                                    <label class="control-label col-sm-1" for="search_problem_id">故障现象编号</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="form-control" id="search_problem_id"
-                                               name="problem_id">
-                                    </div>
                                     <label class="control-label col-sm-1" for="search_problem">故障现象</label>
                                     <div class="col-sm-2">
                                         <input type="text" class="form-control" id="search_problem" name="problem"
                                                placeholder="支持模糊查询">
                                     </div>
-                                    <div class="col-sm-4" style="text-align:left;">
+                                    <label class="control-label col-sm-1" for="search_content_key">申告内容关键字</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" id="search_content_key" name="content_key"
+                                               placeholder="支持模糊查询">
+                                    </div>
+                                    <div class="col-sm-2" style="text-align:left;">
                                         <button type="button" style="margin-left:50px" id="btn_query"
                                                 class="btn btn-primary">查询
                                         </button>
                                     </div>
-                                </div>
                             </form>
                         </div>
                     </div>
@@ -70,7 +68,7 @@
     function initTable() {
         var url = "<%=ctx%>/configTable";
         $("#problem_config").bootstrapTable("destroy");
-        $("#problem_config").bootstrapTable({
+        var bootstrapTable=$("#problem_config").bootstrapTable({
             url: url,
             method: "get",
             dataType: "json",
@@ -90,9 +88,9 @@
             showRefresh: false,//是否显示刷新按钮
             minimumCountColumns: 2,//最少允许的列数
             //表前复选框
-            clickToSelect: true,//是否启用点击选中行
-            idField: "problem_id",//重要---可设置checkbox的值为指定字段
-            selectItemName: "key_id",    //设置checkbox name属性，可用于遍历获取选中值
+            clickToSelect: false,//是否启用点击选中行
+//            idField: "problem_id",//重要---可设置checkbox的值为指定字段
+//            selectItemName: "key_id",    //设置checkbox name属性，可用于遍历获取选中值
             uniqueId: "no",//每一行的唯一标识，一般为主键列
             showToggle: true,//是否显示详细视图和列表视图的切换按钮
             cardView: false,//是否显示详细视图
@@ -106,7 +104,7 @@
                     title: "故障现象编号(0表示未配置)",
                     width: 10,
                     align: 'center',
-                    valign: 'middle'
+                    valign: 'center'
                 },
                 {
                     field: "problem",
@@ -116,13 +114,13 @@
                 {
                     field:"content_key",
                     title:"申告内容关键字",
-                    halign:"center",
+                    halign:"center"
                 },
                 {
                     field:"content_priority",
                     title:"申告内容优先级",
                     align:"center",
-                    halign:"center",
+                    halign:"center"
                 },
                 {
                     field:"operation",
@@ -130,7 +128,7 @@
                     align:"center",
                     halign:"center",
                     formatter:function (index, row) {
-                        return '<input type="text" value=" '+row['problem']+' "/input>';
+                        return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\">编辑"+row["problem_id"]+"<span class=\"glyphicon glyphicon-pencil\"></span></button> ";
                     }
                 }
             ]
@@ -148,6 +146,50 @@
         };
         return param;
     }
+    $("#btn_query").click(function () {
+        var p=$("#search_problem").val();
+        var ck=$("#search_content_key").val();
+        $("#problem_config").bootstrapTable('refresh',{
+            url:"<%=ctx%>/configSearchTable",
+            query:{problem:p,content_key:ck}
+        })
+    });
+    $(".command-edit").click(function () {
+
+        var table=$("#problem_config").bootstrapTable()
+    })
 </script>
+<div class="modal fade contentKeyModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">配置关键字</h4>
+            </div>
+            <form action="" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="fname">first name</label>
+                        <input type="text" name="first_name" class="form-control" id="fname">
+                    </div>
+                    <div class="form-group">
+                        <label for="lname">last name</label>
+                        <input type="text" name="last_name" class="form-control" id="lname">
+                    </div>
+                    <div class="form-group ">
+                        <label for="lupdate">last update</label>
+                        <input type="text" name="last_update" class="form-control" id="lupdate">
+                        <input type="hidden" id="actorid" name="id"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

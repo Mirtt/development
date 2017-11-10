@@ -146,58 +146,11 @@
     $("#btn_query").click(function () {
        var pid=$("#search_problem_id").val();
        var p=$("#search_problem").val();
-       searchTable(pid,p);
+        $("#problem").bootstrapTable('refresh',{
+            url:"<%=ctx%>/searchTable",
+            query:{problem_id:pid,problem:p}
+        })
     });
-    function searchTable(pid, p) {
-        var url = "<%=ctx%>/searchTable?problem_id="+pid+"&problem="+encodeURI(encodeURI(p));
-        $("#problem").bootstrapTable('destroy');
-        $("#problem").bootstrapTable({
-            url: url,
-            method: "get",
-            dataType: "json",
-            toolbar: "#toolbar",
-            cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-            striped: true,//是否显示行间隔色
-            queryParams: queryParams,//传递参数（*）查询方法名
-            sidePagination: "server",//分页类型 server后端分页 client客户端分页（*）
-//            responseHandler: responseHandler,如果后台直接传回｛total： ，rows：[]｝形式则不需要此方法
-            pagination: true,//是否显示分页（*）
-            pageNumber: 1,//初始化加载第一页，默认第一页
-            pageSize: 10,//每页的记录行数（*）
-            pageList: [10, 25, 50, 100],//可供选择的每页的行数（*）
-            height: 500,
-            width: $(window).width(),
-            showColumns: false,//是否自定义显示列
-            showRefresh: false,//是否显示刷新按钮
-            minimumCountColumns: 2,//最少允许的列数
-            //表前复选框
-            clickToSelect: true,//是否启用点击选中行
-            idField: "problem_id",//重要---可设置checkbox的值为指定字段
-            selectItemName: "key_id",    //设置checkbox name属性，可用于遍历获取选中值
-            uniqueId: "no",//每一行的唯一标识，一般为主键列
-            showToggle: true,//是否显示详细视图和列表视图的切换按钮
-            cardView: false,//是否显示详细视图
-            detailView: false,//是否显示父子表
-            columns: [
-                {
-                    checkbox: true
-                },
-                {
-                    field: "problem_id",
-                    title: "故障现象编号",
-                    width: 10,
-                    align: 'center',
-                    valign: 'middle'
-                },
-                {
-                    field: "problem",
-                    title: "故障现象名称",
-                    halign:"center",
-                    width:"80%"
-                }
-            ]
-        });
-    }
     function queryParams(params) {//查询参数传递
         var param = {
             pageNum: this.pageNumber,

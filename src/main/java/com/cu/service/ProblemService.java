@@ -35,4 +35,12 @@ public interface ProblemService {
     List<Problem> queryLike(String problem);
 
     List<Problem> queryContentKey();
+
+    List<Problem> queryByIdAndProblem(int problem_id,String problem);
+
+    List<Problem> queryLikeProblemAndContentKey(String problem,String content_key);
+
+    List<Problem> queryLikeContentKey(String content_key);
+
+    List<Problem> queryLikeProblem(String problem);
 }
