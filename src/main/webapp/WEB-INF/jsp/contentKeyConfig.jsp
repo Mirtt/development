@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>配置故障现象</title>
+    <title>申告内容关键字配置</title>
 </head>
 <body>
 <%@ include file="common/header.jsp" %>
@@ -66,7 +66,7 @@
         initTable();
     });
     function initTable() {
-        var url = "<%=ctx%>/configTable";
+        var url = "<%=ctx%>/ckConfigTable";
         $("#problem_config").bootstrapTable("destroy");
         var bootstrapTable=$("#problem_config").bootstrapTable({
             url: url,
@@ -150,7 +150,7 @@
         var p=$("#search_problem").val();
         var ck=$("#search_content_key").val();
         $("#problem_config").bootstrapTable('refresh',{
-            url:"<%=ctx%>/configSearchTable",
+            url:"<%=ctx%>/ckConfigSearchTable",
             query:{problem:p,content_key:ck}
         })
     });

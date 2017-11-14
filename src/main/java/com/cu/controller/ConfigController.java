@@ -28,12 +28,12 @@ public class ConfigController {
     @Autowired
     private ProblemService problemService;
 
-    @RequestMapping(value = "/config",method = RequestMethod.GET)
-    public String config(){
-        return "config";
+    @RequestMapping(value = "/ckConfig",method = RequestMethod.GET)
+    public String ckConfig(){
+        return "contentKeyConfig";
     }
 
-    @RequestMapping(value = "/configTable",method = RequestMethod.GET)
+    @RequestMapping(value = "/ckConfigTable",method = RequestMethod.GET)
     @ResponseBody
     public DataJson configTable(@RequestParam(required = true,defaultValue = "1")Integer pageNum,
                                 @RequestParam(required = true,defaultValue = "10")Integer pageSize){
@@ -59,7 +59,7 @@ public class ConfigController {
         return dataJson;
     }
 
-    @RequestMapping(value = "/configSearchTable",method = RequestMethod.GET)
+    @RequestMapping(value = "/ckConfigSearchTable",method = RequestMethod.GET)
     @ResponseBody
     public DataJson configSearchTable(@RequestParam(required = false,value = "problem")String problem,
                                       @RequestParam(required = false,value = "content_key")String content_key){

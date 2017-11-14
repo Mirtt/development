@@ -44,10 +44,10 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a href="<%=ctx%>/search">分析</a>
+                            <a href="<%=ctx%>/search">故障现象分析</a>
                         </li>
                         <li>
-                            <a href="<%=ctx%>/config">故障现象配置</a>
+                            <a href="<%=ctx%>/ckConfig">申告内容关键字配置</a>
                         </li>
                         <li>
                             <a href="<%=ctx%>/stat">统计</a>

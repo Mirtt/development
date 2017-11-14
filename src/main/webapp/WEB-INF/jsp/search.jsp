@@ -54,7 +54,8 @@
                         </div>
                         <table id="problem" class="table table-hover table-bordered"></table>
                     </form>
-                    <a href="<%=ctx%>/searchTable?problem_id=&problem='2323' ">测试后台</a>
+                    <input type="file" id="file_id" name="file_name">
+                    <button class="btn-default" id="test_button">测试后台</button>
                     <c:if test="${msg != null}">
                         <p id="msg" style="display: none">${msg}</p>
                     </c:if>
@@ -68,6 +69,10 @@
 <script src="<%=ctx%>/js/bootstrap.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-table.js"></script>
 <script type="text/javascript">
+    var localObj = window.location;
+    var contextPath = localObj.pathname.split("/")[1];
+    var basePath= localObj.protocol+"//"+localObj.host+"/"+contextPath;
+
     //前台判断不要传空值
     $("button[type=submit]").click(function () {
         if ($("[name=key_id]:checkbox:checked").length < 1) {
@@ -103,9 +108,9 @@
             sidePagination: "server",//分页类型 server后端分页 client客户端分页（*）
 //            responseHandler: responseHandler,如果后台直接传回｛total： ，rows：[]｝形式则不需要此方法
             pagination: true,//是否显示分页（*）
-            pageNumber: 1,//初始化加载第一页，默认第一页
             pageSize: 10,//每页的记录行数（*）
-            pageList: [10, 25, 50, 100],//可供选择的每页的行数（*）
+            pageNumber: 1,//初始化加载第一页，默认第一页
+            pageList: [10,25,50,100],//可供选择的每页的行数（*）
             height: 500,
             width: $(window).width(),
             showColumns: false,//是否自定义显示列
