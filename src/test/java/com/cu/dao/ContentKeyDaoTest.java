@@ -28,4 +28,10 @@ public class ContentKeyDaoTest extends BaseTest {
             System.out.print("\n");
         }
     }
+
+    @Test
+    public void queryProcessKey() throws Exception {
+        List<ContentKey> contentKeyList=contentKeyDao.queryProcessKey();
+        System.out.println("success");
+    }
 }

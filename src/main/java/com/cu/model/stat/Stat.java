@@ -18,6 +18,10 @@ public class Stat {
     private String content_key;//申告内容关键字
     private int content_priority;//申告内容优先级
 
+    private int content_key_id;//申告内容关键字id
+    private String process_key;//处理过程关键字
+    private int process_priority;//处理过程优先级
+
 
     public String getProblem() {
         return problem;
@@ -73,5 +77,29 @@ public class Stat {
 
     public void setContent_priority(int content_priority) {
         this.content_priority = content_priority;
+    }
+
+    public int getContent_key_id() {
+        return content_key_id;
+    }
+
+    public void setContent_key_id(int content_key_id) {
+        this.content_key_id = content_key_id;
+    }
+
+    public String getProcess_key() {
+        return process_key;
+    }
+
+    public void setProcess_key(String process_key) {
+        this.process_key = process_key;
+    }
+
+    public int getProcess_priority() {
+        return process_priority;
+    }
+
+    public void setProcess_priority(int process_priority) {
+        this.process_priority = process_priority;
     }
 }

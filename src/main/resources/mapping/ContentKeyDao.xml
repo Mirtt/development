@@ -16,7 +16,48 @@
             <result column="content_key_id" property="content_key_id"/>
         </collection>
     </resultMap>
+
     <select id="queryAllOrderByPriority" resultMap="ContentKey">
         SELECT * FROM content_key ORDER BY content_priority
+    </select>
+
+    <select id="queryProcessKey" resultMap="ContentKey">
+        SELECT ifnull(c.content_key_id,"0") AS content_key_id , ifnull(c.content_key,"暂无") AS content_key,
+       p.process_key_id AS process_key_id, p.process_key AS process_key,p.reason AS reason, p.process_priority AS process_priority
+       FROM process_key AS p
+       LEFT OUTER JOIN content_key AS c
+       ON p.content_key_id=c.content_key_id
+       ORDER BY c.content_key_id,p.process_priority
+    </select>
+    
+    <select id="queryLikeContentKey" resultMap="ContentKey">
+        SELECT ifnull(c.content_key_id,"0") AS content_key_id , ifnull(c.content_key,"暂无") AS content_key,
+       p.process_key_id AS process_key_id, p.process_key AS process_key,p.reason AS reason, p.process_priority AS process_priority
+       FROM process_key AS p
+       LEFT OUTER JOIN content_key AS c
+       ON p.content_key_id=c.content_key_id
+       WHERE c.content_key LIKE '%${content_key}%'
+       ORDER BY c.content_key_id,p.process_priority
+    </select>
+
+    <select id="queryLikeProcessKey" resultMap="ContentKey">
+        SELECT ifnull(c.content_key_id,"0") AS content_key_id , ifnull(c.content_key,"暂无") AS content_key,
+       p.process_key_id AS process_key_id, p.process_key AS process_key,p.reason AS reason, p.process_priority AS process_priority
+       FROM process_key AS p
+       LEFT OUTER JOIN content_key AS c
+       ON p.content_key_id=c.content_key_id
+       WHERE p.process_key LIKE '%${process_key}%'
+       ORDER BY c.content_key_id,p.process_priority
+    </select>
+
+    <select id="queryLikeContentKeyAndProcessKey" resultMap="ContentKey">
+        SELECT ifnull(c.content_key_id,"0") AS content_key_id , ifnull(c.content_key,"暂无") AS content_key,
+       p.process_key_id AS process_key_id, p.process_key AS process_key,p.reason AS reason, p.process_priority AS process_priority
+       FROM process_key AS p
+       LEFT OUTER JOIN content_key AS c
+       ON p.content_key_id=c.content_key_id
+       WHERE p.process_key LIKE '%${process_key}%'
+       AND  c.content_key LIKE  '%${content_key}%'
+       ORDER BY c.content_key_id,p.process_priority
     </select>
 </mapper>

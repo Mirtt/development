@@ -50,6 +50,9 @@
                             <a href="<%=ctx%>/ckConfig">申告内容关键字配置</a>
                         </li>
                         <li>
+                            <a href="<%=ctx%>/pkConfig">处理过程关键字配置</a>
+                        </li>
+                        <li>
                             <a href="<%=ctx%>/stat">统计</a>
                         </li>
                     </ul>

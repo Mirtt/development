@@ -186,17 +186,17 @@ public class ResultServiceImpl implements ResultService {
     public void tagResult() {
         //1.给resultList打申告内容关键字和故障现象的标签
         List<ContentKey> contentKeyList = contentKeyDao.queryAllOrderByPriority();
-        for (int i = 0; i < contentKeyList.size(); i++) { //为result从高到低的优先级打标签
-            String contentKey = contentKeyList.get(i).getContent_key();
+        for (ContentKey aContentKeyList : contentKeyList) { //为result从高到低的优先级打标签
+            String contentKey = aContentKeyList.getContent_key();
             //contentKeyTemp:经过处理后的申告内容关键字
             String contentKeyTemp = contentKey.replaceAll("&", "%' )AND( balk_content LIKE '%");
             contentKeyTemp = contentKeyTemp.replaceAll("或", "%' OR  balk_content LIKE '%");
             List<Result> resultList = resultDao.queryByContentKey(contentKeyTemp); //查找含有contentkey的受理单
             //problemId:故障现象id 用于标记故障现象
-            int problemId = contentKeyList.get(i).getProblem_id();
+            int problemId = aContentKeyList.getProblem_id();
             Problem problem = problemDao.queryById(problemId); //根据contentKey对应的problemid 查找对应的故障现象
             //contentkeyid：用于查询对应的处理过程
-            List<String> balkNoListForContent=new ArrayList<>(16);
+            List<String> balkNoListForContent = new ArrayList<>(16);
             if (resultList == null || resultList.size() == 0) {
                 continue;
             }
@@ -204,37 +204,33 @@ public class ResultServiceImpl implements ResultService {
                 //为contentkey和problem字段为空的行打上标签
                 if ((result.getContent_key() == null || result.getContent_key().equals("")) && (result.getProblem() == null || result.getProblem().equals(""))) {
                     //result.setContent_key(contentKey);
-                    balkNoListForContent.add( result.getBalk_no());
-                } else {
-                    continue;
+                    balkNoListForContent.add(result.getBalk_no());
                 }
             }
-            if (balkNoListForContent != null && balkNoListForContent.size() != 0) {
+            if (balkNoListForContent.size() != 0 && problem !=null) {
                 resultDao.updateContentKeyAndProblem(contentKey, problem.getProblem(), balkNoListForContent);
-            }else{
+            } else {
                 continue;
             }
             //2.给resultList打处理过程关键字和故障原因标签
-            int contentKeyId = contentKeyList.get(i).getContent_key_id();
+            int contentKeyId = aContentKeyList.getContent_key_id();
             List<ProcessKey> processKeyList = processKeyDao.queryAllByPriority(contentKeyId);
-            for (int j = 0; j < processKeyList.size(); j++) {
-                String reason = processKeyList.get(j).getReason();
-                String processKey = processKeyList.get(j).getProcess_key();
+            for (ProcessKey aProcessKeyList : processKeyList) {
+                String reason = aProcessKeyList.getReason();
+                String processKey = aProcessKeyList.getProcess_key();
                 String processKeyTemp = processKey.replaceAll("&", "%' )AND( intro LIKE '%");//todo need to change
                 processKeyTemp = processKeyTemp.replaceAll("或", "%' OR  intro LIKE '%");
                 List<Result> resultList1 = resultDao.queryByProcessKey(balkNoListForContent, processKeyTemp);
-                List<String>balkNoListForProcess = new ArrayList<>(16);
+                List<String> balkNoListForProcess = new ArrayList<>(16);
                 if (resultList1 == null || resultList1.size() == 0) {
                     continue;
                 }
                 for (Result result : resultList1) {
                     if ((result.getProc_key() == null || result.getProc_key().equals("")) && (result.getReason() == null || result.getReason().equals(""))) {
                         balkNoListForProcess.add(result.getBalk_no());
-                    } else {
-                        continue;
                     }
                 }
-                if (balkNoListForProcess != null && balkNoListForProcess.size() != 0) {
+                if (balkNoListForProcess.size() != 0 && reason !=null) {
                     resultDao.updateProcessKeyAndReason(processKey, reason, balkNoListForProcess);
                 }
             }

@@ -16,4 +16,12 @@ public interface ContentKeyService {
      * @return
      */
     List<ContentKey> queryAllOrderByPriority();
+
+    List<ContentKey> queryProcessKey();
+
+    List<ContentKey> queryLikeContentKey(String content_key);
+
+    List<ContentKey> queryLikeProcessKey(String process_key);
+
+    List<ContentKey> queryLikeContentKeyAndProcessKey(String content_key,String process_key);
 }

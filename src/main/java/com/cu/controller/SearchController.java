@@ -3,7 +3,6 @@ package com.cu.controller;
 import com.cu.model.Problem;
 import com.cu.model.Result;
 import com.cu.service.BalkService;
-import com.cu.service.DictService;
 import com.cu.service.ProblemService;
 import com.cu.service.ResultService;
 import com.cu.util.json.DataJson;
@@ -35,8 +34,7 @@ import java.util.List;
 @Controller
 @RequestMapping("")
 public class SearchController {
-    @Autowired
-    private DictService dictService;
+    
     @Autowired
     private ProblemService problemService;
     @Autowired

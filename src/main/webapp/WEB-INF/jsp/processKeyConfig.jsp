@@ -1,14 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: Zyq
-  Date: 2017/11/9
-  Time: 14:03
+  Date: 2017/11/15
+  Time: 14:21
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>申告内容关键字配置</title>
+    <title>处理过程关键字配置</title>
 </head>
 <body>
 <%@ include file="common/header.jsp" %>
@@ -22,14 +22,14 @@
                         <div class="panel-heading">查询条件</div>
                         <div class="panel-body">
                             <form id="formSearch" class="form-horizontal">
-                                <label class="control-label col-sm-1" for="search_problem">故障现象</label>
-                                <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="search_problem" name="problem"
-                                           placeholder="支持模糊查询">
-                                </div>
                                 <label class="control-label col-sm-1" for="search_content_key">申告内容关键字</label>
                                 <div class="col-sm-2">
                                     <input type="text" class="form-control" id="search_content_key" name="content_key"
+                                           placeholder="支持模糊查询">
+                                </div>
+                                <label class="control-label col-sm-1" for="search_process_key">处理过程关键字</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" id="search_process_key" name="process_key"
                                            placeholder="支持模糊查询">
                                 </div>
                                 <div class="col-sm-2" style="text-align:left;">
@@ -44,11 +44,8 @@
                         <button id="btn_refresh" type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>&nbsp;&nbsp;刷新
                         </button>
-                        <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#content-key-modal">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;&nbsp;新增
-                        </button>
                     </div>
-                    <table id="content_key_config" class="table table-hover table-bordered"></table>
+                    <table id="process_key_config" class="table table-hover table-bordered"></table>
                     <a href="<%=ctx%>/searchTable?problem_id=&problem='2323' ">测试后台</a>
                     <c:if test="${msg != null}">
                         <p id="msg" style="display: none">${msg}</p>
@@ -67,9 +64,9 @@
         initTable();
     });
     function initTable() {
-        var url = "<%=ctx%>/ckConfigTable";
-        $("#content_key_config").bootstrapTable("destroy");
-        var bootstrapTable = $("#content_key_config").bootstrapTable({
+        var url = "<%=ctx%>/pkConfigTable";
+        $("#process_key_config").bootstrapTable("destroy");
+        var bootstrapTable = $("#process_key_config").bootstrapTable({
             url: url,
             method: "get",
             dataType: "json",
@@ -101,16 +98,11 @@
                     checkbox: true
                 },
                 {
-                    field: "problem_id",
-                    title: "故障现象编号(0表示未配置)",
+                    field: "content_key_id",
+                    title: "申告内容关键字编号(0表示未配置)",
                     width: 10,
                     align: 'center',
                     valign: 'center'
-                },
-                {
-                    field: "problem",
-                    title: "故障现象名称",
-                    halign: "center"
                 },
                 {
                     field: "content_key",
@@ -118,9 +110,19 @@
                     halign: "center"
                 },
                 {
-                    field: "content_priority",
-                    title: "申告内容优先级",
+                    field: "process_key",
+                    title: "处理过程关键字",
+                    halign: "center"
+                },
+                {
+                    field: "process_priority",
+                    title: "处理过程优先级",
                     align: "center",
+                    halign: "center"
+                },
+                {
+                    field: "reason",
+                    title: "故障原因",
                     halign: "center"
                 },
                 {
@@ -129,7 +131,7 @@
                     align: "center",
                     halign: "center",
                     formatter: function (index, row) {
-                        return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\">编辑" + row["problem_id"] + "<span class=\"glyphicon glyphicon-pencil\"></span></button> ";
+                        return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\">编辑" + row["content_key_id"] + "<span class=\"glyphicon glyphicon-pencil\"></span></button> ";
                     }
                 }
             ]
@@ -148,47 +150,13 @@
         return param;
     }
     $("#btn_query").click(function () {
-        var p = $("#search_problem").val();
+        var pk = $("#search_process_key").val();
         var ck = $("#search_content_key").val();
-        $("#content_key_config").bootstrapTable('refresh', {
-            url: "<%=ctx%>/ckConfigSearchTable",
-            query: {problem: p, content_key: ck,pageNum:this.pageNumber,pageSize:this.pageSize}
+        $("#process_key_config").bootstrapTable('refresh', {
+            url: "<%=ctx%>/pkConfigSearchTable",
+            query: {process_key: pk, content_key: ck}
         })
     });
-    $("#btn_add").click(function () {
-
-    })
 </script>
-<div class="modal fade contentKeyModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="content-key-modal">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">配置申告内容关键字</h4>
-            </div>
-            <form action="<%=ctx%>/addContentKey" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="add_problem">故障现象</label>
-                        <input type="text" name="problem" class="form-control" id="add_problem">
-                    </div>
-                    <div class="form-group">
-                        <label for="add_content_key">申告内容关键字</label>
-                        <input type="text" name="content_key" class="form-control" id="add_content_key">
-                    </div>
-                    <div class="form-group ">
-                        <label for="add_content_priority">申告内容优先级</label>
-                        <input type="text" name="content_priority" class="form-control" id="add_content_priority">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-primary">保存</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 </body>
 </html>
