@@ -42,6 +42,11 @@
         WHERE  problem_id = #{problem_id}
     </select>
 
+    <select id="queryByProblem" resultMap="Problem">
+        SELECT * FROM problem
+        WHERE problem = #{problem}
+    </select>
+
     <select id="queryLike" resultMap="Problem">
         SELECT * FROM  problem AS p
         WHERE p.problem LIKE  '%${problem}%'
@@ -92,5 +97,9 @@
        WHERE p.problem LIKE '%${problem}%'
        ORDER BY p.problem_id,c.content_priority
     </select>
+
+    <insert id="insertProblem">
+        INSERT INTO problem(problem) VALUES (#{problem})
+    </insert>
 
 </mapper>

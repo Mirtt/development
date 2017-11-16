@@ -63,6 +63,14 @@
 <script src="<%=ctx%>/js/bootstrap.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-table.js"></script>
 <script type="text/javascript">
+    //打出后台的msg错误信息
+    $(function () {
+        var msg = $("p#msg").text();
+        if (msg != null && msg != "") {
+            alert(msg);
+        }
+    });
+
     $(function () {
         initTable();
     });
@@ -129,8 +137,12 @@
                     align: "center",
                     halign: "center",
                     formatter: function (index, row) {
-                        return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\">编辑" + row["problem_id"] + "<span class=\"glyphicon glyphicon-pencil\"></span></button> ";
+                        return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\">编辑" + row["content_key_id"] + "<span class=\"glyphicon glyphicon-pencil\"></span></button> ";
                     }
+                },
+                {
+                    field:"content_key_id",
+                    visible:false
                 }
             ]
         });
@@ -171,7 +183,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="add_problem">故障现象</label>
-                        <input type="text" name="problem" class="form-control" id="add_problem">
+                        <input type="text" name="problem" class="form-control" id="add_problem" required="required">
                     </div>
                     <div class="form-group">
                         <label for="add_content_key">申告内容关键字</label>

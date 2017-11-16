@@ -43,4 +43,8 @@ public interface ProblemService {
     List<Problem> queryLikeContentKey(String content_key);
 
     List<Problem> queryLikeProblem(String problem);
+
+    Problem queryByProblem(String problem);
+
+    void insertProblem(String problem);
 }

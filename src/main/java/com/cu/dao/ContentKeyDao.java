@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 申告内容关键字表数据库操作接口
@@ -47,4 +48,21 @@ public interface ContentKeyDao {
      * @return
      */
     List<ContentKey> queryLikeContentKeyAndProcessKey(@Param("content_key") String content_key,@Param("process_key")String process_key);
+
+    /**
+     * 插入新的申告内容关键字
+     * @param content_key
+     * @param content_priority
+     * @param problem_id
+     */
+    void insertContentKey(@Param("content_key")String content_key,@Param("content_priority")int content_priority, @Param("problem_id")int problem_id);
+
+    /**
+     * 查询故障现象下比指定优先级小的所有数据
+     * @param problem_id
+     * @return
+     */
+    List<ContentKey> queryByProblemId(@Param("problem_id")int problem_id,@Param("content_priority")int content_priority);
+
+    void updateContentPriority(@Param("content_key_map")Map<Integer,Integer> contentKeyMap);
 }

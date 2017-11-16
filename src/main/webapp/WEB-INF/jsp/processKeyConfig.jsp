@@ -131,8 +131,12 @@
                     align: "center",
                     halign: "center",
                     formatter: function (index, row) {
-                        return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\">编辑" + row["content_key_id"] + "<span class=\"glyphicon glyphicon-pencil\"></span></button> ";
+                        return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\">编辑" + row["process_key_id"] + "<span class=\"glyphicon glyphicon-pencil\"></span></button> ";
                     }
+                },
+                {
+                    field:"process_key_id",
+                    visible:false
                 }
             ]
         });

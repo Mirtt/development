@@ -72,4 +72,8 @@ public interface ProblemDao {
     List<Problem> queryLikeContentKey(@Param("content_key")String content_key);
 
     List<Problem> queryLikeProblem(@Param("problem")String problem);
+
+    Problem queryByProblem(@Param("problem")String problem);
+
+    void insertProblem(@Param("problem")String problem);
 }

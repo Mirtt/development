@@ -11,13 +11,16 @@ import com.cu.util.json.DataJson;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 配置页面控制器
@@ -60,6 +63,7 @@ public class ConfigController {
                 stat.setProcess_key(p.getProcess_key());
                 stat.setProcess_priority(p.getProcess_priority());
                 stat.setReason(p.getReason());
+                stat.setProcess_key_id(p.getProcess_key_id());
                 rows.add(stat);
                 total += 1;
             }
@@ -90,6 +94,7 @@ public class ConfigController {
                     stat.setProcess_key(p.getProcess_key());
                     stat.setProcess_priority(p.getProcess_priority());
                     stat.setReason(p.getReason());
+                    stat.setProcess_key_id(p.getProcess_key_id());
                     rows.add(stat);
                     total += 1;
                 }
@@ -107,6 +112,7 @@ public class ConfigController {
                     stat.setProcess_key(p.getProcess_key());
                     stat.setProcess_priority(p.getProcess_priority());
                     stat.setReason(p.getReason());
+                    stat.setProcess_key_id(p.getProcess_key_id());
                     rows.add(stat);
                     total += 1;
                 }
@@ -124,6 +130,7 @@ public class ConfigController {
                     stat.setProcess_key(p.getProcess_key());
                     stat.setProcess_priority(p.getProcess_priority());
                     stat.setReason(p.getReason());
+                    stat.setProcess_key_id(p.getProcess_key_id());
                     rows.add(stat);
                     total += 1;
                 }
@@ -154,6 +161,7 @@ public class ConfigController {
                     stat.setProblem(p.getProblem());
                     stat.setContent_key(c.getContent_key());
                     stat.setContent_priority(c.getContent_priority());
+                    stat.setContent_key_id(c.getContent_key_id());
                     rows.add(stat);
                     total += 1;
                 }
@@ -170,6 +178,7 @@ public class ConfigController {
                     stat.setProblem(p.getProblem());
                     stat.setContent_key(c.getContent_key());
                     stat.setContent_priority(c.getContent_priority());
+                    stat.setContent_key_id(c.getContent_key_id());
                     rows.add(stat);
                     total += 1;
                 }
@@ -186,6 +195,7 @@ public class ConfigController {
                     stat.setProblem(p.getProblem());
                     stat.setContent_key(c.getContent_key());
                     stat.setContent_priority(c.getContent_priority());
+                    stat.setContent_key_id(c.getContent_key_id());
                     rows.add(stat);
                     total += 1;
                 }
@@ -213,6 +223,7 @@ public class ConfigController {
                 stat.setProblem(p.getProblem());
                 stat.setContent_key(c.getContent_key());
                 stat.setContent_priority(c.getContent_priority());
+                stat.setContent_key_id(c.getContent_key_id());
                 rows.add(stat);
                 total += 1;
             }
@@ -224,8 +235,57 @@ public class ConfigController {
 
     @RequestMapping(value = "/addContentKey",method = RequestMethod.POST)
     public String addContentKey(@RequestParam(value = "problem")String problem,
-                              @RequestParam(required = false,value = "content_key")String content_key,
-                              @RequestParam(required = false,value = "content_priority")String content_priority){
-        return "contentKeyConfig";
+                                @RequestParam(required = false,value = "content_key")String content_key,
+                                @RequestParam(required = false,value = "content_priority")String content_priority,
+                                Model model){
+        Problem p =problemService.queryByProblem(problem);
+        //先判断是否存在关键字和优先级参数 如果不存在则添加故障现象
+        if ((content_key == null||content_key.trim().equals(""))&&(content_priority==null||content_priority.trim().equals(""))){
+            if (p == null ){
+                //没有对应故障现象 创建新的故障现象
+                problemService.insertProblem(problem);
+                model.addAttribute("msg","添加成功");
+                return "search";
+            }else{
+                model.addAttribute("msg","故障现象已存在");
+                return "search";
+            }
+        }
+        //存在关键字和优先级参数 则添加故障现象----关键字----优先级的对应关系
+        if (content_key!=null&&!content_key.trim().equals("")&&content_priority!=null&&!content_priority.trim().equals("")){
+            content_key=content_key.trim();
+            content_priority=content_priority.trim();
+            if (p==null){
+                //没有对应故障现象 创建新的故障现象并且建立关系
+                problemService.insertProblem(problem);
+                Problem tempP=problemService.queryByProblem(problem);
+                contentKeyService.insertContentKey(content_key,Integer.parseInt(content_priority),tempP.getProblem_id());
+                model.addAttribute("msg","添加成功");
+                return "contentKeyConfig";
+            }else {
+                //判断已有现象下是否存在该优先级 若存在则插入到该优先级其余优先级向后加一，不存在则直接添加
+                int pid=p.getProblem_id();
+                int cp=Integer.parseInt(content_priority);
+                List<ContentKey> contentKeyList=contentKeyService.queryByProblemId(pid,cp);
+                if (contentKeyList.get(0).getContent_priority() == cp){
+                    Map<Integer,Integer> contentKeyMap=new HashMap<>(16);// id--priority 对应关系
+                    for (ContentKey c:contentKeyList){
+                        c.setContent_priority(c.getContent_priority()+1);
+                        contentKeyMap.put(c.getContent_key_id(),c.getContent_priority());
+                    }
+                    contentKeyService.updateContentPriority(contentKeyMap);
+                    contentKeyService.insertContentKey(content_key,Integer.parseInt(content_priority),p.getProblem_id());
+                    model.addAttribute("msg","添加成功");
+                    return "contentKeyConfig";
+                }else {
+                    contentKeyService.insertContentKey(content_key,Integer.parseInt(content_priority),p.getProblem_id());
+                    model.addAttribute("msg","添加成功");
+                    return "contentKeyConfig";
+                }
+            }
+        }else {
+            model.addAttribute("msg","请重新填写关键字和故障现象");
+            return "contentKeyConfig";
+        }
     }
 }

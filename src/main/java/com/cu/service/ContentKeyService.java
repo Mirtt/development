@@ -3,6 +3,7 @@ package com.cu.service;
 import com.cu.model.ContentKey;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 申告内容关键字业务逻辑接口
@@ -24,4 +25,10 @@ public interface ContentKeyService {
     List<ContentKey> queryLikeProcessKey(String process_key);
 
     List<ContentKey> queryLikeContentKeyAndProcessKey(String content_key,String process_key);
+
+    void insertContentKey(String content_key,int content_priority,int problem_id);
+
+    List<ContentKey> queryByProblemId(int problem_id,int content_priority);
+
+    void updateContentPriority(Map<Integer,Integer> contentKeyMap);
 }

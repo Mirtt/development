@@ -60,4 +60,22 @@
        AND  c.content_key LIKE  '%${content_key}%'
        ORDER BY c.content_key_id,p.process_priority
     </select>
+    
+    <insert id="insertContentKey">
+        INSERT INTO content_key(content_key, content_priority, problem_id) VALUES (#{content_key},#{content_priority},#{problem_id})
+    </insert>
+
+    <select id="queryByProblemId" resultMap="ContentKey">
+        SELECT * FROM  content_key
+        WHERE problem_id=#{problem_id} AND content_priority >= #{content_priority}
+        ORDER BY content_priority
+    </select>
+
+    <update id="updateContentPriority" parameterType="java.util.Map">
+        <foreach collection="content_key_map" item="value" index="key" separator=";">
+            UPDATE content_key
+            SET content_priority=#{value}
+            WHERE content_key_id=#{key}
+        </foreach>
+    </update>
 </mapper>
