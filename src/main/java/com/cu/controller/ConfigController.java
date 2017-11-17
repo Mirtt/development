@@ -7,6 +7,7 @@ import com.cu.model.ProcessKey;
 import com.cu.model.stat.Stat;
 import com.cu.service.ContentKeyService;
 import com.cu.service.ProblemService;
+import com.cu.service.ProcessKeyService;
 import com.cu.util.json.DataJson;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 配置页面控制器
@@ -34,13 +32,15 @@ public class ConfigController {
     private ProblemService problemService;
     @Autowired
     private ContentKeyService contentKeyService;
+    @Autowired
+    private ProcessKeyService processKeyService;
 
-    @RequestMapping(value = "/ckConfig", method = RequestMethod.GET)
+    @RequestMapping(value = "/ckConfig")
     public String ckConfig() {
         return "contentKeyConfig";
     }
 
-    @RequestMapping(value = "/pkConfig", method = RequestMethod.GET)
+    @RequestMapping(value = "/pkConfig")
     public String pkConfig() {
         return "processKeyConfig";
     }
@@ -50,9 +50,13 @@ public class ConfigController {
     public DataJson pkConfigTable(@RequestParam(defaultValue = "1") Integer pageNum,
                                   @RequestParam(defaultValue = "10") Integer pageSize) {
         DataJson dataJson = new DataJson();
+        int total=0;
         PageHelper.startPage(pageNum, pageSize);
         List<ContentKey> contentKeyList = contentKeyService.queryProcessKey();
-        int total = 0;
+        List<ContentKey> totalList = contentKeyService.queryProcessKey();
+        for (ContentKey c:totalList){
+          total+=c.getProcessKeyList().size();
+        }
         List<Stat> rows = new ArrayList<>(16);
         for (ContentKey c : contentKeyList) {
             List<ProcessKey> processKeyList = c.getProcessKeyList();
@@ -65,7 +69,6 @@ public class ConfigController {
                 stat.setReason(p.getReason());
                 stat.setProcess_key_id(p.getProcess_key_id());
                 rows.add(stat);
-                total += 1;
             }
         }
         dataJson.setTotal(total);
@@ -81,10 +84,14 @@ public class ConfigController {
                                         @RequestParam(defaultValue = "10") Integer pageSize) {
         DataJson dataJson = new DataJson();
         List<Stat> rows = new ArrayList<>(16);
-        int total = 0;
+        int total=0;
         if (content_key != null && !content_key.equals("") && (process_key == null || process_key.equals(""))) {
-            PageHelper.startPage(pageNum,pageSize);
+            PageHelper.startPage(pageNum, pageSize);
             List<ContentKey> contentKeyList = contentKeyService.queryLikeContentKey(content_key);
+            List<ContentKey> totalList = contentKeyService.queryLikeContentKey(content_key);
+            for (ContentKey c:totalList){
+                total+=c.getProcessKeyList().size();
+            }
             for (ContentKey c : contentKeyList) {
                 List<ProcessKey> processKeyList = c.getProcessKeyList();
                 for (ProcessKey p : processKeyList) {
@@ -96,13 +103,16 @@ public class ConfigController {
                     stat.setReason(p.getReason());
                     stat.setProcess_key_id(p.getProcess_key_id());
                     rows.add(stat);
-                    total += 1;
                 }
             }
         }
         if (process_key != null && !process_key.equals("") && (content_key == null || content_key.equals(""))) {
-            PageHelper.startPage(pageNum,pageSize);
+            PageHelper.startPage(pageNum, pageSize);
             List<ContentKey> contentKeyList = contentKeyService.queryLikeProcessKey(process_key);
+            List<ContentKey> totalList = contentKeyService.queryLikeProcessKey(process_key);
+            for (ContentKey c:totalList){
+                total+=c.getProcessKeyList().size();
+            }
             for (ContentKey c : contentKeyList) {
                 List<ProcessKey> processKeyList = c.getProcessKeyList();
                 for (ProcessKey p : processKeyList) {
@@ -114,13 +124,16 @@ public class ConfigController {
                     stat.setReason(p.getReason());
                     stat.setProcess_key_id(p.getProcess_key_id());
                     rows.add(stat);
-                    total += 1;
                 }
             }
         }
         if (content_key != null && !content_key.equals("") && process_key != null && !process_key.equals("")) {
-            PageHelper.startPage(pageNum,pageSize);
+            PageHelper.startPage(pageNum, pageSize);
             List<ContentKey> contentKeyList = contentKeyService.queryLikeContentKeyAndProcessKey(content_key, process_key);
+            List<ContentKey> totalList = contentKeyService.queryLikeContentKeyAndProcessKey(content_key, process_key);
+            for (ContentKey c:totalList){
+                total+=c.getProcessKeyList().size();
+            }
             for (ContentKey c : contentKeyList) {
                 List<ProcessKey> processKeyList = c.getProcessKeyList();
                 for (ProcessKey p : processKeyList) {
@@ -132,7 +145,6 @@ public class ConfigController {
                     stat.setReason(p.getReason());
                     stat.setProcess_key_id(p.getProcess_key_id());
                     rows.add(stat);
-                    total += 1;
                 }
             }
         }
@@ -153,6 +165,10 @@ public class ConfigController {
         if (problem != null && !problem.equals("") && (content_key == null || content_key.equals(""))) {
             PageHelper.startPage(pageNum, pageSize);
             List<Problem> problemList = problemService.queryLikeProblem(problem);
+            List<Problem> totalList = problemService.queryLikeProblem(problem);
+            for (Problem p:totalList){
+                total+=p.getContentKeyList().size();
+            }
             for (Problem p : problemList) {
                 List<ContentKey> contentKeyList = p.getContentKeyList();
                 for (ContentKey c : contentKeyList) {
@@ -163,13 +179,16 @@ public class ConfigController {
                     stat.setContent_priority(c.getContent_priority());
                     stat.setContent_key_id(c.getContent_key_id());
                     rows.add(stat);
-                    total += 1;
                 }
             }
         }
         if (content_key != null && !content_key.equals("") && (problem == null || problem.equals(""))) {
             PageHelper.startPage(pageNum, pageSize);
             List<Problem> problemList = problemService.queryLikeContentKey(content_key);
+            List<Problem> totalList = problemService.queryLikeContentKey(content_key);
+            for (Problem p:totalList){
+                total+=p.getContentKeyList().size();
+            }
             for (Problem p : problemList) {
                 List<ContentKey> contentKeyList = p.getContentKeyList();
                 for (ContentKey c : contentKeyList) {
@@ -180,13 +199,16 @@ public class ConfigController {
                     stat.setContent_priority(c.getContent_priority());
                     stat.setContent_key_id(c.getContent_key_id());
                     rows.add(stat);
-                    total += 1;
                 }
             }
         }
         if (problem != null && !problem.equals("") && content_key != null && !content_key.equals("")) {
             PageHelper.startPage(pageNum, pageSize);
             List<Problem> problemList = problemService.queryLikeProblemAndContentKey(problem, content_key);
+            List<Problem>  totalList = problemService.queryLikeProblemAndContentKey(problem, content_key);
+            for (Problem p:totalList){
+                total+=p.getContentKeyList().size();
+            }
             for (Problem p : problemList) {
                 List<ContentKey> contentKeyList = p.getContentKeyList();
                 for (ContentKey c : contentKeyList) {
@@ -197,10 +219,10 @@ public class ConfigController {
                     stat.setContent_priority(c.getContent_priority());
                     stat.setContent_key_id(c.getContent_key_id());
                     rows.add(stat);
-                    total += 1;
                 }
             }
         }
+        Collections.sort(rows);
         dataJson.setTotal(total);
         dataJson.setRows(rows);
         return dataJson;
@@ -211,9 +233,13 @@ public class ConfigController {
     public DataJson ckConfigTable(@RequestParam(defaultValue = "1") Integer pageNum,
                                   @RequestParam(defaultValue = "10") Integer pageSize) {
         DataJson dataJson = new DataJson();
+        int total=0;
         PageHelper.startPage(pageNum, pageSize);
         List<Problem> problemList = problemService.queryContentKey();
-        int total = 0;
+        List<Problem>  totalList = problemService.queryContentKey();
+        for (Problem p:totalList){
+            total+=p.getContentKeyList().size();
+        }
         List<Stat> rows = new ArrayList<>(16);
         for (Problem p : problemList) {
             List<ContentKey> contentKeyList = p.getContentKeyList();
@@ -225,67 +251,77 @@ public class ConfigController {
                 stat.setContent_priority(c.getContent_priority());
                 stat.setContent_key_id(c.getContent_key_id());
                 rows.add(stat);
-                total += 1;
             }
         }
+        Collections.sort(rows);
         dataJson.setTotal(total);
         dataJson.setRows(rows);
         return dataJson;
     }
 
-    @RequestMapping(value = "/addContentKey",method = RequestMethod.POST)
-    public String addContentKey(@RequestParam(value = "problem")String problem,
-                                @RequestParam(required = false,value = "content_key")String content_key,
-                                @RequestParam(required = false,value = "content_priority")String content_priority,
-                                Model model){
-        Problem p =problemService.queryByProblem(problem);
+    @RequestMapping(value = "/addContentKey", method = RequestMethod.POST)
+    public String addContentKey(@RequestParam(value = "problem") String problem,
+                                @RequestParam(required = false, value = "content_key") String content_key,
+                                @RequestParam(required = false, value = "content_priority") String content_priority,
+                                Model model) {
+        Problem p = problemService.queryByProblem(problem);
         //先判断是否存在关键字和优先级参数 如果不存在则添加故障现象
-        if ((content_key == null||content_key.trim().equals(""))&&(content_priority==null||content_priority.trim().equals(""))){
-            if (p == null ){
+        if ((content_key == null || content_key.trim().equals("")) && (content_priority == null || content_priority.trim().equals(""))) {
+            if (p == null) {
                 //没有对应故障现象 创建新的故障现象
                 problemService.insertProblem(problem);
-                model.addAttribute("msg","添加成功");
+                model.addAttribute("msg", "添加成功");
                 return "search";
-            }else{
-                model.addAttribute("msg","故障现象已存在");
+            } else {
+                model.addAttribute("msg", "故障现象已存在");
                 return "search";
             }
         }
         //存在关键字和优先级参数 则添加故障现象----关键字----优先级的对应关系
-        if (content_key!=null&&!content_key.trim().equals("")&&content_priority!=null&&!content_priority.trim().equals("")){
-            content_key=content_key.trim();
-            content_priority=content_priority.trim();
-            if (p==null){
+        if (content_key != null && !content_key.trim().equals("") && content_priority != null && !content_priority.trim().equals("")) {
+            content_key = content_key.trim();
+            content_priority = content_priority.trim();
+            //判断是否存在该优先级 若存在则插入到该优先级其余优先级向后加一，不存在则直接添加
+            int cp = Integer.parseInt(content_priority);
+            List<ContentKey> contentKeyList = contentKeyService.queryByPriority(cp);
+            if (contentKeyList.get(0).getContent_priority() == cp) {
+                Map<Integer, Integer> contentKeyMap = new HashMap<>(16);// id--priority 对应关系
+                for (ContentKey c : contentKeyList) {
+                    c.setContent_priority(c.getContent_priority() + 1);
+                    contentKeyMap.put(c.getContent_key_id(), c.getContent_priority());
+                }
+                contentKeyService.updateContentPriority(contentKeyMap);
+            }
+            if (p == null) {
                 //没有对应故障现象 创建新的故障现象并且建立关系
                 problemService.insertProblem(problem);
-                Problem tempP=problemService.queryByProblem(problem);
-                contentKeyService.insertContentKey(content_key,Integer.parseInt(content_priority),tempP.getProblem_id());
-                model.addAttribute("msg","添加成功");
+                Problem tempP = problemService.queryByProblem(problem);
+                contentKeyService.insertContentKey(content_key, Integer.parseInt(content_priority), tempP.getProblem_id());
+                model.addAttribute("msg", "添加成功");
                 return "contentKeyConfig";
-            }else {
-                //判断已有现象下是否存在该优先级 若存在则插入到该优先级其余优先级向后加一，不存在则直接添加
-                int pid=p.getProblem_id();
-                int cp=Integer.parseInt(content_priority);
-                List<ContentKey> contentKeyList=contentKeyService.queryByProblemId(pid,cp);
-                if (contentKeyList.get(0).getContent_priority() == cp){
-                    Map<Integer,Integer> contentKeyMap=new HashMap<>(16);// id--priority 对应关系
-                    for (ContentKey c:contentKeyList){
-                        c.setContent_priority(c.getContent_priority()+1);
-                        contentKeyMap.put(c.getContent_key_id(),c.getContent_priority());
-                    }
-                    contentKeyService.updateContentPriority(contentKeyMap);
-                    contentKeyService.insertContentKey(content_key,Integer.parseInt(content_priority),p.getProblem_id());
-                    model.addAttribute("msg","添加成功");
-                    return "contentKeyConfig";
-                }else {
-                    contentKeyService.insertContentKey(content_key,Integer.parseInt(content_priority),p.getProblem_id());
-                    model.addAttribute("msg","添加成功");
-                    return "contentKeyConfig";
-                }
+            } else {
+                contentKeyService.insertContentKey(content_key, Integer.parseInt(content_priority), p.getProblem_id());
+                model.addAttribute("msg", "添加成功");
+                return "contentKeyConfig";
             }
-        }else {
-            model.addAttribute("msg","请重新填写关键字和故障现象");
+        } else {
+            model.addAttribute("msg", "请重新填写关键字和故障现象");
             return "contentKeyConfig";
         }
+    }
+
+    //todo add process_key
+    @RequestMapping(value = "/addProcessKey",method = RequestMethod.POST)
+    public String addProcessKey(@RequestParam(value = "content_key_id")int cid,
+                                @RequestParam(value = "process_key")String process_key,
+                                @RequestParam(value = "process_priority")int process_priority,
+                                @RequestParam(value = "reason",required = false)String reason,
+                                Model model){
+        List<ProcessKey> processKeyList=processKeyService.queryAllByPriority(cid);
+        if (processKeyList==null || processKeyList.size()==0){
+            model.addAttribute("msg","请输入正确的");
+            return "processKeyConfig";
+        }
+        return null;
     }
 }

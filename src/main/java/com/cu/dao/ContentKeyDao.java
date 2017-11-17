@@ -59,10 +59,9 @@ public interface ContentKeyDao {
 
     /**
      * 查询故障现象下比指定优先级小的所有数据
-     * @param problem_id
      * @return
      */
-    List<ContentKey> queryByProblemId(@Param("problem_id")int problem_id,@Param("content_priority")int content_priority);
+    List<ContentKey> queryByPriority(@Param("content_priority")int content_priority);
 
     void updateContentPriority(@Param("content_key_map")Map<Integer,Integer> contentKeyMap);
 }

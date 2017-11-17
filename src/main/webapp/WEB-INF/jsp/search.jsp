@@ -110,7 +110,7 @@
             pagination: true,//是否显示分页（*）
             pageSize: 10,//每页的记录行数（*）
             pageNumber: 1,//初始化加载第一页，默认第一页
-            pageList: [10,25,50,100],//可供选择的每页的行数（*）
+            pageList: [10,25,50,'All'],//可供选择的每页的行数（*）
             height: 500,
             width: $(window).width(),
             showColumns: false,//是否自定义显示列

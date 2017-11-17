@@ -28,7 +28,7 @@ public interface ContentKeyService {
 
     void insertContentKey(String content_key,int content_priority,int problem_id);
 
-    List<ContentKey> queryByProblemId(int problem_id,int content_priority);
+    List<ContentKey> queryByPriority(int content_priority);
 
     void updateContentPriority(Map<Integer,Integer> contentKeyMap);
 }

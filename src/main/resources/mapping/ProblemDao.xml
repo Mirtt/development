@@ -64,7 +64,7 @@
        FROM content_key AS c
        LEFT OUTER JOIN problem AS p
        ON p.problem_id=c.problem_id
-       ORDER BY p.problem_id,c.content_priority
+       ORDER BY c.content_priority
     </select>
 
     <select id="queryLikeProblemAndContentKey" resultMap="Problem">
@@ -75,7 +75,7 @@
        ON p.problem_id=c.problem_id
        WHERE p.problem LIKE '%${problem}%'
        AND c.content_key LIKE '%${content_key}%'
-       ORDER BY p.problem_id,c.content_priority
+       ORDER BY c.content_priority
     </select>
 
     <select id="queryLikeContentKey" resultMap="Problem">
@@ -85,7 +85,7 @@
        LEFT OUTER JOIN problem AS p
        ON p.problem_id=c.problem_id
        WHERE c.content_key LIKE '%${content_key}%'
-       ORDER BY p.problem_id,c.content_priority
+       ORDER BY c.content_priority
     </select>
 
     <select id="queryLikeProblem" resultMap="Problem">
@@ -95,7 +95,7 @@
        LEFT OUTER JOIN problem AS p
        ON p.problem_id=c.problem_id
        WHERE p.problem LIKE '%${problem}%'
-       ORDER BY p.problem_id,c.content_priority
+       ORDER BY c.content_priority
     </select>
 
     <insert id="insertProblem">

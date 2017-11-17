@@ -50,8 +50,8 @@ public class ContentKeyServiceImpl implements ContentKeyService {
     }
 
     @Override
-    public List<ContentKey> queryByProblemId(int problem_id, int content_priority) {
-        return contentKeyDao.queryByProblemId(problem_id,content_priority);
+    public List<ContentKey> queryByPriority( int content_priority) {
+        return contentKeyDao.queryByPriority(content_priority);
     }
 
     @Override

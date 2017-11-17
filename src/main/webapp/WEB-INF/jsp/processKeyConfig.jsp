@@ -44,6 +44,9 @@
                         <button id="btn_refresh" type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>&nbsp;&nbsp;刷新
                         </button>
+                        <button id="btn_add" type="button" class="btn btn-default" data-toggle="modal" data-target="#process-key-modal">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;&nbsp;新增
+                        </button>
                     </div>
                     <table id="process_key_config" class="table table-hover table-bordered"></table>
                     <a href="<%=ctx%>/searchTable?problem_id=&problem='2323' ">测试后台</a>
@@ -79,7 +82,7 @@
             pagination: true,//是否显示分页（*）
             pageNumber: 1,//初始化加载第一页，默认第一页
             pageSize: 10,//每页的记录行数（*）
-            pageList: [10, 25, 50, 100],//可供选择的每页的行数（*）
+            pageList: [10, 25, 50, 'All'],//可供选择的每页的行数（*）
             height: 500,
             width: $(window).width(),
             showColumns: false,//是否自定义显示列
@@ -162,5 +165,40 @@
         })
     });
 </script>
+<div class="modal fade contentKeyModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="process-key-modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">配置处理过程关键字</h4>
+            </div>
+            <form action="<%=ctx%>/addProcessKey" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="add_content_key_id">申告内容关键字id</label>
+                        <input type="text" name="content_key_id" class="form-control" id="add_content_key_id" required="required" pattern="[1-9][0-9]*" title="请输入数字id">
+                    </div>
+                    <div class="form-group">
+                        <label for="add_process_key">处理过程关键字</label>
+                        <input type="text" name="process_key" class="form-control" id="add_process_key" required="required">
+                    </div>
+                    <div class="form-group ">
+                        <label for="add_process_priority">处理过程优先级</label>
+                        <input type="text" name="process_priority" class="form-control" id="add_process_priority" required="required" pattern="[1-9][0-9]*" title="请输入整数">
+                    </div>
+                    <div class="form-group ">
+                        <label for="add_reason">故障原因</label>
+                        <input type="text" name="reason" class="form-control" id="add_reason">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

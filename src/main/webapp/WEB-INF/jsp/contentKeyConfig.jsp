@@ -90,7 +90,7 @@
             pagination: true,//是否显示分页（*）
             pageNumber: 1,//初始化加载第一页，默认第一页
             pageSize: 10,//每页的记录行数（*）
-            pageList: [10, 25, 50, 100],//可供选择的每页的行数（*）
+            pageList: [10, 25, 50, 'All'],//可供选择的每页的行数（*）
             height: 500,
             width: $(window).width(),
             showColumns: false,//是否自定义显示列
@@ -129,7 +129,8 @@
                     field: "content_priority",
                     title: "申告内容优先级",
                     align: "center",
-                    halign: "center"
+                    halign: "center",
+                    sortalbe:true
                 },
                 {
                     field: "operation",
@@ -191,7 +192,7 @@
                     </div>
                     <div class="form-group ">
                         <label for="add_content_priority">申告内容优先级</label>
-                        <input type="text" name="content_priority" class="form-control" id="add_content_priority">
+                        <input type="text" name="content_priority" class="form-control" id="add_content_priority" pattern="^[1-9]\d*$" title="请输入整数">
                     </div>
                 </div>
                 <div class="modal-footer">

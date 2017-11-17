@@ -22,39 +22,39 @@
     </select>
 
     <select id="queryProcessKey" resultMap="ContentKey">
-        SELECT ifnull(c.content_key_id,"0") AS content_key_id , ifnull(c.content_key,"暂无") AS content_key,
-       p.process_key_id AS process_key_id, p.process_key AS process_key,p.reason AS reason, p.process_priority AS process_priority
-       FROM process_key AS p
-       LEFT OUTER JOIN content_key AS c
+       SELECT c.content_key_id AS content_key_id , c.content_key AS content_key,
+       ifnull(p.process_key_id,"0") AS process_key_id,ifnull(p.process_key,"暂无") AS process_key,ifnull(p.reason,"暂无") AS reason, ifnull(p.process_priority,"0") AS process_priority
+       FROM content_key AS c
+       LEFT OUTER JOIN process_key AS p
        ON p.content_key_id=c.content_key_id
        ORDER BY c.content_key_id,p.process_priority
     </select>
     
     <select id="queryLikeContentKey" resultMap="ContentKey">
-        SELECT ifnull(c.content_key_id,"0") AS content_key_id , ifnull(c.content_key,"暂无") AS content_key,
-       p.process_key_id AS process_key_id, p.process_key AS process_key,p.reason AS reason, p.process_priority AS process_priority
-       FROM process_key AS p
-       LEFT OUTER JOIN content_key AS c
+       SELECT c.content_key_id AS content_key_id , c.content_key AS content_key,
+       ifnull(p.process_key_id,"0") AS process_key_id,ifnull(p.process_key,"暂无") AS process_key,ifnull(p.reason,"暂无") AS reason, ifnull(p.process_priority,"0") AS process_priority
+       FROM content_key AS c
+       LEFT OUTER JOIN process_key AS p
        ON p.content_key_id=c.content_key_id
        WHERE c.content_key LIKE '%${content_key}%'
        ORDER BY c.content_key_id,p.process_priority
     </select>
 
     <select id="queryLikeProcessKey" resultMap="ContentKey">
-        SELECT ifnull(c.content_key_id,"0") AS content_key_id , ifnull(c.content_key,"暂无") AS content_key,
-       p.process_key_id AS process_key_id, p.process_key AS process_key,p.reason AS reason, p.process_priority AS process_priority
-       FROM process_key AS p
-       LEFT OUTER JOIN content_key AS c
+        SELECT c.content_key_id AS content_key_id , c.content_key AS content_key,
+       ifnull(p.process_key_id,"0") AS process_key_id,ifnull(p.process_key,"暂无") AS process_key,ifnull(p.reason,"暂无") AS reason, ifnull(p.process_priority,"0") AS process_priority
+       FROM content_key AS c
+       LEFT OUTER JOIN process_key AS p
        ON p.content_key_id=c.content_key_id
        WHERE p.process_key LIKE '%${process_key}%'
        ORDER BY c.content_key_id,p.process_priority
     </select>
 
     <select id="queryLikeContentKeyAndProcessKey" resultMap="ContentKey">
-        SELECT ifnull(c.content_key_id,"0") AS content_key_id , ifnull(c.content_key,"暂无") AS content_key,
-       p.process_key_id AS process_key_id, p.process_key AS process_key,p.reason AS reason, p.process_priority AS process_priority
-       FROM process_key AS p
-       LEFT OUTER JOIN content_key AS c
+        SELECT c.content_key_id AS content_key_id , c.content_key AS content_key,
+       ifnull(p.process_key_id,"0") AS process_key_id,ifnull(p.process_key,"暂无") AS process_key,ifnull(p.reason,"暂无") AS reason, ifnull(p.process_priority,"0") AS process_priority
+       FROM content_key AS c
+       LEFT OUTER JOIN process_key AS p
        ON p.content_key_id=c.content_key_id
        WHERE p.process_key LIKE '%${process_key}%'
        AND  c.content_key LIKE  '%${content_key}%'
@@ -65,9 +65,9 @@
         INSERT INTO content_key(content_key, content_priority, problem_id) VALUES (#{content_key},#{content_priority},#{problem_id})
     </insert>
 
-    <select id="queryByProblemId" resultMap="ContentKey">
+    <select id="queryByPriority" resultMap="ContentKey">
         SELECT * FROM  content_key
-        WHERE problem_id=#{problem_id} AND content_priority >= #{content_priority}
+        WHERE content_priority >= #{content_priority}
         ORDER BY content_priority
     </select>
 

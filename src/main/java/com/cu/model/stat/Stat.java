@@ -8,7 +8,7 @@ package com.cu.model.stat;
  * @authur Zyq
  * @create 2017/11/6.
  */
-public class Stat {
+public class Stat implements Comparable<Stat> {
     private String problem;//故障现象名称
     private int problemNum;//故障现象数量
     private String reason;//故障原因名称
@@ -110,5 +110,11 @@ public class Stat {
 
     public void setProcess_key_id(int process_key_id) {
         this.process_key_id = process_key_id;
+    }
+
+    @Override
+    public int compareTo(Stat o) {
+        int r=this.content_priority-o.getContent_priority();
+        return r;
     }
 }
