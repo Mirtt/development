@@ -24,10 +24,6 @@ import java.util.Map;
  */
 @Controller
 public class StatController {
-    private Calendar now = Calendar.getInstance();
-    private int year = now.get(Calendar.YEAR);
-    private int month = now.get(Calendar.MONTH);//查询的记录是上一月的
-    private String date = Integer.toString(year) + "-" + Integer.toString(month);
     @Autowired
     private StatService statService;
 
@@ -38,10 +34,13 @@ public class StatController {
 
     @RequestMapping(value = "/chart", method = RequestMethod.GET)
     @ResponseBody
-    public Map getChart(@RequestParam(value = "year", required = false) String year,
-                        @RequestParam(value = "month", required = false) String month) {
-        if (!year.equals("") && !month.equals("")) {
-            date = year + "-" + month;
+    public Map getChart(@RequestParam(value = "date") String date
+                        ) {
+        if (date.equals("")){
+            Calendar now = Calendar.getInstance();
+            int y = now.get(Calendar.YEAR);
+            int m = now.get(Calendar.MONTH);//查询的记录是上一月的
+            date=Integer.toString(y)+"-"+Integer.toString(m);
         }
         Map Data = new HashMap<>(16);
         List<Stat> statList = statService.resultStat(date);
@@ -68,10 +67,12 @@ public class StatController {
     @RequestMapping(value = "/drill", method = RequestMethod.GET)
     @ResponseBody
     public Map drillChart(@RequestParam(value = "problem") String problem,
-                          @RequestParam(value = "year", required = false) String year,
-                          @RequestParam(value = "month", required = false) String month) throws UnsupportedEncodingException {
-        if (!year.equals("") && !month.equals("")) {
-            date = year + "-" + month;
+                          @RequestParam(value = "date")String date) throws UnsupportedEncodingException {
+        if (date.equals("")){
+            Calendar now = Calendar.getInstance();
+            int y = now.get(Calendar.YEAR);
+            int m = now.get(Calendar.MONTH);//查询的记录是上一月的
+            date=Integer.toString(y)+"-"+Integer.toString(m);
         }
         String problemTemp = URLDecoder.decode(problem, "utf-8");
         Map Data = new HashMap<>(16);

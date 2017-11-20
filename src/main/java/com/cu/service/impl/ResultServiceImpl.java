@@ -43,7 +43,7 @@ public class ResultServiceImpl implements ResultService {
             result.setBalk_no(balkBasic.getBalk_no()); //受理单号
             result.setBalk_content(balkBasic.getBalk_content()); //申告内容
             result.setWrite_dept_name("网管中心.交换中心"); //填写部门
-            result.setWrite_time(Integer.toString(year)+"-"+Integer.toString(month));
+            result.setWrite_time(Integer.toString(year)+"-"+(month<10?"0"+Integer.toString(month):Integer.toString(month)));
             for (int j = 0; j < balkBasic.getSheetProcList().size(); j++) {
                 SheetProc sheetProc = balkBasic.getSheetProcList().get(j);
                 introTemp.append(sheetProc.getIntro());

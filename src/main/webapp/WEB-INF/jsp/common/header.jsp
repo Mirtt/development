@@ -15,6 +15,7 @@
 <head>
     <link href="<%=ctx%>/css/bootstrap.min.css" rel="stylesheet">
     <link href="<%=ctx%>/css/bootstrap-table.css" rel="stylesheet">
+    <link href="<%=ctx%>/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <link href="<%=ctx%>/css/select2.min.css" rel="stylesheet">
 </head>
 <body>

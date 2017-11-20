@@ -15,45 +15,30 @@
 <%@include file="common/header.jsp" %>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-0"></div>
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">月度统计查询</div>
-                        <div class="panel-body">
-                            <form id="formSearch" class="form-horizontal">
-                                <div class="form-group" style="margin-top:15px">
-                                    <label class="control-label col-sm-1" for="search_year">年</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="form-control" id="search_year"
-                                               name="year" placeholder="年">
-                                    </div>
-                                    <label class="control-label col-sm-1" for="search_month">年</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="form-control" id="search_month"
-                                               name="month" placeholder="月">
-                                    </div>
-                                    <div class="col-sm-4" style="text-align:left;">
-                                        <button type="button" style="margin-left:50px" id="btn_query"
-                                                class="btn btn-primary">查询
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>选择日期：</label>
+                <!--指定 date标记-->
+                <div class='input-group date'>
+                    <input id='datetimepicker' type='text' readonly class="form-control"/>
                 </div>
             </div>
         </div>
+        <div class="col-md-3"></div>
     </div>
 </div>
+
+
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 <div id="chart-bar" style="width: 800px;height:400px;margin: 0 auto;"></div>
 <div id="chart-pie" style="width: 600px;height:600px;margin: 0 auto;"></div>
 
-
+<button id="test">alert</button>
 <script src="<%=ctx%>/js/jquery-3.2.1.min.js"></script>
+<script src="<%=ctx%>/js/bootstrap-datetimepicker.min.js"></script>
+<script src="<%=ctx%>/js/moment-with-locales.min.js"></script>
+<script src="<%=ctx%>/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <!-- 引入 ECharts 文件 -->
 <script src="<%=ctx%>/js/echarts.js"></script>
 <script type="text/javascript">
@@ -63,9 +48,7 @@
             text: '故障现象数量',
             x: "center"
         },
-        tooltip: {
-
-        },
+        tooltip: {},
         legend: {
             data: []
         },
@@ -77,9 +60,9 @@
             name: '数量',
             type: 'bar',
             data: [],
-            itemStyle:{
-                normal:{
-                    color:"#3F846A",
+            itemStyle: {
+                normal: {
+                    color: "#3F846A",
                     label: {
                         show: true,
                         position: 'top',
@@ -87,7 +70,7 @@
                     }
                 }
             },
-            barWidth:70
+            barWidth: 70
         }]
     };
     var initPie = {
@@ -124,8 +107,8 @@
             }
         ]
     };
-    function loadBar(barChart, year, month) {
-        $.getJSON('<%=ctx%>/chart?year='+year+'&month='+month, function (json) {
+    function loadBar(barChart, dateTime) {
+        $.getJSON('<%=ctx%>/chart?date=' + dateTime, function (json) {
             barChart.setOption({
                 legend: {
                     data: json["problems"]
@@ -139,8 +122,8 @@
             });
         });
     }
-    function loadPie(pieChart, year, month) {
-        $.getJSON('<%=ctx%>/chart?year='+year+'&month='+month, function (json) {
+    function loadPie(pieChart, dateTime) {
+        $.getJSON('<%=ctx%>/chart?date=' + dateTime, function (json) {
             pieChart.setOption({
                 legend: {
                     data: json["problems"]
@@ -152,7 +135,8 @@
         });
         pieChart.on("click", drill);
     }
-    function drill(param,year,month) {
+    function drill(param) {
+        var dateTime = $("#datetimepicker").val();
         var pieChart = echarts.init(document.getElementById('chart-pie'));
         var initDrillPie = {
             title: {
@@ -170,8 +154,9 @@
                         title: '返回',
                         icon: 'image://<%=ctx%>/images/back.png',
                         onclick: function () {
+                            var dateTime = $("#datetimepicker").val();
                             pieChart.dispose();
-                            backTop(year,month);
+                            backTop(dateTime);
                         }
                     }
                 }
@@ -206,7 +191,7 @@
             ]
         };
         pieChart.setOption(initDrillPie);
-        $.getJSON('<%=ctx%>/drill?problem=' + encodeURI(encodeURI(param.data.name))+'&year='+year+'&month='+month, function (json) {
+        $.getJSON('<%=ctx%>/drill?date='+ dateTime + '&problem=' + encodeURI(encodeURI(param.data.name)), function (json) {
             pieChart.setOption({
                 legend: {
                     data: json["reasons"]
@@ -218,7 +203,7 @@
         });
         pieChart.off("click");
     }
-    function backTop(year,month) {
+    function backTop(dateTime) {
         var pieChart = echarts.init(document.getElementById('chart-pie'));
         var initPie = {
             title: {
@@ -255,31 +240,31 @@
             ]
         };
         pieChart.setOption(initPie);
-        loadPie(pieChart, year, month);
+        loadPie(pieChart,dateTime);
         pieChart.on("click", drill);
     }
     $(function () {
-        var date=new Date;
-        var year=date.getFullYear();
-        var month=date.getMonth();//查询的记录是上一月的
-        // 基于准备好的dom，初始化echarts实例
-        var barChart = echarts.init(document.getElementById('chart-bar'));
-        var pieChart = echarts.init(document.getElementById('chart-pie'));
-        barChart.setOption(initBar);
-        pieChart.setOption(initPie);
-        loadBar(barChart, year, month);
-        loadPie(pieChart, year, month);
+        $("#test").click(function () {
+            alert($('#datetimepicker').val());
+        });
+        $('#datetimepicker').datetimepicker({
+            format: 'yyyy-mm',
+            language:('zh-CN'),
+            locale: moment.locale('zh-cn'),
+            minView:'year',
+            startView:'year',
+            autoclose:true
+        });
+        $("#datetimepicker").change(function () {
+            var barChart = echarts.init(document.getElementById('chart-bar'));
+            var pieChart = echarts.init(document.getElementById('chart-pie'));
+            barChart.setOption(initBar);
+            pieChart.setOption(initPie);
+            var dateTime = $('#datetimepicker').val();
+            loadBar(barChart, dateTime);
+            loadPie(pieChart, dateTime);
+        })
     });
-    $("#btn_query").click(function () {
-        var barChart = echarts.init(document.getElementById('chart-bar'));
-        var pieChart = echarts.init(document.getElementById('chart-pie'));
-        barChart.setOption(initBar);
-        pieChart.setOption(initPie);
-        var year = $("#search_year").val();
-        var month=$("#search_month").val();
-        loadBar(barChart, year, month);
-        loadPie(pieChart, year, month);
-    })
 </script>
 </body>
 </html>
