@@ -25,8 +25,8 @@ public class ResultDaoTest extends BaseTest {
     private ResultService resultService;
     @Test
     public void insertResult() throws Exception {
-        List<BalkBasic> balkBasicList=balkBasicDao.queryByTime(6);
-        List<Result> resultList=resultService.setResult(balkBasicList);
+        List<BalkBasic> balkBasicList=balkBasicDao.queryByTime(2017,6);
+        List<Result> resultList=resultService.setResult(balkBasicList,2017,6);
         resultDao.insertResult(resultList);
     }
 

@@ -31,4 +31,6 @@ public interface ContentKeyService {
     List<ContentKey> queryByPriority(int content_priority);
 
     void updateContentPriority(Map<Integer,Integer> contentKeyMap);
+
+    ContentKey queryById(int content_key_id);
 }

@@ -317,11 +317,32 @@ public class ConfigController {
                                 @RequestParam(value = "process_priority")int process_priority,
                                 @RequestParam(value = "reason",required = false)String reason,
                                 Model model){
-        List<ProcessKey> processKeyList=processKeyService.queryAllByPriority(cid);
-        if (processKeyList==null || processKeyList.size()==0){
-            model.addAttribute("msg","请输入正确的");
+        //确认cid是否存在对应的申告内容关键字并且确认输入的优先级是否已经存在
+        ContentKey contentKey=contentKeyService.queryById(cid);
+        if (contentKey == null){
+            model.addAttribute("msg","请输入正确的申告内容关键字ID");
             return "processKeyConfig";
         }
-        return null;
+        List<ProcessKey> processKeyList=processKeyService.queryAllByPriority(cid);
+        if (processKeyList!=null && processKeyList.size()!=0){
+            int t=0;//标记与输入的优先级相等的行
+            for (int i =0 ;i<processKeyList.size();i++){
+                if (process_priority == processKeyList.get(i).getProcess_priority()){
+                    t=i;
+                    break;
+                }
+            }
+            Map<Integer,Integer> updateMap=new HashMap<>(16);//需要更新的行
+            for (int i=t ;i<processKeyList.size();i++){
+                ProcessKey p =processKeyList.get(i);
+                updateMap.put(p.getProcess_key_id(),p.getProcess_priority()+1);
+            }
+            if (!updateMap.isEmpty()){
+                processKeyService.updateProcessKey(updateMap);//更新优先级
+            }
+        }
+        processKeyService.insertProcessKey(cid,process_key,process_priority,reason);
+        model.addAttribute("msg","添加成功");
+        return "processKeyConfig";
     }
 }

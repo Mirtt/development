@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface StatService {
 
-    List<Stat> resultStat();
+    List<Stat> resultStat(String date);
 
-    List<Stat> resultReason(String problem);
+    List<Stat> resultReason(String problem,String date);
 }

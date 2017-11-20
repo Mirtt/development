@@ -18,12 +18,12 @@ public interface StatDao {
      * 统计结果存入实例（统计故障现象）
      * @return
      */
-    List<Stat> resultStat();
+    List<Stat> resultStat(@Param("date")String date);
 
     /**
      * 统计故障现象下的故障原因
      * @param problem
      * @return
      */
-    List<Stat> resultReason(@Param("problem")String problem);
+    List<Stat> resultReason(@Param("problem")String problem, @Param("date")String date);
 }

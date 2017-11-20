@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 处理过程关键字表数据库操作接口
@@ -19,4 +20,19 @@ public interface ProcessKeyDao {
      * @return
      */
     List<ProcessKey> queryAllByPriority(@Param("content_key_id")int content_key_id);
+
+    /**
+     * 更新processkey
+     * @param process_key_map
+     */
+    void  updateProcessKey(@Param("process_key_map")Map process_key_map);
+
+    /**
+     * 插入processkey
+     * @param content_key_id
+     * @param process_key
+     * @param process_priority
+     * @param reason
+     */
+    void  insertProcessKey(@Param("content_key_id")int content_key_id, @Param("process_key")String process_key, @Param("process_priority")int process_priority,@Param("reason")String reason);
 }

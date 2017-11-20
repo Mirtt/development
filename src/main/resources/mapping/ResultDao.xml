@@ -5,7 +5,7 @@
 <mapper namespace="com.cu.dao.ResultDao">
     <resultMap id="Result" type="com.cu.model.Result">
         <result column="user_id" property="user_id"/>
-        <result column="search_time" property="search_time"/>
+        <result column="write_time" property="write_time"/>
         <result column="type" property="type"/>
         <result column="balk_no" property="balk_no"/>
         <result column="balk_content" property="balk_content"/>
@@ -18,9 +18,9 @@
     </resultMap>
 
     <insert id="insertResult">
-        INSERT INTO result (user_id , type, balk_no, balk_content, write_dept_name, intro) VALUES
+        INSERT INTO result (user_id ,write_time, type, balk_no, balk_content, write_dept_name, intro) VALUES
         <foreach collection="resultList" item="item" separator=",">
-            (#{item.user_id}, #{item.type}, #{item.balk_no}, #{item.balk_content}, #{item.write_dept_name}, #{item.intro})
+            (#{item.user_id},#{item.write_time} , #{item.type}, #{item.balk_no}, #{item.balk_content}, #{item.write_dept_name}, #{item.intro})
         </foreach>
     </insert>
 

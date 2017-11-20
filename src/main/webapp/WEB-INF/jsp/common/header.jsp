@@ -15,6 +15,7 @@
 <head>
     <link href="<%=ctx%>/css/bootstrap.min.css" rel="stylesheet">
     <link href="<%=ctx%>/css/bootstrap-table.css" rel="stylesheet">
+    <link href="<%=ctx%>/css/select2.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">
@@ -22,7 +23,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12"
-                     style="background: url(<%=ctx%>/images/background.jpg);height: 150px;margin-bottom: 10px">
+                     style="background: url(<%=ctx%>/images/logo.png);background-repeat: no-repeat;height: 100px;margin-bottom: 10px">
                     <button type="button" class="btn btn-default btn-link"
                             onclick="location.href= '<%=ctx%>/logout'"
                             style="float:right;">
@@ -54,6 +55,9 @@
                         </li>
                         <li>
                             <a href="<%=ctx%>/stat">统计</a>
+                        </li>
+                        <li>
+                            <a href="<%=ctx%>/test">test</a>
                         </li>
                     </ul>
                 </div>

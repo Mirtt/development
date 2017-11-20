@@ -22,9 +22,9 @@ public class BalkBasicDaoTest extends BaseTest {
     private ResultService resultService;
     @Test
     public void queryByTime() throws Exception {
-        List<BalkBasic> balkBasicList = balkBasicDao.queryByTime(6);
+        List<BalkBasic> balkBasicList = balkBasicDao.queryByTime(2017,6);
         System.out.println(balkBasicList.size());
-        List<Result> resultList=resultService.setResult(balkBasicList);
+        List<Result> resultList=resultService.setResult(balkBasicList,2017,6);
         System.out.println(resultList.size());
     }
 

@@ -58,4 +58,9 @@ public class ContentKeyServiceImpl implements ContentKeyService {
     public void updateContentPriority(Map<Integer, Integer> contentKeyMap) {
         contentKeyDao.updateContentPriority(contentKeyMap);
     }
+
+    @Override
+    public ContentKey queryById(int content_key_id) {
+        return contentKeyDao.queryById(content_key_id);
+    }
 }

@@ -21,6 +21,10 @@
         SELECT * FROM content_key ORDER BY content_priority
     </select>
 
+    <select id="queryById" resultMap="ContentKey">
+        SELECT * FROM content_key WHERE content_key_id=#{content_key_id}
+    </select>
+
     <select id="queryProcessKey" resultMap="ContentKey">
        SELECT c.content_key_id AS content_key_id , c.content_key AS content_key,
        ifnull(p.process_key_id,"0") AS process_key_id,ifnull(p.process_key,"暂无") AS process_key,ifnull(p.reason,"暂无") AS reason, ifnull(p.process_priority,"0") AS process_priority

@@ -21,7 +21,7 @@ public interface ResultService {
      */
     List<Result> setResult(List<BalkBasic> balkList, String search_time);
 
-    List<Result> setResult(List<BalkBasic> balkList);
+    List<Result> setResult(List<BalkBasic> balkList,int year,int month);
 
     /**
      * 查询出的结果数据导入结果表
@@ -70,7 +70,6 @@ public interface ResultService {
 
     /**
      * 给result表打标签
-     * @param
      */
     void tagResult();
 }

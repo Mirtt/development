@@ -165,10 +165,6 @@
         };
         return param;
     }
-    var $remove = $("#btn_delete");
-    $remove.click(function () {
-        $.POST({});
-    })
 </script>
 <%--暂时没用--%>
 <div class="modal fade actormodal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">

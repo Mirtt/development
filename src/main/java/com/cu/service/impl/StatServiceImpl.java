@@ -21,12 +21,12 @@ public class StatServiceImpl implements StatService {
 
     //private int total;//存储所有故障分类数量总和
     @Override
-    public List<Stat> resultStat() {
-        return statDao.resultStat();
+    public List<Stat> resultStat(String date) {
+        return statDao.resultStat(date);
     }
 
     @Override
-    public List<Stat> resultReason(String problem) {
-        return statDao.resultReason(problem);
+    public List<Stat> resultReason(String problem,String date) {
+        return statDao.resultReason(problem,date);
     }
 }

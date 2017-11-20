@@ -13,6 +13,41 @@
 </head>
 <body>
 <%@include file="common/header.jsp" %>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-0"></div>
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">月度统计查询</div>
+                        <div class="panel-body">
+                            <form id="formSearch" class="form-horizontal">
+                                <div class="form-group" style="margin-top:15px">
+                                    <label class="control-label col-sm-1" for="search_year">年</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" id="search_year"
+                                               name="year" placeholder="年">
+                                    </div>
+                                    <label class="control-label col-sm-1" for="search_month">年</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" id="search_month"
+                                               name="month" placeholder="月">
+                                    </div>
+                                    <div class="col-sm-4" style="text-align:left;">
+                                        <button type="button" style="margin-left:50px" id="btn_query"
+                                                class="btn btn-primary">查询
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 <div id="chart-bar" style="width: 800px;height:400px;margin: 0 auto;"></div>
 <div id="chart-pie" style="width: 600px;height:600px;margin: 0 auto;"></div>
@@ -89,8 +124,8 @@
             }
         ]
     };
-    function loadBar(barChart) {
-        $.getJSON('<%=ctx%>/chart', function (json) {
+    function loadBar(barChart, year, month) {
+        $.getJSON('<%=ctx%>/chart?year='+year+'&month='+month, function (json) {
             barChart.setOption({
                 legend: {
                     data: json["problems"]
@@ -104,8 +139,8 @@
             });
         });
     }
-    function loadPie(pieChart) {
-        $.getJSON('<%=ctx%>/chart', function (json) {
+    function loadPie(pieChart, year, month) {
+        $.getJSON('<%=ctx%>/chart?year='+year+'&month='+month, function (json) {
             pieChart.setOption({
                 legend: {
                     data: json["problems"]
@@ -117,7 +152,7 @@
         });
         pieChart.on("click", drill);
     }
-    function drill(param) {
+    function drill(param,year,month) {
         var pieChart = echarts.init(document.getElementById('chart-pie'));
         var initDrillPie = {
             title: {
@@ -136,7 +171,7 @@
                         icon: 'image://<%=ctx%>/images/back.png',
                         onclick: function () {
                             pieChart.dispose();
-                            backTop();
+                            backTop(year,month);
                         }
                     }
                 }
@@ -171,7 +206,7 @@
             ]
         };
         pieChart.setOption(initDrillPie);
-        $.getJSON('<%=ctx%>/drill?problem=' + encodeURI(encodeURI(param.data.name)), function (json) {
+        $.getJSON('<%=ctx%>/drill?problem=' + encodeURI(encodeURI(param.data.name))+'&year='+year+'&month='+month, function (json) {
             pieChart.setOption({
                 legend: {
                     data: json["reasons"]
@@ -183,7 +218,7 @@
         });
         pieChart.off("click");
     }
-    function backTop() {
+    function backTop(year,month) {
         var pieChart = echarts.init(document.getElementById('chart-pie'));
         var initPie = {
             title: {
@@ -220,18 +255,31 @@
             ]
         };
         pieChart.setOption(initPie);
-        loadPie(pieChart);
+        loadPie(pieChart, year, month);
         pieChart.on("click", drill);
     }
     $(function () {
+        var date=new Date;
+        var year=date.getFullYear();
+        var month=date.getMonth();//查询的记录是上一月的
         // 基于准备好的dom，初始化echarts实例
         var barChart = echarts.init(document.getElementById('chart-bar'));
         var pieChart = echarts.init(document.getElementById('chart-pie'));
         barChart.setOption(initBar);
         pieChart.setOption(initPie);
-        loadBar(barChart);
-        loadPie(pieChart);
+        loadBar(barChart, year, month);
+        loadPie(pieChart, year, month);
     });
+    $("#btn_query").click(function () {
+        var barChart = echarts.init(document.getElementById('chart-bar'));
+        var pieChart = echarts.init(document.getElementById('chart-pie'));
+        barChart.setOption(initBar);
+        pieChart.setOption(initPie);
+        var year = $("#search_year").val();
+        var month=$("#search_month").val();
+        loadBar(barChart, year, month);
+        loadPie(pieChart, year, month);
+    })
 </script>
 </body>
 </html>

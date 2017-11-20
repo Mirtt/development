@@ -23,6 +23,10 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    public  String gettest(){
+        return "test";
+    }
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public String index(){
         return "index";

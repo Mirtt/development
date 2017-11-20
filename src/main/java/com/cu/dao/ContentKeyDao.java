@@ -64,4 +64,6 @@ public interface ContentKeyDao {
     List<ContentKey> queryByPriority(@Param("content_priority")int content_priority);
 
     void updateContentPriority(@Param("content_key_map")Map<Integer,Integer> contentKeyMap);
+
+    ContentKey queryById(@Param("content_key_id")int content_key_id);
 }

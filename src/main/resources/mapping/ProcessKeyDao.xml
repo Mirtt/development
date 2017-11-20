@@ -16,4 +16,17 @@
         WHERE content_key_id=#{content_key_id}
         ORDER BY process_priority
     </select>
+
+    <insert id="insertProcessKey">
+        INSERT INTO  process_key(process_key, reason, process_priority, content_key_id)
+        VALUES (#{process_key},#{reason},#{process_priority},#{content_key_id})
+    </insert>
+
+    <update id="updateProcessKey">
+        <foreach collection="process_key_map" separator=";" item="value" index="key">
+            UPDATE process_key
+            SET process_priority=#{value}
+            WHERE process_key_id=#{key}
+        </foreach>
+    </update>
 </mapper>

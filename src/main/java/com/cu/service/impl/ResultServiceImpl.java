@@ -32,9 +32,8 @@ public class ResultServiceImpl implements ResultService {
     private ProcessKeyDao processKeyDao;
 
     @Override
-    public List<Result> setResult(List<BalkBasic> balkList) {
+    public List<Result> setResult(List<BalkBasic> balkList,int year,int month) {
         List<Result> resultList = new ArrayList<>(16);
-
         for (int i = 0; i < balkList.size(); i++) {
             BalkBasic balkBasic = balkList.get(i);
             Result result = new Result();
@@ -44,6 +43,7 @@ public class ResultServiceImpl implements ResultService {
             result.setBalk_no(balkBasic.getBalk_no()); //受理单号
             result.setBalk_content(balkBasic.getBalk_content()); //申告内容
             result.setWrite_dept_name("网管中心.交换中心"); //填写部门
+            result.setWrite_time(Integer.toString(year)+"-"+Integer.toString(month));
             for (int j = 0; j < balkBasic.getSheetProcList().size(); j++) {
                 SheetProc sheetProc = balkBasic.getSheetProcList().get(j);
                 introTemp.append(sheetProc.getIntro());
@@ -218,7 +218,7 @@ public class ResultServiceImpl implements ResultService {
             for (ProcessKey aProcessKeyList : processKeyList) {
                 String reason = aProcessKeyList.getReason();
                 String processKey = aProcessKeyList.getProcess_key();
-                String processKeyTemp = processKey.replaceAll("&", "%' )AND( intro LIKE '%");//todo need to change
+                String processKeyTemp = processKey.replaceAll("&", "%' )AND( intro LIKE '%");
                 processKeyTemp = processKeyTemp.replaceAll("或", "%' OR  intro LIKE '%");
                 List<Result> resultList1 = resultDao.queryByProcessKey(balkNoListForContent, processKeyTemp);
                 List<String> balkNoListForProcess = new ArrayList<>(16);

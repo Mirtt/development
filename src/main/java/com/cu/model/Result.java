@@ -17,6 +17,7 @@ public class Result {
     private String proc_key; //处理过程关键字
     private String problem; //故障现象
     private String reason; //故障原因
+    private String write_time;//受理单时间
 
     public int getUser_id() {
         return user_id;
@@ -96,5 +97,13 @@ public class Result {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public String getWrite_time() {
+        return write_time;
+    }
+
+    public void setWrite_time(String write_time) {
+        this.write_time = write_time;
     }
 }

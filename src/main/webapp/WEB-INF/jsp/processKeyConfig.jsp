@@ -65,6 +65,10 @@
 <script type="text/javascript">
     $(function () {
         initTable();
+        var msg = $("p#msg").text();
+        if (msg != null && msg != "") {
+            alert(msg);
+        }
     });
     function initTable() {
         var url = "<%=ctx%>/pkConfigTable";

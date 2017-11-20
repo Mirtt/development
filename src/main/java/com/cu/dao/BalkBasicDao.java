@@ -32,8 +32,9 @@ public interface BalkBasicDao {
 
     /**
      * 根据时间查询月度的所有受理单
+     * @param year
      * @param month
      * @return
      */
-    List<BalkBasic> queryByTime(@Param("month") int month);
+    List<BalkBasic> queryByTime(@Param("year")int year,@Param("month") int month);
 }

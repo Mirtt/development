@@ -22,7 +22,7 @@ public class StatServiceImplTest extends BaseTest {
     private StatService statService;
     @Test
     public void resultStat() throws Exception {
-        List<Stat> stats=statService.resultStat();
+        List<Stat> stats=statService.resultStat("2017-6");
         System.out.println("success");
     }
 
