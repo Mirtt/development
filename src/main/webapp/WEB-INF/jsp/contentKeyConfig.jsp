@@ -61,7 +61,10 @@
 </div>
 <script src="<%=ctx%>/js/jquery-3.2.1.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap.min.js"></script>
+<script src="<%=ctx%>/js/bootstrap-editable.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-table.js"></script>
+<script src="<%=ctx%>/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="<%=ctx%>/js/bootstrap-table-editable.min.js"></script>
 <script type="text/javascript">
     //打出后台的msg错误信息
     $(function () {
@@ -84,7 +87,15 @@
             toolbar: "#toolbar",
             cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
             striped: true,//是否显示行间隔色
-            queryParams: queryParams,//传递参数（*）查询方法名
+            queryParams: function () {
+                var param = {
+                    pageNum: this.pageNumber,
+                    pageSize: this.pageSize,
+                    limit: this.limit, // 页面大小
+                    offset: this.offset // 页码
+                };
+                return param;
+            },//传递参数（*）查询方法名
             sidePagination: "server",//分页类型 server后端分页 client客户端分页（*）
 //            responseHandler: responseHandler,如果后台直接传回｛total： ，rows：[]｝形式则不需要此方法
             pagination: true,//是否显示分页（*）
@@ -110,7 +121,7 @@
                 },
                 {
                     field: "problem_id",
-                    title: "故障现象编号(0表示未配置)",
+                    title: "故障现象编号",
                     width: 10,
                     align: 'center',
                     valign: 'center'
@@ -123,7 +134,14 @@
                 {
                     field: "content_key",
                     title: "申告内容关键字",
-                    halign: "center"
+                    halign: "center",
+                    editable:{
+                        type: 'text',
+                        title: '用户名',
+                        validate: function (v) {
+                            if (!v) return '用户名不能为空';
+                        }
+                    }
                 },
                 {
                     field: "content_priority",
@@ -145,7 +163,26 @@
                     field:"content_key_id",
                     visible:false
                 }
-            ]
+            ],
+            onEditableSave: function (field, row, oldValue, $el) {
+                $.ajax({
+                    type: "post",
+                    url: "",
+                    data: row,
+                    dataType: 'json',
+                    success: function (data, status) {
+                        if (status == "success") {
+                            alert('提交数据成功');
+                        }
+                    },
+                    error: function () {
+                        alert('编辑失败');
+                    },
+                    complete: function () {
+
+                    }
+                })
+            }
         });
     }
     $("#btn_refresh").click(function () {

@@ -43,19 +43,14 @@ public class SearchController {
     private ResultService resultService;
 
     @RequestMapping(value = "/search")
-    public String search(@RequestParam(required = true,defaultValue = "1")Integer pageNum, Model model) {
-        //PageHelper.startPage(pageNum,1);
-        //List<Problem> problemList = problemService.queryAll();
-        //PageInfo<Problem> p = new PageInfo<>(problemList);
-        //model.addAttribute("pList",problemList);
-        //model.addAttribute("page",p);
+    public String search() {
         return "search";
     }
 
     @RequestMapping(value = "/initTable",method = RequestMethod.GET)
     @ResponseBody
-    public DataJson initTable(@RequestParam(required = true,defaultValue = "1")Integer pageNum,
-            @RequestParam(required = true,defaultValue = "10")Integer pageSize){
+    public DataJson initTable(@RequestParam(defaultValue = "1")Integer pageNum,
+            @RequestParam(defaultValue = "10")Integer pageSize){
         PageHelper.startPage(pageNum,pageSize);
         List<Problem> problemList = problemService.queryAll();
         PageInfo<Problem> p = new PageInfo<>(problemList);

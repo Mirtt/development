@@ -7,14 +7,16 @@
     </resultMap>
     
     <select id="resultStat" resultType="com.cu.model.stat.Stat">
-        SELECT r.problem AS problem,count(r.problem) AS problemNum FROM result AS r
+        SELECT r.problem AS problem,count(r.problem) AS problemNum FROM
+        (select ifnull(problem,"其他") as problem, write_time from result) AS r
         WHERE r.write_time=#{date}
-        GROUP BY r.problem HAVING r.problem IS NOT NULL
+        GROUP BY r.problem
     </select>
 
     <select id="resultReason" resultType="com.cu.model.stat.Stat">
-        SELECT r.reason AS reason,count(r.reason) AS reasonNum FROM result AS r
+        SELECT r.reason AS reason,count(r.reason) AS reasonNum FROM
+        (select ifnull(problem,"其他") as problem, write_time,ifnull(reason,"其他") as reason from result) AS r
         WHERE r.problem=#{problem} AND r.write_time=#{date}
-        GROUP BY r.reason HAVING r.reason IS  NOT  NULL
+        GROUP BY r.reason
     </select>
 </mapper>
