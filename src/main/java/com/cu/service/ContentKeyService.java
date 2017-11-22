@@ -33,4 +33,6 @@ public interface ContentKeyService {
     void updateContentPriority(Map<Integer,Integer> contentKeyMap);
 
     ContentKey queryById(int content_key_id);
+
+    void updateContentKeyById(int content_key_id,String content_key);
 }

@@ -63,4 +63,9 @@ public class ContentKeyServiceImpl implements ContentKeyService {
     public ContentKey queryById(int content_key_id) {
         return contentKeyDao.queryById(content_key_id);
     }
+
+    @Override
+    public void updateContentKeyById(int content_key_id, String content_key) {
+        contentKeyDao.updateContentKeyById(content_key_id,content_key);
+    }
 }

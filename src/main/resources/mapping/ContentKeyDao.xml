@@ -82,4 +82,10 @@
             WHERE content_key_id=#{key}
         </foreach>
     </update>
+
+    <update id="updateContentKeyById">
+        UPDATE content_key
+        SET content_key=#{content_key}
+        WHERE content_key_id=#{content_key_id}
+    </update>
 </mapper>

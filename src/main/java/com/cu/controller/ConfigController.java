@@ -50,12 +50,12 @@ public class ConfigController {
     public DataJson pkConfigTable(@RequestParam(defaultValue = "1") Integer pageNum,
                                   @RequestParam(defaultValue = "10") Integer pageSize) {
         DataJson dataJson = new DataJson();
-        int total=0;
+        int total = 0;
         PageHelper.startPage(pageNum, pageSize);
         List<ContentKey> contentKeyList = contentKeyService.queryProcessKey();
         List<ContentKey> totalList = contentKeyService.queryProcessKey();
-        for (ContentKey c:totalList){
-          total+=c.getProcessKeyList().size();
+        for (ContentKey c : totalList) {
+            total += c.getProcessKeyList().size();
         }
         List<Stat> rows = new ArrayList<>(16);
         for (ContentKey c : contentKeyList) {
@@ -84,13 +84,13 @@ public class ConfigController {
                                         @RequestParam(defaultValue = "10") Integer pageSize) {
         DataJson dataJson = new DataJson();
         List<Stat> rows = new ArrayList<>(16);
-        int total=0;
+        int total = 0;
         if (content_key != null && !content_key.equals("") && (process_key == null || process_key.equals(""))) {
             PageHelper.startPage(pageNum, pageSize);
             List<ContentKey> contentKeyList = contentKeyService.queryLikeContentKey(content_key);
             List<ContentKey> totalList = contentKeyService.queryLikeContentKey(content_key);
-            for (ContentKey c:totalList){
-                total+=c.getProcessKeyList().size();
+            for (ContentKey c : totalList) {
+                total += c.getProcessKeyList().size();
             }
             for (ContentKey c : contentKeyList) {
                 List<ProcessKey> processKeyList = c.getProcessKeyList();
@@ -110,8 +110,8 @@ public class ConfigController {
             PageHelper.startPage(pageNum, pageSize);
             List<ContentKey> contentKeyList = contentKeyService.queryLikeProcessKey(process_key);
             List<ContentKey> totalList = contentKeyService.queryLikeProcessKey(process_key);
-            for (ContentKey c:totalList){
-                total+=c.getProcessKeyList().size();
+            for (ContentKey c : totalList) {
+                total += c.getProcessKeyList().size();
             }
             for (ContentKey c : contentKeyList) {
                 List<ProcessKey> processKeyList = c.getProcessKeyList();
@@ -131,8 +131,8 @@ public class ConfigController {
             PageHelper.startPage(pageNum, pageSize);
             List<ContentKey> contentKeyList = contentKeyService.queryLikeContentKeyAndProcessKey(content_key, process_key);
             List<ContentKey> totalList = contentKeyService.queryLikeContentKeyAndProcessKey(content_key, process_key);
-            for (ContentKey c:totalList){
-                total+=c.getProcessKeyList().size();
+            for (ContentKey c : totalList) {
+                total += c.getProcessKeyList().size();
             }
             for (ContentKey c : contentKeyList) {
                 List<ProcessKey> processKeyList = c.getProcessKeyList();
@@ -166,8 +166,8 @@ public class ConfigController {
             PageHelper.startPage(pageNum, pageSize);
             List<Problem> problemList = problemService.queryLikeProblem(problem);
             List<Problem> totalList = problemService.queryLikeProblem(problem);
-            for (Problem p:totalList){
-                total+=p.getContentKeyList().size();
+            for (Problem p : totalList) {
+                total += p.getContentKeyList().size();
             }
             for (Problem p : problemList) {
                 List<ContentKey> contentKeyList = p.getContentKeyList();
@@ -186,8 +186,8 @@ public class ConfigController {
             PageHelper.startPage(pageNum, pageSize);
             List<Problem> problemList = problemService.queryLikeContentKey(content_key);
             List<Problem> totalList = problemService.queryLikeContentKey(content_key);
-            for (Problem p:totalList){
-                total+=p.getContentKeyList().size();
+            for (Problem p : totalList) {
+                total += p.getContentKeyList().size();
             }
             for (Problem p : problemList) {
                 List<ContentKey> contentKeyList = p.getContentKeyList();
@@ -205,9 +205,9 @@ public class ConfigController {
         if (problem != null && !problem.equals("") && content_key != null && !content_key.equals("")) {
             PageHelper.startPage(pageNum, pageSize);
             List<Problem> problemList = problemService.queryLikeProblemAndContentKey(problem, content_key);
-            List<Problem>  totalList = problemService.queryLikeProblemAndContentKey(problem, content_key);
-            for (Problem p:totalList){
-                total+=p.getContentKeyList().size();
+            List<Problem> totalList = problemService.queryLikeProblemAndContentKey(problem, content_key);
+            for (Problem p : totalList) {
+                total += p.getContentKeyList().size();
             }
             for (Problem p : problemList) {
                 List<ContentKey> contentKeyList = p.getContentKeyList();
@@ -233,12 +233,12 @@ public class ConfigController {
     public DataJson ckConfigTable(@RequestParam(defaultValue = "1") Integer pageNum,
                                   @RequestParam(defaultValue = "10") Integer pageSize) {
         DataJson dataJson = new DataJson();
-        int total=0;
+        int total = 0;
         PageHelper.startPage(pageNum, pageSize);
         List<Problem> problemList = problemService.queryContentKey();
-        List<Problem>  totalList = problemService.queryContentKey();
-        for (Problem p:totalList){
-            total+=p.getContentKeyList().size();
+        List<Problem> totalList = problemService.queryContentKey();
+        for (Problem p : totalList) {
+            total += p.getContentKeyList().size();
         }
         List<Stat> rows = new ArrayList<>(16);
         for (Problem p : problemList) {
@@ -310,39 +310,58 @@ public class ConfigController {
         }
     }
 
-    //todo add process_key
-    @RequestMapping(value = "/addProcessKey",method = RequestMethod.POST)
-    public String addProcessKey(@RequestParam(value = "content_key_id")int cid,
-                                @RequestParam(value = "process_key")String process_key,
-                                @RequestParam(value = "process_priority")int process_priority,
-                                @RequestParam(value = "reason",required = false)String reason,
-                                Model model){
+
+    @RequestMapping(value = "/addProcessKey", method = RequestMethod.POST)
+    public String addProcessKey(@RequestParam(value = "content_key_id") int cid,
+                                @RequestParam(value = "process_key") String process_key,
+                                @RequestParam(value = "process_priority") int process_priority,
+                                @RequestParam(value = "reason", required = false) String reason,
+                                Model model) {
         //确认cid是否存在对应的申告内容关键字并且确认输入的优先级是否已经存在
-        ContentKey contentKey=contentKeyService.queryById(cid);
-        if (contentKey == null){
-            model.addAttribute("msg","请输入正确的申告内容关键字ID");
+        ContentKey contentKey = contentKeyService.queryById(cid);
+        if (contentKey == null) {
+            model.addAttribute("msg", "请输入正确的申告内容关键字ID");
             return "processKeyConfig";
         }
-        List<ProcessKey> processKeyList=processKeyService.queryAllByPriority(cid);
-        if (processKeyList!=null && processKeyList.size()!=0){
-            int t=0;//标记与输入的优先级相等的行
-            for (int i =0 ;i<processKeyList.size();i++){
-                if (process_priority == processKeyList.get(i).getProcess_priority()){
-                    t=i;
+        List<ProcessKey> processKeyList = processKeyService.queryAllByPriority(cid);
+        if (processKeyList != null && processKeyList.size() != 0) {
+            int t = 0;//标记与输入的优先级相等的行
+            for (int i = 0; i < processKeyList.size(); i++) {
+                if (process_priority == processKeyList.get(i).getProcess_priority()) {
+                    t = i;
                     break;
                 }
             }
-            Map<Integer,Integer> updateMap=new HashMap<>(16);//需要更新的行
-            for (int i=t ;i<processKeyList.size();i++){
-                ProcessKey p =processKeyList.get(i);
-                updateMap.put(p.getProcess_key_id(),p.getProcess_priority()+1);
+            Map<Integer, Integer> updateMap = new HashMap<>(16);//需要更新的行
+            for (int i = t; i < processKeyList.size(); i++) {
+                ProcessKey p = processKeyList.get(i);
+                updateMap.put(p.getProcess_key_id(), p.getProcess_priority() + 1);
             }
-            if (!updateMap.isEmpty()){
+            if (!updateMap.isEmpty()) {
                 processKeyService.updateProcessKey(updateMap);//更新优先级
             }
         }
-        processKeyService.insertProcessKey(cid,process_key,process_priority,reason);
-        model.addAttribute("msg","添加成功");
+        processKeyService.insertProcessKey(cid, process_key, process_priority, reason);
+        model.addAttribute("msg", "添加成功");
         return "processKeyConfig";
+    }
+
+    @RequestMapping(value = "/editContentKey", method = RequestMethod.POST)
+    @ResponseBody
+    public DataJson editContentKey(@RequestParam(value = "cid") int cid,
+                                   @RequestParam(value = "ck") String ck) {
+        DataJson d = new DataJson();
+        contentKeyService.updateContentKeyById(cid, ck);
+        d.setStatus("success");
+        return d;
+    }
+
+    @RequestMapping(value = "/editProcessKey", method = RequestMethod.POST)
+    @ResponseBody
+    public DataJson editProcessKey(ProcessKey processKey) {
+        DataJson d = new DataJson();
+        System.out.println(processKey.getProcess_key_id()+processKey.getProcess_key());
+        d.setStatus("success");
+        return d;
     }
 }

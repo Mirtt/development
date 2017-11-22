@@ -137,9 +137,9 @@
                     halign: "center",
                     editable:{
                         type: 'text',
-                        title: '用户名',
+                        title: '&：连接且关系，或：连接或关系',
                         validate: function (v) {
-                            if (!v) return '用户名不能为空';
+                            if (!$.trim(v)) return '不能为空';
                         }
                     }
                 },
@@ -164,22 +164,17 @@
                     visible:false
                 }
             ],
-            onEditableSave: function (field, row, oldValue, $el) {
+            onEditableSave: function (field, row) {
                 $.ajax({
                     type: "post",
-                    url: "",
-                    data: row,
-                    dataType: 'json',
-                    success: function (data, status) {
-                        if (status == "success") {
-                            alert('提交数据成功');
+                    url: '<%=ctx%>/editContentKey?cid='+row["content_key_id"]+'&ck='+row["content_key"],
+                    data:row,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status === "success") {
+                            alert('编辑成功');
                         }
-                    },
-                    error: function () {
-                        alert('编辑失败');
-                    },
-                    complete: function () {
-
+                        initTable();
                     }
                 })
             }
@@ -188,15 +183,6 @@
     $("#btn_refresh").click(function () {
         initTable();
     });
-    function queryParams(params) {//查询参数传递
-        var param = {
-            pageNum: this.pageNumber,
-            pageSize: this.pageSize,
-            limit: this.limit, // 页面大小
-            offset: this.offset // 页码
-        };
-        return param;
-    }
     $("#btn_query").click(function () {
         var p = $("#search_problem").val();
         var ck = $("#search_content_key").val();
@@ -205,9 +191,6 @@
             query: {problem: p, content_key: ck,pageNum:this.pageNumber,pageSize:this.pageSize}
         })
     });
-    $("#btn_add").click(function () {
-
-    })
 </script>
 <div class="modal fade contentKeyModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="content-key-modal">
     <div class="modal-dialog modal-sm">

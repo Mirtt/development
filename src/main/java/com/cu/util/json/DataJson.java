@@ -12,6 +12,8 @@ public class DataJson {
     private int total;//总行数
     private List rows;//具体数据
 
+    private String status;//返回http状态
+
     public int getTotal() {
         return total;
     }
@@ -26,5 +28,13 @@ public class DataJson {
 
     public void setRows(List rows) {
         this.rows = rows;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

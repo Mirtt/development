@@ -61,8 +61,10 @@
 </div>
 <script src="<%=ctx%>/js/jquery-3.2.1.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap.min.js"></script>
+<script src="<%=ctx%>/js/bootstrap-editable.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-table.js"></script>
 <script src="<%=ctx%>/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="<%=ctx%>/js/bootstrap-table-editable.min.js"></script>
 <script type="text/javascript">
     $(function () {
         initTable();
@@ -120,7 +122,14 @@
                 {
                     field: "process_key",
                     title: "处理过程关键字",
-                    halign: "center"
+                    halign: "center",
+                    editable:{
+                        type: 'text',
+                        title: "&：连接且关系，或：连接或关系",
+                        validate: function (v) {
+                            if (!$.trim(v)) return '不能为空';
+                        }
+                    }
                 },
                 {
                     field: "process_priority",
@@ -146,7 +155,21 @@
                     field:"process_key_id",
                     visible:false
                 }
-            ]
+            ],
+            onEditableSave: function (field, row) {
+                $.ajax({
+                    type: "post",
+                    url: '<%=ctx%>/editProcessKey',
+                    data:row,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status === "success") {
+                            alert('编辑成功');
+                        }
+                        initTable();
+                    }
+                })
+            }
         });
     }
     $("#btn_refresh").click(function () {
