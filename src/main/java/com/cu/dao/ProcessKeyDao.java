@@ -22,7 +22,7 @@ public interface ProcessKeyDao {
     List<ProcessKey> queryAllByPriority(@Param("content_key_id")int content_key_id);
 
     /**
-     * 更新processkey
+     * 后移processkey的优先级
      * @param process_key_map
      */
     void  updateProcessKey(@Param("process_key_map")Map process_key_map);
@@ -35,4 +35,11 @@ public interface ProcessKeyDao {
      * @param reason
      */
     void  insertProcessKey(@Param("content_key_id")int content_key_id, @Param("process_key")String process_key, @Param("process_priority")int process_priority,@Param("reason")String reason);
+
+    /**
+     * 根据id更新processkey
+     * @param process_key_id
+     * @param process_key
+     */
+    void updateProcessKeyById(@Param("process_key_id")int process_key_id,@Param("process_key")String process_key);
 }

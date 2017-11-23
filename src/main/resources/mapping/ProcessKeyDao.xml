@@ -29,4 +29,10 @@
             WHERE process_key_id=#{key}
         </foreach>
     </update>
+
+    <update id="updateProcessKeyById">
+        UPDATE process_key
+        SET process_key=#{process_key}
+        WHERE process_key_id=#{process_key_id}
+    </update>
 </mapper>

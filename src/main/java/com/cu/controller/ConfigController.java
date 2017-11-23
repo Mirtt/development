@@ -360,7 +360,7 @@ public class ConfigController {
     @ResponseBody
     public DataJson editProcessKey(ProcessKey processKey) {
         DataJson d = new DataJson();
-        System.out.println(processKey.getProcess_key_id()+processKey.getProcess_key());
+        processKeyService.updateProcessKeyById(processKey.getProcess_key_id(),processKey.getProcess_key());
         d.setStatus("success");
         return d;
     }

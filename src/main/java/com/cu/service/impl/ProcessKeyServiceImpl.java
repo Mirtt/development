@@ -33,4 +33,9 @@ public class ProcessKeyServiceImpl implements ProcessKeyService {
     public void updateProcessKey(Map process_key_map) {
         processKeyDao.updateProcessKey(process_key_map);
     }
+
+    @Override
+    public void updateProcessKeyById(int process_key_id, String process_key) {
+        processKeyDao.updateProcessKeyById(process_key_id,process_key);
+    }
 }

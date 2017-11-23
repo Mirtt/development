@@ -18,4 +18,6 @@ public interface ProcessKeyService {
     void insertProcessKey(int content_key_id, String process_key, int process_priority, String reason);
 
     void updateProcessKey(Map process_key_map);
+
+    void updateProcessKeyById(int process_key_id,String process_key);
 }
