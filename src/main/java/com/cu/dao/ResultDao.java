@@ -69,4 +69,11 @@ public interface ResultDao {
      * @return
      */
     List<Result> queryByProcessKey(@Param("balk_no_list")List<String> balk_no_list, @Param("proc_key")String proc_key);
+
+    /**
+     * 根据故障单时间查找
+     * @param write_time
+     * @return
+     */
+    List<Result> queryByWriteTime(@Param("write_time")String write_time);
 }

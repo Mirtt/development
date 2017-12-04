@@ -20,7 +20,8 @@
     <insert id="insertResult">
         INSERT INTO result (user_id ,write_time, type, balk_no, balk_content, write_dept_name, intro) VALUES
         <foreach collection="resultList" item="item" separator=",">
-            (#{item.user_id},#{item.write_time} , #{item.type}, #{item.balk_no}, #{item.balk_content}, #{item.write_dept_name}, #{item.intro})
+            (#{item.user_id},#{item.write_time} , #{item.type}, #{item.balk_no}, #{item.balk_content},
+            #{item.write_dept_name}, #{item.intro})
         </foreach>
     </insert>
 
@@ -34,11 +35,11 @@
 
     <select id="queryByProblem" resultMap="Result">
         SELECT r.user_id,r.type,r.balk_no,r.balk_content,r.write_dept_name,r.intro,
-        ifnull(r.content_key,'其他') AS  content_key,
-        ifnull(r.proc_key,'其他') AS  proc_key,
-        ifnull(r.problem,'其他') AS  problem,
+        ifnull(r.content_key,'其他') AS content_key,
+        ifnull(r.proc_key,'其他') AS proc_key,
+        ifnull(r.problem,'其他') AS problem,
         ifnull(r.reason,'其他') AS reason
-        FROM result AS  r
+        FROM result AS r
         WHERE r.problem IN
         <foreach collection="problems" item="item" index="index" open="(" separator="," close=")">
             #{item}
@@ -79,5 +80,14 @@
         <foreach collection="balk_no_list" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
+    </select>
+
+    <select id="queryByWriteTime" resultMap="Result">
+        SELECT r.user_id,r.type,r.balk_no,r.balk_content,r.write_dept_name,r.intro,
+        ifnull(r.content_key,'其他') AS  content_key,
+        ifnull(r.proc_key,'其他') AS  proc_key,
+        ifnull(r.problem,'其他') AS  problem,
+        ifnull(r.reason,'其他') AS reason
+        FROM result AS  r WHERE r.write_time=#{write_time} ORDER BY r.problem,r.reason,r.content_key,r.proc_key
     </select>
 </mapper>

@@ -105,6 +105,11 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
+    public List<Result> queryByWriteTime(String write_time) {
+        return resultDao.queryByWriteTime(write_time);
+    }
+
+    @Override
     public HSSFWorkbook writeResultExcel(List<Result> resultList) {
         String[] header = {"序号", "类型", "受理单号", "申告内容", "填写部门", "填写内容", "申告内容关键字", "处理过程关键字", "故障现象", "故障原因"};
         //创建workbook （excel）

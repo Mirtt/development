@@ -133,6 +133,21 @@ public class SearchController {
         return "forward:/search";
     }
 
+    @RequestMapping(value = "/reportMonth",method = RequestMethod.POST)
+    public void reportMonth(@RequestParam("date")String date,HttpServletResponse response){
+        List<Result> resultList=resultService.queryByWriteTime(date);
+
+        String[] header={"序号","类型","受理单号","申告内容","填写部门","处理过程","申告内容关键字","处理过程关键字","故障现象","故障原因"}; //表头
+        int[] colWidth={5,7,14,25,18,25,15,15,15,15};//列宽
+        Excel excel=new Excel(date,header,colWidth);
+        HSSFWorkbook wb = excel.writeToExcel(resultList);
+        try {
+            excel.downloadExcel(wb,response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @RequestMapping(value="/deleteProblem",method = RequestMethod.POST)
     public void deleteProblem(@RequestParam(value = "problem_id",required = true)int[] ids){
         //todo delete method

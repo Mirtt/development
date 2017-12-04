@@ -54,6 +54,13 @@ public interface ResultService {
     List<Result> queryByProblem(String[] problems);
 
     /**
+     * 根据时间查询故障单
+     * @param write_time
+     * @return
+     */
+    List<Result> queryByWriteTime(String write_time);
+
+    /**
      * 查询结果表中申告内容含有关键字的行
      *
      * @param content_key

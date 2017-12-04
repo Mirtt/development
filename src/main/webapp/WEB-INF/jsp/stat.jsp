@@ -18,11 +18,16 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <div class="form-group">
-                <label>选择日期：</label>
-                <!--指定 date标记-->
-                <div class='input-group date'>
-                    <input id='datetimepicker' type='text' readonly class="form-control"/>
-                </div>
+                <form id="download" action="<%=ctx%>/reportMonth" method="post">
+                    <label>选择日期：</label>
+                    <!--指定 date标记-->
+                    <div class='input-group date'>
+                        <input id='datetimepicker' type='text' readonly class="form-control" name="date"/>
+                    </div>
+                    <button id="btn_download" type="submit" class="btn btn-default" style="margin-top: 5px">
+                        <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>&nbsp;&nbsp;导出故障单
+                    </button>
+                </form>
             </div>
         </div>
         <div class="col-md-3"></div>
@@ -191,7 +196,7 @@
             ]
         };
         pieChart.setOption(initDrillPie);
-        $.getJSON('<%=ctx%>/drill?date='+ dateTime + '&problem=' + encodeURI(encodeURI(param.data.name)), function (json) {
+        $.getJSON('<%=ctx%>/drill?date=' + dateTime + '&problem=' + encodeURI(encodeURI(param.data.name)), function (json) {
             pieChart.setOption({
                 legend: {
                     data: json["reasons"]
@@ -240,20 +245,17 @@
             ]
         };
         pieChart.setOption(initPie);
-        loadPie(pieChart,dateTime);
+        loadPie(pieChart, dateTime);
         pieChart.on("click", drill);
     }
     $(function () {
-        $("#test").click(function () {
-            alert($('#datetimepicker').val());
-        });
         $('#datetimepicker').datetimepicker({
             format: 'yyyy-mm',
-            language:('zh-CN'),
+            language: ('zh-CN'),
             locale: moment.locale('zh-cn'),
-            minView:'year',
-            startView:'year',
-            autoclose:true
+            minView: 'year',
+            startView: 'year',
+            autoclose: true
         });
         $("#datetimepicker").change(function () {
             var barChart = echarts.init(document.getElementById('chart-bar'));
