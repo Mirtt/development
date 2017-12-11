@@ -80,8 +80,8 @@ public class ConfigController {
     @ResponseBody
     public DataJson pkConfigSearchTable(@RequestParam(required = false, value = "process_key") String process_key,
                                         @RequestParam(required = false, value = "content_key") String content_key,
-                                        @RequestParam(defaultValue = "1") Integer pageNum,
-                                        @RequestParam(defaultValue = "10") Integer pageSize) {
+                                        @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                        @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
         DataJson dataJson = new DataJson();
         List<Stat> rows = new ArrayList<>(16);
         int total = 0;
@@ -323,17 +323,10 @@ public class ConfigController {
             model.addAttribute("msg", "请输入正确的申告内容关键字ID");
             return "processKeyConfig";
         }
-        List<ProcessKey> processKeyList = processKeyService.queryAllByPriority(cid);
-        if (processKeyList != null && processKeyList.size() != 0) {
-            int t = 0;//标记与输入的优先级相等的行
-            for (int i = 0; i < processKeyList.size(); i++) {
-                if (process_priority == processKeyList.get(i).getProcess_priority()) {
-                    t = i;
-                    break;
-                }
-            }
+        List<ProcessKey> processKeyList = processKeyService.queryByPriority(process_priority,cid);
+        if (processKeyList.get(0).getProcess_priority()==process_priority){
             Map<Integer, Integer> updateMap = new HashMap<>(16);//需要更新的行
-            for (int i = t; i < processKeyList.size(); i++) {
+            for (int i = 0; i < processKeyList.size(); i++) {
                 ProcessKey p = processKeyList.get(i);
                 updateMap.put(p.getProcess_key_id(), p.getProcess_priority() + 1);
             }
@@ -361,6 +354,20 @@ public class ConfigController {
     public DataJson editProcessKey(ProcessKey processKey) {
         DataJson d = new DataJson();
         processKeyService.updateProcessKeyById(processKey.getProcess_key_id(),processKey.getProcess_key());
+        d.setStatus("success");
+        return d;
+    }
+
+    /**
+     * 2017.12.05 yjz 更新处理过程关键字的内容申告关键字id
+     * @param processKey
+     * @return
+     */
+    @RequestMapping(value = "//editCIdOfProcessKey",method = RequestMethod.POST)
+    @ResponseBody
+    public DataJson editCIdOfProcessKey(ProcessKey processKey){
+        DataJson d = new DataJson();
+        processKeyService.updateContentIdById(processKey.getProcess_key_id(),processKey.getContent_key_id());
         d.setStatus("success");
         return d;
     }

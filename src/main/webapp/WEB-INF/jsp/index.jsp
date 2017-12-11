@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>xxxx系统</title>
+    <title>智能辅助排障系统</title>
     <link href="<%=ctx%>/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
@@ -30,8 +30,8 @@
                         <div class="col-md-2">
                         </div>
                         <div class="col-md-8">
-                            <h3 class="text-center">
-                                xxxx系统
+                            <h3 class="text-center" >
+                                智能辅助排障系统
                             </h3>
                             <c:if test="${msg != null}">
                                 <p style="color: #c12e2a;text-align: center">${msg}</p>

@@ -88,7 +88,7 @@
 //            responseHandler: responseHandler,如果后台直接传回｛total： ，rows：[]｝形式则不需要此方法
             pagination: true,//是否显示分页（*）
             pageNumber: 1,//初始化加载第一页，默认第一页
-            pageSize: 10,//每页的记录行数（*）
+            pageSize: 25,//每页的记录行数（*）
             pageList: [10, 25, 50, 'All'],//可供选择的每页的行数（*）
             height: 500,
             width: $(window).width(),
@@ -142,13 +142,19 @@
                     title: "故障原因",
                     halign: "center"
                 },
+                //2017.12.05 yjz 配置“删除”按钮
                 {
                     field: "operation",
                     title: "操作",
                     align: "center",
-                    halign: "center",
+                    valign: "middle",
+                    width: '20%',
                     formatter: function (index, row) {
-                        return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\">编辑" + row["process_key_id"] + "<span class=\"glyphicon glyphicon-pencil\"></span></button> ";
+                        return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" " +
+                            "data-toggle=\"modal\" data-target=\"#process-key-modal-del\"" +
+                            "onclick='setPId(" + row["process_key_id"] + ")' " +
+                            "data-row-id=\"" + row.id + "\">删除" + row["process_key_id"] +
+                            "<span class=\"glyphicon glyphicon-remove\"></span></button> ";
                     }
                 },
                 {
@@ -176,7 +182,11 @@
         initTable();
     });
     function queryParams(params) {//查询参数传递
+        var pk = $("#search_process_key").val();
+        var ck = $("#search_content_key").val();
         var param = {
+            process_key: pk,
+            content_key: ck,
             pageNum: this.pageNumber,
             pageSize: this.pageSize,
             limit: this.limit, // 页面大小
@@ -189,9 +199,39 @@
         var ck = $("#search_content_key").val();
         $("#process_key_config").bootstrapTable('refresh', {
             url: "<%=ctx%>/pkConfigSearchTable",
-            query: {process_key: pk, content_key: ck}
+            query: {process_key: pk, content_key: ck,pageNum:this.pageNumber,pageSize: this.pageSize}
         })
     });
+
+    /***
+     * 2017.12.05 yjz 删除处理过程关键字
+     * @param rowId
+     */
+    function deleteProcessKey(rowId) {
+        $.ajax({
+            type: "post",
+            url: '<%=ctx%>/editCIdOfProcessKey',
+            data: {process_key_id: rowId, contend_key_id: 0},
+            dataType: "json",
+            success: function (data) {
+                if (data.status === "success") {
+                    alert('处理过程关键字删除成功');
+                }
+                else {
+                    alert('删除失败');
+                }
+                initTable();
+            }
+        })
+    }
+
+    /**
+     * 2017.12.05 yjz 获取被删除行的ID
+     * @param id
+     */
+    function setPId(id) {
+        $("#btn_delete").val(id);
+    }
 </script>
 <div class="modal fade contentKeyModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="process-key-modal">
     <div class="modal-dialog modal-sm">
@@ -228,5 +268,30 @@
         </div>
     </div>
 </div>
+
+<!--2017.12.05 yjz 删除处理过程关键字-->
+<div class="modal fade contentKeyModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+     id="process-key-modal-del">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-header">
+                <h4 class="modal-title">删除过程关键字</h4>
+            </div>
+            <div class="modal-body">
+                <label>确认删除该处理过程关键字吗？</label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+                <button id="btn_delete" type="button" class="btn btn-primary" data-target="#process-key-modal-del-suc"
+                        data-dismiss="modal" onclick="deleteProcessKey($('#btn_delete').val())">删除
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

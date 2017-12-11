@@ -88,7 +88,11 @@
             cache: false,//是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
             striped: true,//是否显示行间隔色
             queryParams: function () {
+                var p = $("#search_problem").val();
+                var ck = $("#search_content_key").val();
                 var param = {
+                    problem: p,
+                    content_key: ck,
                     pageNum: this.pageNumber,
                     pageSize: this.pageSize,
                     limit: this.limit, // 页面大小

@@ -19,6 +19,7 @@ import java.util.Map;
 public class ProcessKeyServiceImpl implements ProcessKeyService {
     @Autowired
     private ProcessKeyDao processKeyDao;
+
     @Override
     public List<ProcessKey> queryAllByPriority(int content_key_id) {
         return processKeyDao.queryAllByPriority(content_key_id);
@@ -37,5 +38,20 @@ public class ProcessKeyServiceImpl implements ProcessKeyService {
     @Override
     public void updateProcessKeyById(int process_key_id, String process_key) {
         processKeyDao.updateProcessKeyById(process_key_id,process_key);
+    }
+
+    @Override
+    public List<ProcessKey> queryByPriority(int process_priority,int content_key_id) {
+        return processKeyDao.queryByPriority(process_priority,content_key_id);
+    }
+
+    /**
+     * 2017.12.05 yjz 更新处理过程关键字的申告内容关键字ID
+     * @param process_key_id
+     * @param content_key_id
+     */
+    @Override
+    public void updateContentIdById(int process_key_id, int content_key_id) {
+        processKeyDao.updateContentIdById(process_key_id,content_key_id);
     }
 }
