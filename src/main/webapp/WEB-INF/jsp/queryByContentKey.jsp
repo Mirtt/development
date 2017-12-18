@@ -1,18 +1,24 @@
 <%--
   Created by IntelliJ IDEA.
   User: Zyq
-  Date: 2017/9/14
-  Time: 13:44
+  Date: 2017/12/18
+  Time: 14:00
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%
+    String ctx = request.getContextPath();
+%>
 <html>
 <head>
-    <title>故障现象</title>
+    <title>申告内容查询</title>
+    <link type="text/css" href="<%=ctx%>/css/bootstrap.css" rel="stylesheet">
+    <link type="text/css" href="<%=ctx%>/css/bootstrap-table.css" rel="stylesheet">
+    <link type="text/css" href="<%=ctx%>/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link type="text/css" href="<%=ctx%>/css/bootstrap-editable.css" rel="stylesheet">
+    <link type="text/css" href="<%=ctx%>/css/select2.min.css" rel="stylesheet">
 </head>
 <body>
-<%@ include file="common/header.jsp" %>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -24,15 +30,30 @@
                         <div class="panel-body">
                             <form id="formSearch" class="form-horizontal">
                                 <div class="form-group" style="margin-top:15px">
-                                    <label class="control-label col-sm-1" for="search_problem_id">故障现象编号</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="form-control" id="search_problem_id"
-                                               name="problem_id">
+                                    <label class="control-label col-sm-1" for="datetimepicker">选择日期：</label>
+                                    <!--指定 date标记-->
+                                    <div class='col-sm-2 date'>
+                                        <input id='datetimepicker' type='text' readonly class="form-control" name="date"/>
                                     </div>
-                                    <label class="control-label col-sm-1" for="search_problem">故障现象</label>
-                                    <div class="col-sm-2">
-                                        <input type="text" class="form-control" id="search_problem" name="problem"
-                                               placeholder="支持模糊查询">
+                                    <label class="control-label col-sm-1" for="sel_content_key">申告内容关键字</label>
+                                    <div class="col-sm-4">
+                                        <select id="sel_content_key" multiple="multiple" class="form-control">
+                                            <optgroup label="系统设置">
+                                                <option value="1">用户管理</option>
+                                                <option value="2">角色管理</option>
+                                                <option value="3">部门管理</option>
+                                                <option value="4">菜单管理</option>
+                                            </optgroup>
+                                            <optgroup label="订单管理">
+                                                <option value="5">订单查询</option>
+                                                <option value="6">订单导入</option>
+                                                <option value="7">订单删除</option>
+                                                <option value="8">订单撤销</option>
+                                            </optgroup>
+                                            <optgroup label="基础数据">
+                                                <option value="9">基础数据维护</option>
+                                            </optgroup>
+                                        </select>
                                     </div>
                                     <div class="col-sm-4" style="text-align:left;">
                                         <button type="button" style="margin-left:50px" id="btn_query"
@@ -43,24 +64,15 @@
                             </form>
                         </div>
                     </div>
-                    <form action="<%=ctx%>/report" method="post">
+                    <form action="" method="">
                         <div id="toolbar" class="btn-group">
                             <button id="btn_add" type="submit" class="btn btn-default">
                                 <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>&nbsp;&nbsp;导出结果
                             </button>
-                            <button id="btn_refresh" type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>&nbsp;&nbsp;刷新
-                            </button>
                         </div>
                         <table id="problem" class="table table-hover table-bordered"></table>
                     </form>
-                    <input type="file" id="file_id" name="file_name">
-                    <button class="btn-default" id="test_button">测试后台</button>
-                    <c:if test="${msg != null}">
-                        <p id="msg" style="display: none">${msg}</p>
-                    </c:if>
                 </div>
-                <div class="col-md-0"></div>
             </div>
         </div>
     </div>
@@ -69,32 +81,25 @@
 <script src="<%=ctx%>/js/bootstrap.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-table.js"></script>
 <script src="<%=ctx%>/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="<%=ctx%>/js/bootstrap-datetimepicker.min.js"></script>
+<script src="<%=ctx%>/js/moment-with-locales.min.js"></script>
+<script src="<%=ctx%>/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="<%=ctx%>/js/select2.min.js"></script>
 <script type="text/javascript">
-    var localObj = window.location;
-    var contextPath = localObj.pathname.split("/")[1];
-    var basePath= localObj.protocol+"//"+localObj.host+"/"+contextPath;
-
-    //前台判断不要传空值
-    $("button[type=submit]").click(function () {
-        if ($("[name=key_id]:checkbox:checked").length < 1) {
-            alert("请选择关键字");
-            return false;
-        } else {
-            this.submit();
-        }
-    });
-    //打出后台的msg错误信息
     $(function () {
-        var msg = $("p#msg").text();
-        if (msg != null && msg != "") {
-            alert(msg);
-        }
-    });
-    //初始化table（使用bootstrap table插件）
-    $(function () {
-        initTable();
-    });
-
+        $('#datetimepicker').datetimepicker({
+            format: 'yyyy-mm',
+            language: ('zh-CN'),
+            locale: moment.locale('zh-cn'),
+            minView: 'year',
+            startView: 'year',
+            autoclose: true
+        });
+        $("#sel_content_key").select2({
+            tags: true,
+            maximumSelectionLength: 3  //最多能够选择的个数
+        });
+    })
     function initTable() {
         var url = "<%=ctx%>/initTable";
         $("#problem").bootstrapTable("destroy");
@@ -111,7 +116,7 @@
             pagination: true,//是否显示分页（*）
             pageSize: 10,//每页的记录行数（*）
             pageNumber: 1,//初始化加载第一页，默认第一页
-            pageList: [10,25,50,'All'],//可供选择的每页的行数（*）
+            pageList: [10, 25, 50, 'All'],//可供选择的每页的行数（*）
             height: 500,
             width: $(window).width(),
             showColumns: false,//是否自定义显示列
@@ -139,23 +144,19 @@
                 {
                     field: "problem",
                     title: "故障现象名称",
-                    halign:"center",
-                    align:"center",
-                    width:"80%"
+                    halign: "center",
+                    align: "center",
+                    width: "80%"
                 }
             ]
         });
     }
-    $("#btn_refresh").click(function () {
-        initTable();
-    });
-
     $("#btn_query").click(function () {
-       var pid=$("#search_problem_id").val();
-       var p=$("#search_problem").val();
-        $("#problem").bootstrapTable('refresh',{
-            url:"<%=ctx%>/searchTable",
-            query:{problem_id:pid,problem:p}
+        var pid = $("#search_problem_id").val();
+        var p = $("#search_problem").val();
+        $("#problem").bootstrapTable('refresh', {
+            url: "<%=ctx%>/searchTable",
+            query: {problem_id: pid, problem: p}
         })
     });
     function queryParams(params) {//查询参数传递

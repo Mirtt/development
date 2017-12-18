@@ -109,7 +109,7 @@
                 },
                 {
                     field: "content_key_id",
-                    title: "申告内容关键字编号(0表示未配置)",
+                    title: "申告内容关键字编号",
                     width: 10,
                     align: 'center',
                     valign: 'center'

@@ -58,6 +58,9 @@
                             <a href="<%=ctx%>/stat">统计</a>
                         </li>
                         <li>
+                            <a href="<%=ctx%>/query">工单查询导出</a>
+                        </li>
+                        <li>
                             <a href="<%=ctx%>/test">test</a>
                         </li>
                     </ul>
