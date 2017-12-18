@@ -80,8 +80,8 @@ public class ConfigController {
     @ResponseBody
     public DataJson pkConfigSearchTable(@RequestParam(required = false, value = "process_key") String process_key,
                                         @RequestParam(required = false, value = "content_key") String content_key,
-                                        @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
-                                        @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize) {
+                                        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                        @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         DataJson dataJson = new DataJson();
         List<Stat> rows = new ArrayList<>(16);
         int total = 0;
@@ -284,7 +284,7 @@ public class ConfigController {
             //判断是否存在该优先级 若存在则插入到该优先级其余优先级向后加一，不存在则直接添加
             int cp = Integer.parseInt(content_priority);
             List<ContentKey> contentKeyList = contentKeyService.queryByPriority(cp);
-            if (contentKeyList.get(0).getContent_priority() == cp) {
+            if (contentKeyList.size() != 0 && contentKeyList.get(0).getContent_priority() == cp) {
                 Map<Integer, Integer> contentKeyMap = new HashMap<>(16);// id--priority 对应关系
                 for (ContentKey c : contentKeyList) {
                     c.setContent_priority(c.getContent_priority() + 1);
@@ -323,8 +323,8 @@ public class ConfigController {
             model.addAttribute("msg", "请输入正确的申告内容关键字ID");
             return "processKeyConfig";
         }
-        List<ProcessKey> processKeyList = processKeyService.queryByPriority(process_priority,cid);
-        if (processKeyList.get(0).getProcess_priority()==process_priority){
+        List<ProcessKey> processKeyList = processKeyService.queryByPriority(process_priority, cid);
+        if (processKeyList.size() != 0 && processKeyList.get(0).getProcess_priority() == process_priority) {
             Map<Integer, Integer> updateMap = new HashMap<>(16);//需要更新的行
             for (int i = 0; i < processKeyList.size(); i++) {
                 ProcessKey p = processKeyList.get(i);
@@ -353,21 +353,22 @@ public class ConfigController {
     @ResponseBody
     public DataJson editProcessKey(ProcessKey processKey) {
         DataJson d = new DataJson();
-        processKeyService.updateProcessKeyById(processKey.getProcess_key_id(),processKey.getProcess_key());
+        processKeyService.updateProcessKeyById(processKey.getProcess_key_id(), processKey.getProcess_key());
         d.setStatus("success");
         return d;
     }
 
     /**
      * 2017.12.05 yjz 更新处理过程关键字的内容申告关键字id
+     *
      * @param processKey
      * @return
      */
-    @RequestMapping(value = "//editCIdOfProcessKey",method = RequestMethod.POST)
+    @RequestMapping(value = "//editCIdOfProcessKey", method = RequestMethod.POST)
     @ResponseBody
-    public DataJson editCIdOfProcessKey(ProcessKey processKey){
+    public DataJson editCIdOfProcessKey(ProcessKey processKey) {
         DataJson d = new DataJson();
-        processKeyService.updateContentIdById(processKey.getProcess_key_id(),processKey.getContent_key_id());
+        processKeyService.updateContentIdById(processKey.getProcess_key_id(), processKey.getContent_key_id());
         d.setStatus("success");
         return d;
     }
