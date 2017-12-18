@@ -26,6 +26,7 @@ import java.util.*;
  * @authur Zyq
  * @create 2017/11/9.
  */
+//branch
 @Controller
 public class ConfigController {
     @Autowired
