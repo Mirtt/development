@@ -68,4 +68,9 @@ public class ContentKeyServiceImpl implements ContentKeyService {
     public void updateContentKeyById(int content_key_id, String content_key) {
         contentKeyDao.updateContentKeyById(content_key_id,content_key);
     }
+
+    @Override
+    public List<ContentKey> listContentKeyByProblemId(int problem_id) {
+        return contentKeyDao.listContentKeyByProblemId(problem_id);
+    }
 }

@@ -23,6 +23,10 @@ public interface ProcessKeyService {
 
     List<ProcessKey> queryByPriority(int process_priority,int content_key_id);
 
+    List<String> queryReason();
+
+    List<ProcessKey> listByReason(String reason);
+
     /**
      * 2017.12.05 yjz 更新处理过程关键字的申告内容关键字ID
      * @param process_key_id

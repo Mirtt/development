@@ -65,10 +65,8 @@
         </div>
     </div>
 </div>
-<script src="<%=ctx%>/js/jquery-3.2.1.min.js"></script>
-<script src="<%=ctx%>/js/bootstrap.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-table.js"></script>
-<script src="<%=ctx%>/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="<%=ctx%>/js/locales/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript">
     var localObj = window.location;
     var contextPath = localObj.pathname.split("/")[1];

@@ -40,10 +40,9 @@
 <div id="chart-pie" style="width: 600px;height:600px;margin: 0 auto;"></div>
 
 <button id="test">alert</button>
-<script src="<%=ctx%>/js/jquery-3.2.1.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-datetimepicker.min.js"></script>
 <script src="<%=ctx%>/js/moment-with-locales.min.js"></script>
-<script src="<%=ctx%>/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="<%=ctx%>/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <!-- 引入 ECharts 文件 -->
 <script src="<%=ctx%>/js/echarts.js"></script>
 <script type="text/javascript">

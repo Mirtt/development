@@ -49,10 +49,12 @@ public class ConfigController {
     @RequestMapping(value = "/pkConfigTable", method = RequestMethod.GET)
     @ResponseBody
     public DataJson pkConfigTable(@RequestParam(defaultValue = "1") Integer pageNum,
-                                  @RequestParam(defaultValue = "10") Integer pageSize) {
+                                  @RequestParam(defaultValue = "10") String pageSize) {
         DataJson dataJson = new DataJson();
         int total = 0;
-        PageHelper.startPage(pageNum, pageSize);
+        if (!pageSize.equals("All")){
+            PageHelper.startPage(pageNum,Integer.parseInt(pageSize));
+        }
         List<ContentKey> contentKeyList = contentKeyService.queryProcessKey();
         List<ContentKey> totalList = contentKeyService.queryProcessKey();
         for (ContentKey c : totalList) {
@@ -82,12 +84,14 @@ public class ConfigController {
     public DataJson pkConfigSearchTable(@RequestParam(required = false, value = "process_key") String process_key,
                                         @RequestParam(required = false, value = "content_key") String content_key,
                                         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                                        @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+                                        @RequestParam(value = "pageSize", defaultValue = "10") String pageSize) {
         DataJson dataJson = new DataJson();
         List<Stat> rows = new ArrayList<>(16);
         int total = 0;
         if (content_key != null && !content_key.equals("") && (process_key == null || process_key.equals(""))) {
-            PageHelper.startPage(pageNum, pageSize);
+            if (!pageSize.equals("All")){
+                PageHelper.startPage(pageNum,Integer.parseInt(pageSize));
+            }
             List<ContentKey> contentKeyList = contentKeyService.queryLikeContentKey(content_key);
             List<ContentKey> totalList = contentKeyService.queryLikeContentKey(content_key);
             for (ContentKey c : totalList) {
@@ -108,7 +112,9 @@ public class ConfigController {
             }
         }
         if (process_key != null && !process_key.equals("") && (content_key == null || content_key.equals(""))) {
-            PageHelper.startPage(pageNum, pageSize);
+            if (!pageSize.equals("All")){
+                PageHelper.startPage(pageNum,Integer.parseInt(pageSize));
+            }
             List<ContentKey> contentKeyList = contentKeyService.queryLikeProcessKey(process_key);
             List<ContentKey> totalList = contentKeyService.queryLikeProcessKey(process_key);
             for (ContentKey c : totalList) {
@@ -129,7 +135,9 @@ public class ConfigController {
             }
         }
         if (content_key != null && !content_key.equals("") && process_key != null && !process_key.equals("")) {
-            PageHelper.startPage(pageNum, pageSize);
+            if (!pageSize.equals("All")){
+                PageHelper.startPage(pageNum,Integer.parseInt(pageSize));
+            }
             List<ContentKey> contentKeyList = contentKeyService.queryLikeContentKeyAndProcessKey(content_key, process_key);
             List<ContentKey> totalList = contentKeyService.queryLikeContentKeyAndProcessKey(content_key, process_key);
             for (ContentKey c : totalList) {
@@ -159,12 +167,14 @@ public class ConfigController {
     public DataJson ckConfigSearchTable(@RequestParam(required = false, value = "problem") String problem,
                                         @RequestParam(required = false, value = "content_key") String content_key,
                                         @RequestParam(defaultValue = "1") Integer pageNum,
-                                        @RequestParam(defaultValue = "10") Integer pageSize) {
+                                        @RequestParam(defaultValue = "10") String pageSize) {
         DataJson dataJson = new DataJson();
         List<Stat> rows = new ArrayList<>(16);
         int total = 0;
         if (problem != null && !problem.equals("") && (content_key == null || content_key.equals(""))) {
-            PageHelper.startPage(pageNum, pageSize);
+            if (!pageSize.equals("All")){
+                PageHelper.startPage(pageNum,Integer.parseInt(pageSize));
+            }
             List<Problem> problemList = problemService.queryLikeProblem(problem);
             List<Problem> totalList = problemService.queryLikeProblem(problem);
             for (Problem p : totalList) {
@@ -184,7 +194,9 @@ public class ConfigController {
             }
         }
         if (content_key != null && !content_key.equals("") && (problem == null || problem.equals(""))) {
-            PageHelper.startPage(pageNum, pageSize);
+            if (!pageSize.equals("All")){
+                PageHelper.startPage(pageNum,Integer.parseInt(pageSize));
+            }
             List<Problem> problemList = problemService.queryLikeContentKey(content_key);
             List<Problem> totalList = problemService.queryLikeContentKey(content_key);
             for (Problem p : totalList) {
@@ -204,7 +216,9 @@ public class ConfigController {
             }
         }
         if (problem != null && !problem.equals("") && content_key != null && !content_key.equals("")) {
-            PageHelper.startPage(pageNum, pageSize);
+            if (!pageSize.equals("All")){
+                PageHelper.startPage(pageNum,Integer.parseInt(pageSize));
+            }
             List<Problem> problemList = problemService.queryLikeProblemAndContentKey(problem, content_key);
             List<Problem> totalList = problemService.queryLikeProblemAndContentKey(problem, content_key);
             for (Problem p : totalList) {
@@ -232,10 +246,12 @@ public class ConfigController {
     @RequestMapping(value = "/ckConfigTable", method = RequestMethod.GET)
     @ResponseBody
     public DataJson ckConfigTable(@RequestParam(defaultValue = "1") Integer pageNum,
-                                  @RequestParam(defaultValue = "10") Integer pageSize) {
+                                  @RequestParam(defaultValue = "10")String pageSize) {
         DataJson dataJson = new DataJson();
         int total = 0;
-        PageHelper.startPage(pageNum, pageSize);
+        if (!pageSize.equals("All")){
+            PageHelper.startPage(pageNum,Integer.parseInt(pageSize));
+        }
         List<Problem> problemList = problemService.queryContentKey();
         List<Problem> totalList = problemService.queryContentKey();
         for (Problem p : totalList) {

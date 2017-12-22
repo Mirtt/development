@@ -20,10 +20,10 @@
                     <div class="tabbable" id="tabs-958427">
                         <ul class="nav nav-tabs nav-pills nav-stacked">
                             <li class="active">
-                                <a href="#panel-924198" data-toggle="tab">申告内容查询</a>
+                                <a href="#panel-924198" data-toggle="tab">按关键字查询</a>
                             </li>
                             <li>
-                                <a href="#panel-643052" data-toggle="tab">处理过程查询</a>
+                                <a href="#panel-1" data-toggle="tab">自定义查询</a>
                             </li>
                         </ul>
                     </div>
@@ -32,12 +32,10 @@
                     <div class="tabbable" id="tabs-145046">
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="panel-924198">
-                                    <jsp:include page="queryByContentKey.jsp"/>
+                                <jsp:include page="queryByKey.jsp"/>
                             </div>
-                            <div class="tab-pane fade" id="panel-643052">
-                                <p>
-                                    Howdy, I'm in Section 2.222
-                                </p>
+                            <div class="tab-pane fade" id="panel-1">
+                                <jsp:include page="queryFree.jsp"/>
                             </div>
                         </div>
                     </div>

@@ -24,6 +24,10 @@
     <select id="queryById" resultMap="ContentKey">
         SELECT * FROM content_key WHERE content_key_id=#{content_key_id}
     </select>
+    
+    <select id="listContentKeyByProblemId" resultMap="ContentKey">
+        SELECT * FROM content_key WHERE problem_id=#{problem_id} ORDER BY content_priority
+    </select>
 
     <select id="queryProcessKey" resultMap="ContentKey">
        SELECT c.content_key_id AS content_key_id , c.content_key AS content_key,

@@ -242,4 +242,19 @@ public class ResultServiceImpl implements ResultService {
         }
         //todo null-->other
     }
+
+    @Override
+    public List<Result> listByCkAndPk(String start, String end, String[] ckList, String[] pkList) {
+        return resultDao.listByCkAndPk(start,end,ckList,pkList);
+    }
+
+    @Override
+    public List<Result> listResultByBalkNoList(String[] balk_no_list) {
+        return resultDao.listResultByBalkNoList(balk_no_list);
+    }
+
+    @Override
+    public List<Result> listLikeCkAndPk(String start, String end, String ck, String pk) {
+        return resultDao.listLikeCkAndPk(start, end, ck, pk);
+    }
 }
