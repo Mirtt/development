@@ -46,7 +46,7 @@ public class QueryController {
     @Autowired
     ResultService resultService;
 
-    @RequestMapping(value = "")
+    @RequestMapping(value = "/")
     public String query(Model model) {
         return "query";
     }

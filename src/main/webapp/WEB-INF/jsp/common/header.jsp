@@ -45,24 +45,24 @@
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="<%=ctx%>/search">故障现象分析</a>
-                        </li>
-                        <li>
-                            <a href="<%=ctx%>/ckConfig">申告内容关键字配置</a>
-                        </li>
-                        <li>
-                            <a href="<%=ctx%>/pkConfig">处理过程关键字配置</a>
+                        <li  class="active">
+                            <a href="<%=ctx%>/query/">工单查询导出</a>
                         </li>
                         <li>
                             <a href="<%=ctx%>/stat">统计</a>
                         </li>
                         <li>
-                            <a href="<%=ctx%>/query">工单查询导出</a>
+                            <a href="<%=ctx%>/search">故障现象分析</a>
                         </li>
-                        <li>
-                            <a href="<%=ctx%>/test">test</a>
-                        </li>
+                        <%--<li>--%>
+                        <%--<a href="<%=ctx%>/ckConfig">申告内容关键字配置</a>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                        <%--<a href="<%=ctx%>/pkConfig">处理过程关键字配置</a>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                        <%--<a href="<%=ctx%>/test">test</a>--%>
+                        <%--</li>--%>
                     </ul>
                 </div>
             </nav>

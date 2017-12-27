@@ -54,8 +54,8 @@
                         </div>
                         <table id="problem" class="table table-hover table-bordered"></table>
                     </form>
-                    <input type="file" id="file_id" name="file_name">
-                    <button class="btn-default" id="test_button">测试后台</button>
+                    <%--<input type="file" id="file_id" name="file_name">--%>
+                    <%--<button class="btn-default" id="test_button">测试后台</button>--%>
                     <c:if test="${msg != null}">
                         <p id="msg" style="display: none">${msg}</p>
                     </c:if>

@@ -134,7 +134,7 @@
                     AND r.content_key IS NULL
                 </when>
                 <otherwise>
-                    AND r.content_key LIKE '%${content_key}%'
+                    AND r.balk_content LIKE '%${content_key}%'
                 </otherwise>
             </choose>
         </if>
@@ -144,7 +144,7 @@
                     AND r.proc_key IS NULL
                 </when>
                 <otherwise>
-                    AND r.proc_key LIKE '%${process_key}%'
+                    AND r.intro LIKE '%${process_key}%'
                 </otherwise>
             </choose>
         </if>

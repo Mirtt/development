@@ -107,7 +107,7 @@
     });
     $("#qf_btn_download").click(function () {
         var balk_no_list=[];
-        var t=document.getElementsByName("balk_no_list");
+        var t=document.getElementsByName("qf_balk_no_list");
         for(var i=0;i<t.length;i++){
             if (t[i].checked)
                 balk_no_list.push(t[i].value);
@@ -156,7 +156,7 @@
             //表前复选框
             clickToSelect: true,//是否启用点击选中行
             idField: "balk_no",//重要---可设置checkbox的值为指定字段
-            selectItemName: "balk_no_list",    //设置checkbox name属性，可用于遍历获取选中值
+            selectItemName: "qf_balk_no_list",    //设置checkbox name属性，可用于遍历获取选中值
             uniqueId: "no",//每一行的唯一标识，一般为主键列
             showToggle: true,//是否显示详细视图和列表视图的切换按钮
             cardView: false,//是否显示详细视图
