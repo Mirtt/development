@@ -45,6 +45,16 @@ public class ProcessKeyServiceImpl implements ProcessKeyService {
         return processKeyDao.queryByPriority(process_priority,content_key_id);
     }
 
+    @Override
+    public List<String> queryReason() {
+        return processKeyDao.queryReason();
+    }
+
+    @Override
+    public List<ProcessKey> listByReason(String reason) {
+        return processKeyDao.listByReason(reason);
+    }
+
     /**
      * 2017.12.05 yjz 更新处理过程关键字的申告内容关键字ID
      * @param process_key_id

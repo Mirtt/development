@@ -51,4 +51,12 @@ public class ResultDaoTest extends BaseTest {
         List<Result> resultList=resultDao.queryByProblem(problems);
         System.out.println("success");
     }
+
+    @Test
+    public void listByCkAndPk() throws Exception{
+        String[] cklist={""};
+        String[] pklist={""};
+        List<Result> resultList=resultDao.listByCkAndPk("2017-06","2017-07",cklist,pklist);
+        System.out.println(resultList.size());
+    }
 }

@@ -41,6 +41,14 @@
         WHERE process_priority >= #{process_priority} AND content_key_id = #{content_key_id}
         ORDER BY process_priority
     </select>
+    
+    <select id="queryReason" resultType="String">
+        SELECT DISTINCT reason FROM process_key
+    </select>
+
+    <select id="listByReason" resultMap="ProcessKey">
+        SELECT * FROM process_key WHERE reason=#{reason}
+    </select>
 
     <!-- 2017.12.05 yjz -->
     <!-- 更新处理过程关键字的申告内容关键字ID -->

@@ -59,11 +59,9 @@
         </div>
     </div>
 </div>
-<script src="<%=ctx%>/js/jquery-3.2.1.min.js"></script>
-<script src="<%=ctx%>/js/bootstrap.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-editable.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-table.js"></script>
-<script src="<%=ctx%>/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="<%=ctx%>/js/locales/bootstrap-table-zh-CN.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-table-editable.min.js"></script>
 <script type="text/javascript">
     $(function () {
@@ -109,7 +107,7 @@
                 },
                 {
                     field: "content_key_id",
-                    title: "申告内容关键字编号(0表示未配置)",
+                    title: "申告内容关键字编号",
                     width: 10,
                     align: 'center',
                     valign: 'center'

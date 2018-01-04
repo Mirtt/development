@@ -35,4 +35,6 @@ public interface ContentKeyService {
     ContentKey queryById(int content_key_id);
 
     void updateContentKeyById(int content_key_id,String content_key);
+
+    List<ContentKey> listContentKeyByProblemId(int problem_id);
 }

@@ -90,4 +90,63 @@
         ifnull(r.reason,'其他') AS reason
         FROM result AS  r WHERE r.write_time=#{write_time} ORDER BY r.problem,r.reason,r.content_key,r.proc_key
     </select>
+
+    <select id="listByCkAndPk" resultMap="Result">
+        SELECT * FROM result AS r
+        WHERE
+        r.write_time BETWEEN #{start_time} AND #{end_time}
+        <if test="content_key_list.length > 1">
+            AND
+            r.content_key IN
+            <foreach collection="content_key_list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="process_key_list.length > 1">
+            AND
+            r.proc_key IN
+            <foreach collection="process_key_list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY r.write_time,r.content_key,r.proc_key
+    </select>
+
+    <select id="listResultByBalkNoList" resultMap="Result">
+        SELECT r.user_id,r.type,r.balk_no,r.balk_content,r.write_dept_name,r.intro,
+        ifnull(r.content_key,'其他') AS content_key,
+        ifnull(r.proc_key,'其他') AS proc_key,
+        ifnull(r.problem,'其他') AS problem,
+        ifnull(r.reason,'其他') AS reason FROM result AS r WHERE r.balk_no IN
+        <foreach collection="balk_no_list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ORDER BY r.balk_no
+    </select>
+
+    <select id="listLikeCkAndPk" resultMap="Result">
+        SELECT * FROM result AS r
+        WHERE
+        r.write_time BETWEEN #{start_time} AND #{end_time}
+        <if test='content_key !=null and content_key != "".toString()'>
+            <choose>
+                <when test='content_key=="其他".toString()'>
+                    AND r.content_key IS NULL
+                </when>
+                <otherwise>
+                    AND r.balk_content LIKE '%${content_key}%'
+                </otherwise>
+            </choose>
+        </if>
+        <if test='process_key !=null and process_key != "".toString()'>
+            <choose>
+                <when test='process_key=="其他".toString()'>
+                    AND r.proc_key IS NULL
+                </when>
+                <otherwise>
+                    AND r.intro LIKE '%${process_key}%'
+                </otherwise>
+            </choose>
+        </if>
+    </select>
 </mapper>

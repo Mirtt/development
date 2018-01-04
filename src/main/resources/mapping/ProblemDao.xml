@@ -22,7 +22,7 @@
     </resultMap>
 
     <select id="queryAll" resultMap="Problem">
-        SELECT * FROM problem
+        SELECT * FROM problem ORDER BY problem_id
     </select>
 
     <select id="countAll" resultType="Integer">

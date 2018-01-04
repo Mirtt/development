@@ -54,8 +54,8 @@
                         </div>
                         <table id="problem" class="table table-hover table-bordered"></table>
                     </form>
-                    <input type="file" id="file_id" name="file_name">
-                    <button class="btn-default" id="test_button">测试后台</button>
+                    <%--<input type="file" id="file_id" name="file_name">--%>
+                    <%--<button class="btn-default" id="test_button">测试后台</button>--%>
                     <c:if test="${msg != null}">
                         <p id="msg" style="display: none">${msg}</p>
                     </c:if>
@@ -65,10 +65,8 @@
         </div>
     </div>
 </div>
-<script src="<%=ctx%>/js/jquery-3.2.1.min.js"></script>
-<script src="<%=ctx%>/js/bootstrap.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-table.js"></script>
-<script src="<%=ctx%>/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="<%=ctx%>/js/locales/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript">
     var localObj = window.location;
     var contextPath = localObj.pathname.split("/")[1];
@@ -168,38 +166,5 @@
         return param;
     }
 </script>
-<%--暂时没用--%>
-<div class="modal fade actormodal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">update actor</h4>
-            </div>
-            <form action="updateactor" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="fname">first name</label>
-                        <input type="text" name="first_name" class="form-control" id="fname">
-                    </div>
-                    <div class="form-group">
-                        <label for="lname">last name</label>
-                        <input type="text" name="last_name" class="form-control" id="lname">
-                    </div>
-                    <div class="form-group ">
-                        <label for="lupdate">last update</label>
-                        <input type="text" name="last_update" class="form-control" id="lupdate">
-                        <input type="hidden" id="actorid" name="id"/>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 </body>
 </html>

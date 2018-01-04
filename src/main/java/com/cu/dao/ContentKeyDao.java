@@ -68,4 +68,6 @@ public interface ContentKeyDao {
     ContentKey queryById(@Param("content_key_id")int content_key_id);
 
     void updateContentKeyById(@Param("content_key_id")int content_key_id,@Param("content_key")String content_key);
+
+    List<ContentKey> listContentKeyByProblemId(@Param("problem_id")int problem_id);
 }

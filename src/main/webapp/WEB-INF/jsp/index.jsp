@@ -56,16 +56,16 @@
                                         <input class="form-control" id="password" type="password" name="password" required="required" placeholder="密码">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-1 col-sm-10">
-                                        <div class="checkbox">
+                                <%--<div class="form-group">--%>
+                                    <%--<div class="col-sm-offset-1 col-sm-10">--%>
+                                        <%--<div class="checkbox">--%>
 
-                                            <label>
-                                                <input type="checkbox"> 记住用户名
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
+                                            <%--<label>--%>
+                                                <%--<input type="checkbox"> 记住用户名--%>
+                                            <%--</label>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
                                 <div class="form-group">
                                     <div class="col-sm-offset-1 col-sm-10">
 

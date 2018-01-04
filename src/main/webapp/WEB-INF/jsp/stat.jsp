@@ -40,10 +40,9 @@
 <div id="chart-pie" style="width: 600px;height:600px;margin: 0 auto;"></div>
 
 <button id="test">alert</button>
-<script src="<%=ctx%>/js/jquery-3.2.1.min.js"></script>
 <script src="<%=ctx%>/js/bootstrap-datetimepicker.min.js"></script>
 <script src="<%=ctx%>/js/moment-with-locales.min.js"></script>
-<script src="<%=ctx%>/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="<%=ctx%>/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <!-- 引入 ECharts 文件 -->
 <script src="<%=ctx%>/js/echarts.js"></script>
 <script type="text/javascript">
@@ -112,6 +111,7 @@
             }
         ]
     };
+
     function loadBar(barChart, dateTime) {
         $.getJSON('<%=ctx%>/chart?date=' + dateTime, function (json) {
             barChart.setOption({
@@ -126,7 +126,9 @@
                 }
             });
         });
+        barChart.on("click", drillBar);
     }
+
     function loadPie(pieChart, dateTime) {
         $.getJSON('<%=ctx%>/chart?date=' + dateTime, function (json) {
             pieChart.setOption({
@@ -140,6 +142,83 @@
         });
         pieChart.on("click", drill);
     }
+
+    function drillBar(param) {
+        var dateTime = $("#datetimepicker").val();
+        var barChart = echarts.init(document.getElementById("chart-bar"));
+        var initDrillBar = {
+            title: {
+                text: '故障原因数量',
+                x: "center"
+            },
+            toolbox: {
+                show: true,
+                left: "5%",
+                itemSize: 30,
+                feature: {
+                    dataView: {show: true, readOnly: false},
+                    myTool: {
+                        show: true,
+                        title: '返回',
+                        icon: 'image://<%=ctx%>/images/back.png',
+                        onclick: function () {
+                            var dateTime = $("#datetimepicker").val();
+                            barChart.dispose();
+                            backTopBar(dateTime);
+                        }
+                    }
+                }
+            },
+            tooltip: {},
+            legend: {
+                data: []
+            },
+            xAxis: {
+                axisLabel: {
+                    interval:0,
+                    rotate:30
+                },
+                data: []
+            },
+            grid: {
+                left: '10%',
+                bottom:'20%'
+            },
+            yAxis: {},
+            series: [{
+                name: '数量',
+                type: 'bar',
+                data: [],
+                itemStyle: {
+                    normal: {
+                        color: "#3F846A",
+                        label: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                },
+                barWidth: 70
+            }]
+        };
+        barChart.setOption(initDrillBar);
+        $.getJSON('<%=ctx%>/drill?date=' + dateTime + '&problem=' + encodeURI(encodeURI(param.data.name)), function (json) {
+            barChart.setOption({
+                legend: {
+                    data: json["reasons"]
+                },
+                xAxis: {
+                    data: json["reasons"]
+                },
+                series: {
+                    data: json["reasonMapArray"]
+                }
+            })
+        });
+        barChart.off("click");
+    }
+
     function drill(param) {
         var dateTime = $("#datetimepicker").val();
         var pieChart = echarts.init(document.getElementById('chart-pie'));
@@ -208,6 +287,7 @@
         });
         pieChart.off("click");
     }
+
     function backTop(dateTime) {
         var pieChart = echarts.init(document.getElementById('chart-pie'));
         var initPie = {
@@ -248,6 +328,43 @@
         loadPie(pieChart, dateTime);
         pieChart.on("click", drill);
     }
+    function backTopBar(dateTime) {
+        var barChart = echarts.init(document.getElementById('chart-bar'));
+        var initBar = {
+            title: {
+                text: '故障现象数量',
+                x: "center"
+            },
+            tooltip: {},
+            legend: {
+                data: []
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+            series: [{
+                name: '数量',
+                type: 'bar',
+                data: [],
+                itemStyle: {
+                    normal: {
+                        color: "#3F846A",
+                        label: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                },
+                barWidth: 70
+            }]
+        };
+        barChart.setOption(initBar);
+        loadBar(barChart,dateTime);
+        barChart.on("click", drillBar);
+    }
+
     $(function () {
         $('#datetimepicker').datetimepicker({
             format: 'yyyy-mm',

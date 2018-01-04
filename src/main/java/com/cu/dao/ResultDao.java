@@ -24,7 +24,6 @@ public interface ResultDao {
      * 将结果对应的申告内容关键字和申告内容关键字对应的故障现象存入result中
      * @param content_key
      */
-    //todo
     void updateContentKeyAndProblem(@Param("content_key")String content_key,@Param("problem")String problem,@Param("balk_no_list")List<String> balk_no_list);
 
     /**
@@ -76,4 +75,31 @@ public interface ResultDao {
      * @return
      */
     List<Result> queryByWriteTime(@Param("write_time")String write_time);
+
+    /**
+     * 列出满足条件的结果
+     * @param start
+     * @param end
+     * @param content_key_list
+     * @param process_key_list
+     * @return
+     */
+    List<Result> listByCkAndPk(@Param("start_time")String start,@Param("end_time")String end,@Param("content_key_list")String[] content_key_list,@Param("process_key_list")String[] process_key_list);
+
+    /**
+     * 根据故障单号导出结果
+     * @param balk_no_list
+     * @return
+     */
+    List<Result> listResultByBalkNoList(@Param("balk_no_list")String[] balk_no_list);
+
+    /**
+     * 列出满足条件的结果（模糊 查询ck和pk）
+     * @param start
+     * @param end
+     * @param ck
+     * @param pk
+     * @return
+     */
+    List<Result> listLikeCkAndPk(@Param("start_time")String start,@Param("end_time")String end,@Param("content_key")String content_key,@Param("process_key")String process_key);
 }

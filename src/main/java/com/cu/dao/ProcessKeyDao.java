@@ -51,6 +51,19 @@ public interface ProcessKeyDao {
     void updateProcessKeyById(@Param("process_key_id")int process_key_id,@Param("process_key")String process_key);
 
     /**
+     * 获取原因分类
+     * @return
+     */
+    List<String> queryReason();
+
+    /**
+     * 根据原因搜索处理过程关键字
+     * @param reason
+     * @return
+     */
+    List<ProcessKey> listByReason(@Param("reason")String reason);
+
+    /**
      * 2017.12.05 yjz 根据process_key_id更新content_key_id字段
      * @param process_key_id
      * @param content_key_id

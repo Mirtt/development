@@ -79,4 +79,10 @@ public interface ResultService {
      * 给result表打标签
      */
     void tagResult();
+
+    List<Result> listByCkAndPk(String start,String end,String[] ckList,String[] pkList);
+
+    List<Result> listLikeCkAndPk(String start,String end,String ck,String pk);
+
+    List<Result> listResultByBalkNoList(String[] balk_no_list);
 }
