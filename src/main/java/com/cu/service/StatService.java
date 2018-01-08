@@ -14,5 +14,9 @@ public interface StatService {
 
     List<Stat> resultStat(String date);
 
+    List<Stat> resultStatByType(String date);
+
     List<Stat> resultReason(String problem,String date);
+
+    List<Stat> resultReasonByType(String problem,String date);
 }

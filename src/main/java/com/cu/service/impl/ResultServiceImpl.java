@@ -39,7 +39,11 @@ public class ResultServiceImpl implements ResultService {
             Result result = new Result();
             StringBuffer introTemp = new StringBuffer();//用于整合一个受理单下所有工单的处理过程
             result.setUser_id(0);//todo: 缺少动态获取userid的session方法，待添加
-            result.setType("受理单");//todo 还未知受理单类型如何查询，待添加
+            if (balkBasic.getFirst_dept_id() == 5887){
+                result.setType("VIP受理单");
+            }else {
+                result.setType("普通受理单");//todo 还未知受理单类型如何查询，待添加
+            }
             result.setBalk_no(balkBasic.getBalk_no()); //受理单号
             result.setBalk_content(balkBasic.getBalk_content()); //申告内容
             result.setWrite_dept_name("网管中心.交换中心"); //填写部门

@@ -90,7 +90,6 @@
         <!-- 给出需要扫描Dao接口包 -->
         <property name="basePackage" value="com.cu.dao"/>
     </bean>
-    <context:component-scan base-package="com.cu.dao" />
     <!-- 扫描service包下所有使用注解的类型 -->
     <context:component-scan base-package="com.cu.service" />
     <!-- 配置事务管理器 -->

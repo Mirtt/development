@@ -6,6 +6,7 @@
     <resultMap id="BalkBasic" type="com.cu.model.BalkBasic">
         <result column="balk_no" property="balk_no"/>
         <result column="balk_content" property="balk_content"/>
+        <result column="first_dept_id" property="first_dept_id"/>
         <collection property="sheetProcList" ofType="com.cu.model.SheetProc">
             <result column="write_dept_name" property="write_dept_name"/>
             <result column="type_id" property="type_id"/>

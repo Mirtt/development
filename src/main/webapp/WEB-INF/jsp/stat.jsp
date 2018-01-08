@@ -37,7 +37,7 @@
 
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 <div id="chart-bar" style="width: 800px;height:400px;margin: 0 auto;"></div>
-<div id="chart-pie" style="width: 600px;height:600px;margin: 0 auto;"></div>
+<div id="chart-pie" style="width: 800px;height:600px;margin: 0 auto;"></div>
 
 <button id="test">alert</button>
 <script src="<%=ctx%>/js/bootstrap-datetimepicker.min.js"></script>
@@ -54,28 +54,18 @@
         },
         tooltip: {},
         legend: {
+            type: 'scroll',
+            orient: 'vertical',
+            right: 10,
+            top: 20,
+            bottom: 20,
             data: []
         },
         xAxis: {
             data: []
         },
         yAxis: {},
-        series: [{
-            name: '数量',
-            type: 'bar',
-            data: [],
-            itemStyle: {
-                normal: {
-                    color: "#3F846A",
-                    label: {
-                        show: true,
-                        position: 'top',
-                        formatter: '{c}'
-                    }
-                }
-            },
-            barWidth: 70
-        }]
+        series: []
     };
     var initPie = {
         title: {
@@ -89,7 +79,7 @@
         legend: {
             type: 'scroll',
             orient: 'vertical',
-            right: 10,
+            left: 5,
             top: 20,
             bottom: 20,
             data: []
@@ -99,7 +89,7 @@
                 name: '占比',
                 type: 'pie',
                 radius: '55%',
-                center: ['40%', '50%'],
+                center: ['55%', '50%'],
                 data: [],
                 itemStyle: {
                     emphasis: {
@@ -113,17 +103,36 @@
     };
 
     function loadBar(barChart, dateTime) {
-        $.getJSON('<%=ctx%>/chart?date=' + dateTime, function (json) {
+        $.getJSON('<%=ctx%>/barChart?date=' + dateTime, function (json) {
             barChart.setOption({
                 legend: {
-                    data: json["problems"]
+                    data: ["VIP", "非VIP"]
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'right'
+                    }
                 },
                 xAxis: {
                     data: json["problems"]
                 },
-                series: {
-                    data: json["problemMapArray"]
-                }
+                series: [
+                    {
+                        name: 'VIP',
+                        type: 'bar',
+                        barWidth:20,
+                        stack: 'total',
+                        data: json["vipProblemMapArray"]
+                    },
+                    {
+                        name: '非VIP',
+                        type: 'bar',
+                        barWidth:20,
+                        stack: 'total',
+                        data: json["normalProblemMapArray"]
+                    }
+                ]
             });
         });
         barChart.on("click", drillBar);
@@ -171,49 +180,50 @@
             },
             tooltip: {},
             legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                right: 10,
+                top: 20,
+                bottom: 20,
                 data: []
             },
             xAxis: {
                 axisLabel: {
-                    interval:0,
-                    rotate:30
+                    interval: 0,
+                    rotate: 30
                 },
                 data: []
             },
             grid: {
                 left: '10%',
-                bottom:'20%'
+                bottom: '20%'
             },
             yAxis: {},
-            series: [{
-                name: '数量',
-                type: 'bar',
-                data: [],
-                itemStyle: {
-                    normal: {
-                        color: "#3F846A",
-                        label: {
-                            show: true,
-                            position: 'top',
-                            formatter: '{c}'
-                        }
-                    }
-                },
-                barWidth: 70
-            }]
+            series: []
         };
         barChart.setOption(initDrillBar);
-        $.getJSON('<%=ctx%>/drill?date=' + dateTime + '&problem=' + encodeURI(encodeURI(param.data.name)), function (json) {
+        $.getJSON('<%=ctx%>/barDrill?date=' + dateTime + '&problem=' + encodeURI(encodeURI(param.data.name)), function (json) {
             barChart.setOption({
                 legend: {
-                    data: json["reasons"]
+                    data: ["VIP", "非VIP"]
                 },
                 xAxis: {
                     data: json["reasons"]
                 },
-                series: {
-                    data: json["reasonMapArray"]
-                }
+                series: [
+                    {
+                        name: 'VIP',
+                        type: 'bar',
+                        stack: 'total',
+                        data: json["vipReasonMapArray"]
+                    },
+                    {
+                        name: '非VIP',
+                        type: 'bar',
+                        stack: 'total',
+                        data: json["normalReasonMapArray"]
+                    }
+                ]
             })
         });
         barChart.off("click");
@@ -229,7 +239,7 @@
             },
             toolbox: {
                 show: true,
-                left: "5%",
+                right: "5%",
                 itemSize: 30,
                 feature: {
                     dataView: {show: true, readOnly: false},
@@ -252,7 +262,7 @@
             legend: {
                 type: 'scroll',
                 orient: 'vertical',
-                right: 10,
+                left: 5,
                 top: 20,
                 bottom: 20,
                 data: []
@@ -262,7 +272,7 @@
                     name: '占比',
                     type: 'pie',
                     radius: '55%',
-                    center: ['40%', '50%'],
+                    center: ['55%', '50%'],
                     data: [],
                     itemStyle: {
                         emphasis: {
@@ -302,7 +312,7 @@
             legend: {
                 type: 'scroll',
                 orient: 'vertical',
-                right: 10,
+                left: 5,
                 top: 20,
                 bottom: 20,
                 data: []
@@ -312,7 +322,7 @@
                     name: '占比',
                     type: 'pie',
                     radius: '55%',
-                    center: ['40%', '50%'],
+                    center: ['55%', '50%'],
                     data: [],
                     itemStyle: {
                         emphasis: {
@@ -328,6 +338,7 @@
         loadPie(pieChart, dateTime);
         pieChart.on("click", drill);
     }
+
     function backTopBar(dateTime) {
         var barChart = echarts.init(document.getElementById('chart-bar'));
         var initBar = {
@@ -337,31 +348,21 @@
             },
             tooltip: {},
             legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                right: 10,
+                top: 20,
+                bottom: 20,
                 data: []
             },
             xAxis: {
                 data: []
             },
             yAxis: {},
-            series: [{
-                name: '数量',
-                type: 'bar',
-                data: [],
-                itemStyle: {
-                    normal: {
-                        color: "#3F846A",
-                        label: {
-                            show: true,
-                            position: 'top',
-                            formatter: '{c}'
-                        }
-                    }
-                },
-                barWidth: 70
-            }]
+            series: []
         };
         barChart.setOption(initBar);
-        loadBar(barChart,dateTime);
+        loadBar(barChart, dateTime);
         barChart.on("click", drillBar);
     }
 

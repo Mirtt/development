@@ -14,6 +14,7 @@ public class BalkBasic {
     private List<SheetProc> sheetProcList; //受理单对应多张工单
     private String content_key; //受理单对应的申告内容关键字
     private String proc_key; //受理单对应的处理过程关键字
+    private Integer first_dept_id;//第一受理部门id 5887代表是vip单子
 
     public String getBalk_no() {
         return balk_no;
@@ -53,5 +54,13 @@ public class BalkBasic {
 
     public void setProc_key(String proc_key) {
         this.proc_key = proc_key;
+    }
+
+    public Integer getFirst_dept_id() {
+        return first_dept_id;
+    }
+
+    public void setFirst_dept_id(Integer first_dept_id) {
+        this.first_dept_id = first_dept_id;
     }
 }

@@ -4,19 +4,36 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cu.dao.StatDao">
     <resultMap id="Stat" type="com.cu.model.stat.Stat">
+
     </resultMap>
     
     <select id="resultStat" resultType="com.cu.model.stat.Stat">
         SELECT r.problem AS problem,count(r.problem) AS problemNum FROM
-        (select ifnull(problem,"其他") as problem, write_time from result) AS r
+        (select ifnull(problem,"其他") as problem ,write_time from result) AS r
         WHERE r.write_time=#{date}
         GROUP BY r.problem
     </select>
 
+    <select id="resultStatByType" resultType="com.cu.model.stat.Stat">
+        SELECT r.problem AS problem,count(r.problem) AS problemNum, r.type AS balkType FROM
+        (select ifnull(problem,"其他") as problem,result.type ,write_time from result) AS r
+        WHERE r.write_time= #{date}
+        GROUP BY r.problem,r.type
+    </select>
+
     <select id="resultReason" resultType="com.cu.model.stat.Stat">
         SELECT r.reason AS reason,count(r.reason) AS reasonNum FROM
-        (select ifnull(problem,"其他") as problem, write_time,ifnull(reason,"其他") as reason from result) AS r
+        (select ifnull(problem,"其他") as problem , write_time,ifnull(reason,"其他") as reason from result) AS r
         WHERE r.problem=#{problem} AND r.write_time=#{date}
         GROUP BY r.reason
     </select>
+
+    <select id="resultReasonByType" resultType="com.cu.model.stat.Stat">
+        SELECT r.reason AS reason,count(r.reason) AS reasonNum,r.type AS balkType FROM
+        (select ifnull(problem,"其他") as problem ,result.type, write_time,ifnull(reason,"其他") as reason from result) AS r
+        WHERE r.problem=#{problem} AND r.write_time=#{date}
+        GROUP BY r.reason,r.type
+    </select>
+
+
 </mapper>

@@ -23,6 +23,8 @@ public class Stat implements Comparable<Stat> {
     private int process_priority;//处理过程优先级
     private int process_key_id;//处理过程关键字id
 
+    private String balkType;//
+
 
     public String getProblem() {
         return problem;
@@ -110,6 +112,14 @@ public class Stat implements Comparable<Stat> {
 
     public void setProcess_key_id(int process_key_id) {
         this.process_key_id = process_key_id;
+    }
+
+    public String getBalkType() {
+        return balkType;
+    }
+
+    public void setBalkType(String balkType) {
+        this.balkType = balkType;
     }
 
     @Override

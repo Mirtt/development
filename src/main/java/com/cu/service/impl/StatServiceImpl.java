@@ -29,4 +29,14 @@ public class StatServiceImpl implements StatService {
     public List<Stat> resultReason(String problem,String date) {
         return statDao.resultReason(problem,date);
     }
+
+    @Override
+    public List<Stat> resultStatByType(String date) {
+        return statDao.resultStatByType(date);
+    }
+
+    @Override
+    public List<Stat> resultReasonByType(String problem, String date) {
+        return statDao.resultReasonByType(problem,date);
+    }
 }
