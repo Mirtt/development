@@ -6,11 +6,13 @@ import com.cu.service.ProblemService;
 import com.cu.service.StatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
@@ -29,7 +31,11 @@ public class StatController {
     private ProblemService problemService;
 
     @RequestMapping(value = "/stat", method = RequestMethod.GET)
-    public String stat() {
+    public String stat(HttpSession session, Model model) {
+        if (session.getAttribute("current_user") == null){
+            model.addAttribute("msg","请登录");
+            return "index";
+        }
         return "stat";
     }
 

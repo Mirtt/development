@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * 登录控制
  *
@@ -32,16 +34,18 @@ public class LoginController {
         return "index";
     }
     @RequestMapping(value = "/logout")
-    public String logout(){
+    public String logout(HttpSession session){
+        session.removeAttribute("current_user");
         return "index";
     }
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(User user, Model model){
+    public String login(User user, HttpSession session, Model model){
         model.addAttribute("user_name",user.getUser_name());
         model.addAttribute("user_id",user.getId());  //在session中存储user_id信息
         user=userService.getUser(user.getUser_name(),user.getPassword());
         if (user!=null){
             model.addAttribute("user",user);
+            session.setAttribute("current_user",user);
             return "redirect:/query/";
         }
         String msg = "用户名或密码错误";

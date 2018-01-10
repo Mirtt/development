@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -43,7 +44,11 @@ public class SearchController {
     private ResultService resultService;
 
     @RequestMapping(value = "/search")
-    public String search() {
+    public String search(HttpSession session,Model model) {
+        if (session.getAttribute("current_user") == null){
+            model.addAttribute("msg","请登录");
+            return "index";
+        }
         return "search";
     }
 

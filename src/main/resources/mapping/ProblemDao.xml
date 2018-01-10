@@ -25,7 +25,7 @@
         SELECT * FROM problem ORDER BY problem_id
     </select>
 
-    <select id="countAll">
+    <select id="countAll" resultType="integer">
         SELECT count(*) FROM problem
     </select>
 

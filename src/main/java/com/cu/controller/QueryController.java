@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +48,11 @@ public class QueryController {
     ResultService resultService;
 
     @RequestMapping(value = "/")
-    public String query(Model model) {
+    public String query(HttpSession session, Model model) {
+        if (session.getAttribute("current_user") == null){
+            model.addAttribute("msg","请登录");
+            return "index";
+        }
         return "query";
     }
 
