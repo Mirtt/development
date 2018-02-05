@@ -4,8 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cu.dao.UserDao">
     <!-- 目的：为dao接口方法提供sql语句配置 -->
-    <select id="queryUser" resultType="com.cu.model.User">
-        <!-- 具体的sql -->
+    <resultMap id="User" type="com.cu.model.User">
+        <result column="id" property="id"/>
+        <result column="user_name" property="user_name"/>
+        <result column="password" property="password"/>
+    </resultMap>
+    <select id="queryUser" resultMap="User">
         SELECT
           *
         FROM
